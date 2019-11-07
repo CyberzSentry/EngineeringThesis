@@ -1,0 +1,9 @@
+phone numbers,
+emails,
+in adresses,
+mac adresses,
+domains,
+possible passwords,
+possible logins,
+errors,
+
