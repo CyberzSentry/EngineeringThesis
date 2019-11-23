@@ -1,2 +1,6 @@
-This is a test file that i would like to test.
-There is some passwords that we are looking for and that are of a interest.
+{
+    message:{
+        id: "12",
+        content: "10.10.10.10"
+    }
+}
