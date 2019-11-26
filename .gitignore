@@ -9,3 +9,6 @@
 *.lot
 *.toc
 *.gz
+*.pyc
+.mbox
+mailArchive.mbox
