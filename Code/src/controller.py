@@ -10,7 +10,7 @@ class Controller:
 
 
     def __init__(self):
-        self.programView = view.View(self.test, self.run)
+        # self.programView = view.View(self.test, self.run)
 
         #searchEngine = core.Core(['ip_v4', 'ip_v6'], None)
         #testFilePath = 'tests/test_data_0.json'

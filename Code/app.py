@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# from src import controller
+from src import program
 
-# controller = controller.Controller()
-print("tested")
+program = program.Program()
