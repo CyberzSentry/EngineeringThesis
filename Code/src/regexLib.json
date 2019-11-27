@@ -6,7 +6,7 @@
         "ip_v6": {
             "regex":"(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}"
         },
-        "pesel":{
+        "socialsec":{
             "regex":""
         },
         "id_number":{
@@ -32,6 +32,9 @@
         }
     },
     "additional":{
+        
+    },
+    "dictionary":{
         
     }   
 }
