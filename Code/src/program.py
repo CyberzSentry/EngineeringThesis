@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from threading import Thread
 from .core import Core
+import traceback
 
 
 def displayMessage(title, message):
@@ -49,64 +50,64 @@ class Program:
         #search engine checkbuttons
         self.checkbuttonValues = {}
 
-        self.checkbuttonValues["ip_v4"] = StringVar()
-        self.ipv4Checkbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["ipv4"], text='IP v4', onvalue='ip_v4', offvalue='')
+        self.checkbuttonValues["ip_v4"] = IntVar()
+        self.ipv4Checkbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["ip_v4"], text='IP v4')
         self.ipv4Checkbutton.grid(row=3,column=0, padx=5,pady=5)
         self.ipv4Checkbutton.select()
 
-        self.checkbuttonValues["ip_v6"] = StringVar()
-        self.ipv6Checkbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["ipv6"], text='IP v6', onvalue='ip_v6', offvalue='')
+        self.checkbuttonValues["ip_v6"] = IntVar()
+        self.ipv6Checkbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["ip_v6"], text='IP v6')
         self.ipv6Checkbutton.grid(row=3,column=1, padx=5,pady=5)
         self.ipv6Checkbutton.select()
         
-        self.checkbuttonValues['socialsec'] = StringVar()
-        self.socialSecNumCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Socian sec num', onvalue='socialsec', offvalue='')
+        self.checkbuttonValues['socialsec'] = IntVar()
+        self.socialSecNumCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["socialsec"], text='Socian sec num')
         self.socialSecNumCheckbutton.grid(row=3,column=2, padx=5,pady=5)
         self.socialSecNumCheckbutton.select()
 
-        self.checkbuttonValues['id_number'] = StringVar()
-        self.idNumCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='ID number', onvalue='id_number', offvalue='')
+        self.checkbuttonValues['id_number'] = IntVar()
+        self.idNumCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["id_number"], text='ID number')
         self.idNumCheckbutton.grid(row=3,column=3, padx=5,pady=5)
         self.idNumCheckbutton.select()
 
-        self.checkbuttonValues['mac'] = StringVar()
-        self.macCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='MAC', onvalue='mac', offvalue='')
+        self.checkbuttonValues['mac'] = IntVar()
+        self.macCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["mac"], text='MAC')
         self.macCheckbutton.grid(row=4,column=0, padx=5,pady=5)
         self.macCheckbutton.select()
 
-        self.checkbuttonValues['domain'] = StringVar()
-        self.domainCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Domains', onvalue='domain', offvalue='')
+        self.checkbuttonValues['domain'] = IntVar()
+        self.domainCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["domain"], text='Domains')
         self.domainCheckbutton.grid(row=4,column=1, padx=5,pady=5)
         self.domainCheckbutton.select()
 
-        self.checkbuttonValues['email'] = StringVar()
-        self.emailCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Email', onvalue='email', offvalue='')
+        self.checkbuttonValues['email'] = IntVar()
+        self.emailCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["email"], text='Email')
         self.emailCheckbutton.grid(row=4,column=2, padx=5,pady=5)
         self.emailCheckbutton.select()
 
-        self.checkbuttonValues['password'] = StringVar()
-        self.passwordCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Password', onvalue='password', offvalue='')
+        self.checkbuttonValues['password'] = IntVar()
+        self.passwordCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["password"], text='Password')
         self.passwordCheckbutton.grid(row=4,column=3, padx=5,pady=5)
         self.passwordCheckbutton.select()
 
-        self.checkbuttonValues['login'] = StringVar()
-        self.loginCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Logins', onvalue='login', offvalue='')
+        self.checkbuttonValues['login'] = IntVar()
+        self.loginCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["login"], text='Logins')
         self.loginCheckbutton.grid(row=5,column=0, padx=5,pady=5)
         self.loginCheckbutton.select()
 
-        self.checkbuttonValues['phone_number'] = StringVar()
-        self.phoneNoCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues[-1], text='Phone no.', onvalue='phone_number', offvalue='')
+        self.checkbuttonValues['phone_number'] = IntVar()
+        self.phoneNoCheckbutton = Checkbutton(self.tabSettings, variable=self.checkbuttonValues["phone_number"], text='Phone no.')
         self.phoneNoCheckbutton.grid(row=5,column=1, padx=5,pady=5)
         self.phoneNoCheckbutton.select()
 
         #not connected to values variable=self.checkbuttonValues[-1]
-        self.dictionaryValue = StringVar()
-        self.dictionaryCheckbutton = Checkbutton(self.tabSettings, variable=self.dictionaryValue, text='Dictionary', onvalue='dict',)
+        self.dictionaryValue = IntVar()
+        self.dictionaryCheckbutton = Checkbutton(self.tabSettings, variable=self.dictionaryValue, text='Dictionary')
         self.dictionaryCheckbutton.grid(row=5,column=2, padx=5,pady=5)
         self.dictionaryCheckbutton.select()
 
-        self.additionalValue = StringVar()
-        self.additionalCheckbutton = Checkbutton(self.tabSettings, variable=self.additionalValue, text='Additional', onvalue='additional', offvalue='')
+        self.additionalValue = IntVar()
+        self.additionalCheckbutton = Checkbutton(self.tabSettings, variable=self.additionalValue, text='Additional')
         self.additionalCheckbutton.grid(row=5,column=3, padx=5,pady=5)
         
         #start/cancel/progress
@@ -166,27 +167,40 @@ class Program:
             
             try:
                 self.core.initInputParser(self.inPath.get())
-            except:
+            except Exception as x:
+                self.displayException(x)
                 self.outputInfo['text'] = "Couldn't open input path"
                 self.cancelFunction()
                 return
 
-            if self.dictionaryValue is not '':
+            
+
+            if self.dictionaryValue.get() == 1:
                 try:
                     self.core.initDictionary(self.dictPath.get())
-                except:
+                except Exception as x:
+                    self.displayException(x)
                     self.outputInfo['text'] = "Couldn't open dictionary path"
                     self.cancelFunction()
                     return
 
-            if self.additionalValue is not '':
+            if self.additionalValue.get() == 1:
                 try:
-                    self.core.init(self.dictPath.get())
-                except:
-                    self.outputInfo['text'] = "Couldn't open dictionary path"
+                    self.core.initAdditional()
+                except Exception as x:
+                    self.displayException(x)
+                    self.outputInfo['text'] = "Failed to load additional regexes"
                     self.cancelFunction()
                     return
 
+            try:
+                self.core.initRegexes(self.checkbuttonValues)
+            except Exception as x:
+                self.displayException(x)
+                self.outputInfo['text'] = "Couldn't initialize regexes"
+                self.cancelFunction()
+                return
+            
             self.core.start()
 
     def cancelFunction(self):
@@ -195,7 +209,16 @@ class Program:
         self.working = False
         self.progressbar['value'] = 0
 
+    def displayException(self, x):
+        print("-"*15,"EXCEPTION","-"*15)
+        print(type(x))
+        print(x)
+        print(traceback.format_exc())
+        pass
+
     def __del__(self):
         if self.core != None:
             self.core.cancel = True
+
+
 
