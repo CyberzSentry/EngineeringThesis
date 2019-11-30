@@ -45,7 +45,7 @@ class Program:
         self.dictPath = Entry(self.tabSettings)
         self.dictPath.grid(row=2, column=1, columnspan=4, padx=10, pady=10, sticky='we')
         self.dictPathButton = Button(self.tabSettings, text="Browse", command=self.dictBrowseButton)
-        self.dictPathButton.grid(row=2, column=5, padx=10, pady=10)
+        self.dictPathButton.grid(row=2, column=5, padx=10, pady=10) 
 
         #search engine checkbuttons
         self.checkbuttonValues = {}
@@ -139,6 +139,11 @@ class Program:
         self.tabs.pack(expand=1, fill='both')
 
 
+        #for Testing 
+        self.inPath.insert(0, "C:\\Projects\\Thesis\\Code\\tests\\mailDump_100.json")
+        self.outPath.insert(0, "C:\\Projects\\Thesis\\Code\\tests")
+
+
         self.cancel = False
         self.working = False
 
@@ -160,11 +165,13 @@ class Program:
         self.dictPath.insert(0, filename)
 
     def startFunction(self):
+        self.progressbar['value'] = 0
         if self.working == False:
             self.working = True
             self.outputInfo['text'] = 'Creating parsing core'
             self.core = Core(self.progressbar)
             
+            self.outputInfo['text'] = 'Initialising input parser'
             try:
                 self.core.initInputParser(self.inPath.get())
             except Exception as x:
@@ -173,26 +180,16 @@ class Program:
                 self.cancelFunction()
                 return
 
-            
+            self.outputInfo['text'] = 'Initialising output'
+            try:
+                self.core.initOutput(self.outPath.get())
+            except Exception as x:
+                self.displayException(x)
+                self.outputInfo['text'] = "Couldn't open output"
+                self.cancelFunction()
+                return
 
-            if self.dictionaryValue.get() == 1:
-                try:
-                    self.core.initDictionary(self.dictPath.get())
-                except Exception as x:
-                    self.displayException(x)
-                    self.outputInfo['text'] = "Couldn't open dictionary path"
-                    self.cancelFunction()
-                    return
-
-            if self.additionalValue.get() == 1:
-                try:
-                    self.core.initAdditional()
-                except Exception as x:
-                    self.displayException(x)
-                    self.outputInfo['text'] = "Failed to load additional regexes"
-                    self.cancelFunction()
-                    return
-
+            self.outputInfo['text'] = 'Initialising default regexes'
             try:
                 self.core.initRegexes(self.checkbuttonValues)
             except Exception as x:
@@ -201,6 +198,27 @@ class Program:
                 self.cancelFunction()
                 return
             
+            if self.additionalValue.get() == 1:
+                self.outputInfo['text'] = 'Initialising additional regexes'
+                try:
+                    self.core.initAdditional()
+                except Exception as x:
+                    self.displayException(x)
+                    self.outputInfo['text'] = "Failed to load additional regexes"
+                    self.cancelFunction()
+                    return
+
+            if self.dictionaryValue.get() == 1:
+                self.outputInfo['text'] = 'Initialising dictionary'
+                try:
+                    self.core.initDictionary(self.dictPath.get())
+                except Exception as x:
+                    self.displayException(x)
+                    self.outputInfo['text'] = "Couldn't open dictionary path"
+                    self.cancelFunction()
+                    return
+
+            self.outputInfo['text'] = 'Started parsing'
             self.core.start()
 
     def cancelFunction(self):
