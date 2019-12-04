@@ -1,5 +1,6 @@
 
 def pesel(snip):
+    snip = snip[1:-1]
     weight = [9, 7, 3, 1, 9, 7, 3, 1, 9, 7]
     checksum = (int(snip[0]) * weight[0]) + (int(snip[1]) * weight[1]) + (int(snip[2]) * weight[2]) + (int(snip[3]) * weight[3])+ (int(snip[4]) * weight[4]) + \
         (int(snip[5]) * weight[5]) + (int(snip[6]) * weight[6]) + (int(snip[7]) * weight[7]) + (int(snip[8]) * weight[8]) + (int(snip[9]) * weight[9])
