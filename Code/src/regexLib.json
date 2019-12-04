@@ -29,8 +29,8 @@
             "code":""
         },
         "password":{
-            "regex":"",
-            "code":""
+            "regex":"(?:\\s|\\A)\\S{8,32}(?:\\s|\\Z)",
+            "code":"passwd"
         },
         "login":{
             "regex":"",

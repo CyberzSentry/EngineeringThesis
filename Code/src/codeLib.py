@@ -23,3 +23,49 @@ def idnum(snip):
         return True
     else:
         return False
+
+def passwd(snip):
+    specialChars = "!@#$%^&*()_+-={}[];:\"'\\|<>?,./"
+    nums = "0123456789"
+    uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lowers = "abcdefghijklmnopqrstuvwxyz"
+    containsSpecial = False
+    containsNum = False
+    containsChars = False
+    containsLow = False
+    containsUpper = False
+
+    for num in nums:
+        if num in snip:
+            containsNum = True
+            break
+
+    if not containsNum:
+        return False
+
+    for char in specialChars:
+        if char in snip:
+            containsSpecial = True
+            break
+    
+    if not containsSpecial:
+        return False
+    
+    for low in lowers:
+        if low in snip:
+            containsLow = True
+            break
+
+    if not containsLow:
+        return False
+
+    for up in uppers:
+        if up in snip:
+            containsUpper = True
+            break
+
+    if not containsUpper:
+        return False
+    else:
+        return True
+    
