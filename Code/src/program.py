@@ -14,6 +14,8 @@ class Program:
 
     def __init__(self):
 
+        self.core = None
+
         #init main window
         self.window = Tk()
         self.window.title("Sensitive data finder")
@@ -140,8 +142,8 @@ class Program:
 
 
         #for Testing 
-        self.inPath.insert(0, "C:\\Projects\\Thesis\\Code\\tests\\mailDump_100.json")
-        self.outPath.insert(0, "C:\\Projects\\Thesis\\Code\\tests")
+        self.inPath.insert(0, "C:/Projects/ThesisTestData/facebook/facebookDump_50000.json")
+        self.outPath.insert(0, "C:/Projects/ThesisTestData/results")
 
 
         self.cancel = False
