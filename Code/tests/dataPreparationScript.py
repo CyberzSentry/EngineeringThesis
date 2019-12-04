@@ -62,13 +62,16 @@ def googleData(mboxPath, s, outF, outPath):
     f.close()
 
 #Facebook
-facebookInbox = 'C:\\Projects\\facebook-maksymbrzeczek\\messages\\inbox'
+facebookInbox = 'C:\\Projects\\ThesisTestData\\facebook-maksymbrzeczek\\messages\\inbox'
+facebookOutput = 'C:\\Projects\\ThesisTestData\\facebook\\'
+facebookFilename = 'facebookDump_{0}.json'
 
-def facebookData(inboxPath, outPath, outFileName, max):
+def facebookData(inboxPath, outPath, outFileName, ranges):
     """
     
     """
     outputData = {}
+    outputData['messages'] = []
     fileName = 'message_1.json'
     i = 0
     for x in os.listdir(inboxPath):
@@ -79,13 +82,22 @@ def facebookData(inboxPath, outPath, outFileName, max):
                 with open(messageFile, 'r') as f:
                     data = json.load(f)
                     for mes in data['messages']:
-                        i+=1
                         try:
+                            outputData['messages'].append({"id": i, "content":mes['sender_name'] + '\n' + mes['content']})
+                            i+=1
                             print(i, mes['content'])
+                            if i in ranges:
+                                fout = open(outPath + outFileName.format(str(i)), 'x')
+                                json.dump(outputData, fout)
+                                fout.close()
                         except:
                             pass
-                        if i == max:
+                        if i == ranges[-1]:
                             return
+
+    fout = open(outPath + outFileName.format(str(i)), 'x')
+    json.dump(outputData, fout)
+    fout.close()
                         
 
-facebookData(facebookInbox, '', '', 20000)
+facebookData(facebookInbox, facebookOutput, facebookFilename, [1000, 2000, 5000 , 10000, 20000, 50000, 100000])
