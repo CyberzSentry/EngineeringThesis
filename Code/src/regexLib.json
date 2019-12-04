@@ -9,7 +9,7 @@
             "code":""
         },
         "socialsec":{
-            "regex":"[0-9]{11}"
+            "regex":"\\s[0-9]{11}\\s"
             ,"code":"pesel"
         },
         "id_number":{
@@ -37,15 +37,11 @@
             "code":""
         },
         "phone_number":{
-            "regex":"(\\+?[0-9]{0,3} ?([0-9]{3} ?){2}[0-9]{3})",
+            "regex":"\\s(?:[0-9]{3}[ ]?){2}[0-9]{3}\\s",
             "code":""
         }
     },
     "additional":{
-        "abc":{
-            "regex":"test",
-            "code":""
-        }
         
     },
     "dictionary":{
