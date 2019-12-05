@@ -64,7 +64,7 @@ def googleData(mboxPath, s, outF, outPath):
 #Facebook
 facebookInbox = 'C:\\Projects\\ThesisTestData\\facebook-maksymbrzeczek\\messages\\inbox'
 facebookOutput = 'C:\\Projects\\ThesisTestData\\facebook\\'
-facebookFilename = 'facebookDump_{0}.json'
+facebookFilename = 'facebookDump_{0}_strid.json'
 
 def facebookData(inboxPath, outPath, outFileName, ranges):
     """
@@ -83,7 +83,7 @@ def facebookData(inboxPath, outPath, outFileName, ranges):
                     data = json.load(f)
                     for mes in data['messages']:
                         try:
-                            outputData['messages'].append({"id": i, "content":mes['sender_name'] + '\n' + mes['content']})
+                            outputData['messages'].append({"id": str(i), "content":mes['sender_name'] + '\n' + mes['content']})
                             i+=1
                             print(i, mes['content'])
                             if i in ranges:
