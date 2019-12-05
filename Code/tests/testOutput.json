@@ -1,0 +1,40 @@
+{
+    "results":[
+        {
+            "name":"ip_v4",
+            "no":12,
+            "results":[
+                {
+                    "value":"123.123.123.132",
+                    "occurances":["1", "4", "24", "33", "50"]
+                },
+                {
+                    "value":"1.1.1.1",
+                    "occurances":["3", "7"]
+                },
+                {
+                    "value":"10.10.10.165",
+                    "occurances":["8", "21", "56"]
+                }
+            ]
+        },
+        {
+            "name":"email",
+            "no":3,
+            "results":[
+                {
+                    "value":"124@gmail.com",
+                    "occurances":["70"]
+                },
+                {
+                    "value":"qwerty@yahoo.com",
+                    "occurances":["90", "23"]
+                },
+                {
+                    "value":"z.brzeczek@gmail.com",
+                    "occurances":["30", "20"]
+                }
+            ]
+        }
+    ]
+}
