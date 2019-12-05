@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from tkinter import filedialog
 from threading import Thread
-from .core import Core
+from core import Core
 import traceback
 
 
@@ -241,4 +241,4 @@ class Program:
             self.core.cancel = True
 
 
-
+prog = Program()
