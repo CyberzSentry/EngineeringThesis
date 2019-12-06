@@ -16,7 +16,6 @@ class Parser:
 
         self.len = len(self.inData['messages'])
         self.stepValue = int(self.len/100)
-
         self.done = False
 
     def __enter__(self):
@@ -41,6 +40,7 @@ class Core(Thread):
         self.cancel = False
         self.progressbar = progressbar
         self.compiledRegexes = []
+        self.output = {}
         # with open(os.path.join(os.path.dirname(__file__), regexLibPath),'r') as rl:
         #     self.regexList = json.load(rl)
         # for id in regexList:
@@ -81,9 +81,9 @@ class Core(Thread):
                 if reg is not '':
                     print("Init regex ", x, " ", reg)
                     if funct is not '':
-                        self.compiledRegexes.append([re.compile(reg), getattr(self.additionalCodeModule, funct)])
+                        self.compiledRegexes.append([re.compile(reg), getattr(self.additionalCodeModule, funct), x])
                     else:
-                        self.compiledRegexes.append([re.compile(reg), None])
+                        self.compiledRegexes.append([re.compile(reg), None, x])
                 else:
                     print("Regex empty, not compiling")
 
@@ -113,9 +113,9 @@ class Core(Thread):
                         if reg is not '':
                             print("Init regex ", x, " ", reg)
                             if funct is not '':
-                                self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct)])
+                                self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
                             else:
-                                self.compiledRegexes.append([re.compile(reg), None])
+                                self.compiledRegexes.append([re.compile(reg), None, x])
                         else:
                             print("Regex empty, not compiling")  
             else:
@@ -125,9 +125,9 @@ class Core(Thread):
                     if reg is not '':
                         print("Init regex ", x, " ", reg)
                         if funct is not '':
-                            self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct)])
+                            self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
                         else:
-                            self.compiledRegexes.append([re.compile(reg), None])
+                            self.compiledRegexes.append([re.compile(reg), None, x])
                     else:
                         print("Regex empty, not compiling")
 
@@ -142,6 +142,10 @@ class Core(Thread):
 
 
     def run(self):
+
+        for regex in self.compiledRegexes:
+            self.output[regex[2]] = {"no": 0, "results": {}}
+
         x = 0
         while not self.cancel:
             content = self.parser.getNext()
@@ -159,6 +163,15 @@ class Core(Thread):
                 for result in results:
                     if regex[1] is not None:
                         if regex[1](result):
-                            print(result)
+                            self.addOutput(regex[2], result, content['id'])
                     else:
-                        print(result)
+                        self.addOutput(regex[2], result, content['id'])
+
+        print(self.output)
+
+    def addOutput(self, regex, result, id):
+        if result in self.output[regex]["results"]:
+            self.output[regex]["results"][result]["occurances"].append(id)
+        else:
+            self.output[regex]["results"][result] = {"occurances": [id]}
+            self.output[regex]["no"] += 1
