@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import json
 
 class Ui_window(object):
     def setupUi(self, window):
@@ -122,7 +122,6 @@ class Ui_window(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.columnView = QtWidgets.QColumnView(self.tab_2)
         self.columnView.setObjectName("columnView")
-        self.columnView
         self.gridLayout_3.addWidget(self.columnView, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, "")
         self.gridLayout.addWidget(self.tabWidget, 1, 0, 1, 1)
@@ -203,6 +202,37 @@ class Ui_window(object):
         self.outPathLineEdit.setText("C:/Projects/ThesisTestData/results")
         self.dictPathLineEdit.setText("")
 
+    def loadDebugOutput(self):
+        outputModel = QtGui.QStandardItemModel()
+        outputModel.setHorizontalHeaderLabels(['Column1', 'Column2', 'Column3'])
+        for x in range(5):
+            group = QtGui.QStandardItem("Group: " + str(x))
+            group.setEditable(False)
+            for y in range(6):
+                child = QtGui.QStandardItem("Child: " + str(y))
+                child.setEditable(False)
+                for z in range(3):
+                    subChild = QtGui.QStandardItem("Sub_child: " + str(z))
+                    subChild.setEditable(False) 
+                    
+                    child.appendRow(subChild)
+                group.appendRow(child)
+            outputModel.appendRow(group)
+
+
+        outputModel.itemChanged.connect(self.testEvent2)
+        self.columnView.setModel(outputModel)
+        self.columnView.clicked.connect(self.testEvent)
+
+    def loadOutput(self):
+        pass
+
+    def testEvent(self, index):
+        print("Test event occured ", index.row(), " ", index.column())
+
+    def testEvent2(self, item):
+        print("Test event 2")
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -210,5 +240,6 @@ if __name__ == "__main__":
     ui = Ui_window()
     ui.setupUi(window)
     ui.setDebugValues()
+    ui.loadDebugOutput()
     window.show()
     sys.exit(app.exec_())
