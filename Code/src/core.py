@@ -35,27 +35,41 @@ class Parser:
 
 class Core(Thread):
 
-    def __init__(self, progressbar):
+    def __init__(self, inputPath, outputPath, expectedRegexes=None, data=None, dictionaryPath=None, progressEvent=None, updateDataEvent=None, additional=True):
         Thread.__init__(self)
         self.cancel = False
-        self.progressbar = progressbar
         self.compiledRegexes = []
-        self.output = {}
-        # with open(os.path.join(os.path.dirname(__file__), regexLibPath),'r') as rl:
-        #     self.regexList = json.load(rl)
-        # for id in regexList:
-        #     self.compiledRegexes.append(re.compile(self.regexList[id]))
-    
-    def initInputParser(self, path):
         print("\n-----------------------Initialising input parser----------------------\n")
-        self.inputPath = path
-        self.parser = Parser(path)
-        pass
+        self.inputPath = inputPath
+        self.parser = Parser(inputPath)
+        print("\n--------------------------Initialising output-------------------------\n")
+        self.outputFile = open(outputPath, "a")
+        self.outputPath = outputPath
 
-    def initDictionary(self, path):
-        print("\n------------------------Initialising dictionary-----------------------\n")
-        self.dictionaryPath = path
-        pass
+        if dictionaryPath is not None:
+            print("\n------------------------Initialising dictionary-----------------------\n")
+            self.dictionaryPath = path
+            # Implement dictionary
+        
+        if additional:
+            self.initAdditional()
+
+        self.initRegexes(expectedRegexes=expectedRegexes)
+
+        if data is None:
+            self.output = {}
+        else:
+            self.output = data
+        self.output = {}
+
+        if progressEvent is not None:
+            self.progressEvent = progressEvent
+        else:
+            self.progressEvent = self.dummy
+        if updateDataEvent is not None:
+            self.updateDataEvent = updateDataEvent
+        else:
+            self.updateDataEvent = self.dummy
 
     def initAdditional(self, additionalRegexLibPath='regexLib.json', additionalCodeLibpath='codeLib.py'):
         """Throws key KeyError when the input file structure is incorrect"""
@@ -87,7 +101,7 @@ class Core(Thread):
                 else:
                     print("Regex empty, not compiling")
 
-    def initRegexes(self, checkbuttonValues=None, regexLibPath='regexLib.json', codeLibPath='codeLib.py'):
+    def initRegexes(self, expectedRegexes=None, regexLibPath='regexLib.json', codeLibPath='codeLib.py'):
         """Throws key KeyError when the input file structure is incorrect"""
         print("\n-------------------------Initialising regexes-------------------------\n")
         if regexLibPath == 'regexLib.json':
@@ -105,8 +119,8 @@ class Core(Thread):
 
         with open(regexLibPath,'r') as rl:
             self.regexList = json.load(rl)['main']
-            if checkbuttonValues is not None:
-                for x, y in checkbuttonValues.items():
+            if expectedRegexes is not None:
+                for x, y in expectedRegexes.items():
                     if y.get() == 1:
                         reg = self.regexList[x]['regex']
                         funct = self.regexList[x]['code']
@@ -132,20 +146,19 @@ class Core(Thread):
                         print("Regex empty, not compiling")
 
 
-    def initOutput(self, path, backup=True):
-        print("\n--------------------------Initialising output-------------------------\n")
-        fullPath = os.path.join(path, "output.json")
-        self.outputFile = open(fullPath, "a")
-        self.outputPath = fullPath
-        if backup:
-            shutil.copy(self.inputPath, os.path.join(path, "input_backup.json"))
+    # def initOutput(self, path, backup=True):
+    #     print("\n--------------------------Initialising output-------------------------\n")
+    #     fullPath = os.path.join(path, "output.json")
+    #     self.outputFile = open(fullPath, "a")
+    #     self.outputPath = fullPath
+    #     if backup:
+    #         shutil.copy(self.inputPath, os.path.join(path, "input_backup.json"))
 
 
     def run(self):
 
         for regex in self.compiledRegexes:
             self.output[regex[2]] = {"no": 0, "results": {}}
-
         x = 0
         while not self.cancel:
             content = self.parser.getNext()
@@ -155,7 +168,7 @@ class Core(Thread):
 
             x+=1
             if x == self.parser.stepValue:
-                self.progressbar['value'] += 1
+                self.progressEvent()
                 x=0
             
             for regex in self.compiledRegexes:
@@ -167,11 +180,18 @@ class Core(Thread):
                     else:
                         self.addOutput(regex[2], result, content['id'])
 
-        print(self.output)
+        json.dump(self.output, self.outputFile)
+        self.outputFile.close()
 
     def addOutput(self, regex, result, id):
         if result in self.output[regex]["results"]:
-            self.output[regex]["results"][result]["occurances"].append(id)
+            self.output[regex]["results"][result]["occurances"].append(str(id))
         else:
-            self.output[regex]["results"][result] = {"occurances": [id]}
+            self.output[regex]["results"][result] = {"occurances": [str(id)]}
             self.output[regex]["no"] += 1
+        self.updateDataEvent()
+
+    def dummy(self):
+        pass
+
+    ###Implement destructor that backups data

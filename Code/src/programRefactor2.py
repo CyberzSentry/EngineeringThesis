@@ -9,6 +9,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+from core import Core
+import traceback
 
 class Ui_window(object):
     def setupUi(self, window):
@@ -171,11 +173,15 @@ class Ui_window(object):
         self.retranslateUi(window)
         self.tabWidget.setCurrentIndex(0)
 
-        self.resultSelectionModel = self.resultListView.selectionModel()
-        self.resultSelectionModel.selectionChanged.connect(self.resultSelectionChanged)
+        # self.resultSelectionModel = self.resultListView.selectionModel()
+        # self.resultSelectionModel.selectionChanged.connect(self.resultSelectionChanged)
 
-        self.resultSelectionModel = self.resultListView.selectionModel()
-        self.resultSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)
+        # self.resultSelectionModel = self.resultListView.selectionModel()
+        # self.resultSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)
+
+        self.core = None
+        self.working = False
+        self.data = {}
 
         QtCore.QMetaObject.connectSlotsByName(window)
 
@@ -223,11 +229,87 @@ class Ui_window(object):
         fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
         self.dictPathLineEdit.setText(fileName)
 
-    def startPushButtonEvent(self):
+    def progressBarEvent(self):
         pass
+    
+    def updateDataEvent(self):
+        print("Update data")
+        self.loadOutput()
+
+    def startPushButtonEvent(self):
+        if self.working == False:
+            self.working = True
+            # Inform about starting
+            print(self.inPathLineEdit.text(), " ", self.outPathLineEdit.text(), " ", self.dictPathLineEdit.text())
+            try:
+                self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), data=self.data, progressEvent=self.progressBarEvent, updateDataEvent=self.updateDataEvent)
+            except Exception as x:
+                self.displayException(x)
+                #Inform about error
+                self.stopPushButtonEvent()
+                return
+            self.core.start()
+
+        # if self.working == False:
+        #     self.working = True
+        #     self.outputInfo['text'] = 'Creating parsing core'
+        #     self.core = Core(self.progressbar, )
+            
+        #     self.outputInfo['text'] = 'Initialising input parser'
+        #     try:
+        #         self.core.initInputParser(self.inPath.get())
+        #     except Exception as x:
+        #         self.displayException(x)
+        #         self.outputInfo['text'] = "Couldn't open input path"
+        #         self.cancelFunction()
+        #         return
+
+        #     self.outputInfo['text'] = 'Initialising output'
+        #     try:
+        #         self.core.initOutput(self.outPath.get())
+        #     except Exception as x:
+        #         self.displayException(x)
+        #         self.outputInfo['text'] = "Couldn't open output"
+        #         self.cancelFunction()
+        #         return
+
+        #     self.outputInfo['text'] = 'Initialising default regexes'
+        #     try:
+        #         self.core.initRegexes(self.checkbuttonValues)
+        #     except Exception as x:
+        #         self.displayException(x)
+        #         self.outputInfo['text'] = "Couldn't initialize regexes"
+        #         self.cancelFunction()
+        #         return
+            
+        #     if self.additionalValue.get() == 1:
+        #         self.outputInfo['text'] = 'Initialising additional regexes'
+        #         try:
+        #             self.core.initAdditional()
+        #         except Exception as x:
+        #             self.displayException(x)
+        #             self.outputInfo['text'] = "Failed to load additional regexes"
+        #             self.cancelFunction()
+        #             return
+
+        #     if self.dictionaryValue.get() == 1:
+        #         self.outputInfo['text'] = 'Initialising dictionary'
+        #         try:
+        #             self.core.initDictionary(self.dictPath.get())
+        #         except Exception as x:
+        #             self.displayException(x)
+        #             self.outputInfo['text'] = "Couldn't open dictionary path"
+        #             self.cancelFunction()
+        #             return
+
+        #     self.outputInfo['text'] = 'Started parsing'
+        #     self.core.start()
 
     def stopPushButtonEvent(self):
-        pass
+        if self.core is not None:
+            self.core.cancel = True
+            self.core = None
+        #reset progress bar
 
     def displayException(self, x):
         print("-"*15,"EXCEPTION","-"*15)
@@ -237,11 +319,11 @@ class Ui_window(object):
 
     def setDebugValues(self):
         self.inPathLineEdit.setText("C:/Projects/ThesisTestData/facebook/facebookDump_50000.json")
-        self.outPathLineEdit.setText("C:/Projects/ThesisTestData/results")
+        self.outPathLineEdit.setText("C:/Projects/ThesisTestData/results/output_facebookDump_50000.json")
         self.dictPathLineEdit.setText("")
 
     def loadDebugOutput(self):
-        with open("C:/Projects/Thesis_v2/Code/tests/testOutput.json", 'r') as file:
+        with open("C:\\Projects\\ThesisTestData\\results\\output_facebookDump_50000.json", 'r') as file:
             self.data = json.load(file)
         self.typeModel = QtCore.QStringListModel(self.data.keys())
         self.typeListView.setModel(self.typeModel)
@@ -269,8 +351,15 @@ class Ui_window(object):
         pass
 
     def loadOutput(self):
-        
-        pass
+        self.typeModel = QtCore.QStringListModel(self.data.keys())
+        self.typeListView.setModel(self.typeModel)
+        self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.typeSelectionModel = self.typeListView.selectionModel()
+        self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
+
+    def __del__(self):
+        if self.core is not None:
+            self.core.cancel = True
 
 if __name__ == "__main__":
     import sys
