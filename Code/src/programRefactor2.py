@@ -12,10 +12,16 @@ import json
 from core import Core
 import traceback
 
+class MySignal(QtCore.QObject):
+    updateSignal = QtCore.pyqtSignal()
+    finishedSignal = QtCore.pyqtSignal()
+    progressBarSignal = QtCore.pyqtSignal()
+
 class Ui_window(object):
     def setupUi(self, window):
         window.setObjectName("window")
         window.resize(636, 433)
+        self.window = window
         self.centralwidget = QtWidgets.QWidget(window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -179,9 +185,15 @@ class Ui_window(object):
         # self.resultSelectionModel = self.resultListView.selectionModel()
         # self.resultSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)
 
+        self.data = {}
+        self.signal = MySignal()
+        self.signal.updateSignal.connect(self.loadOutput)
+        self.signal.finishedSignal.connect(self.loadOutput)
+        self.signal.progressBarSignal.connect(self.increaseProgressbar)
         self.core = None
         self.working = False
-        self.data = {}
+        self.progressValue = 0
+        self.progressBar.setRange(0, 100)
 
         QtCore.QMetaObject.connectSlotsByName(window)
 
@@ -218,8 +230,8 @@ class Ui_window(object):
 
 
     def inPathPushButtonEvent(self):
-            fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
-            self.inPathLineEdit.setText(fileName)
+        fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
+        self.inPathLineEdit.setText(fileName)
 
     def outPathPushButtonEvent(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
@@ -230,85 +242,61 @@ class Ui_window(object):
         self.dictPathLineEdit.setText(fileName)
 
     def progressBarEvent(self):
-        pass
+        # self.progressValue += 1
+        # if self.progressValue < 101:
+        #     self.progressBar.setValue(self.progressValue)
+        self.signal.progressBarSignal.emit()
     
     def updateDataEvent(self):
-        print("Update data")
-        self.loadOutput()
+        # self.signal.sig_no_args.emit()
+        pass
+
+    def finishedDataEvent(self):
+        self.signal.finishedSignal.emit()
 
     def startPushButtonEvent(self):
         if self.working == False:
+
+            toCheck = []
+            if self.ip_v4CheckBox.isChecked():
+                toCheck.append("ip_v4")
+            if self.ip_v6CheckBox.isChecked():
+                toCheck.append("ip_v6")
+            if self.socialSecNoCheckBox.isChecked():
+                toCheck.append("socialsec")
+            if self.idNoCheckBox.isChecked():
+                toCheck.append("id_number")
+            if self.macCheckButton.isChecked():
+                toCheck.append("mac")
+            if self.domainsCheckBox.isChecked():
+                toCheck.append("domain")
+            if self.emailsCheckBox.isChecked():
+                toCheck.append("email")
+            if self.passwdsCheckBox.isChecked():
+                toCheck.append("password")
+            if self.loginsCheckBox.isChecked():
+                toCheck.append("login")
+            if self.phoneNoCheckBox.isChecked():
+                toCheck.append("phone_number")
+
+            self.progressValue = 0
+            self.progressBar.setValue(self.progressValue)
             self.working = True
-            # Inform about starting
-            print(self.inPathLineEdit.text(), " ", self.outPathLineEdit.text(), " ", self.dictPathLineEdit.text())
+
             try:
-                self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), data=self.data, progressEvent=self.progressBarEvent, updateDataEvent=self.updateDataEvent)
+                self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), expectedRegexes=toCheck, data=self.data, progressEvent=self.progressBarEvent, finishedEvent=self.finishedDataEvent)
+                # self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), data=self.data, progressEvent=self.progressBarEvent, updateDataEvent=self.updateDataEvent, finishedEvent=self.finishedDataEvent)
             except Exception as x:
                 self.displayException(x)
-                #Inform about error
                 self.stopPushButtonEvent()
                 return
             self.core.start()
-
-        # if self.working == False:
-        #     self.working = True
-        #     self.outputInfo['text'] = 'Creating parsing core'
-        #     self.core = Core(self.progressbar, )
-            
-        #     self.outputInfo['text'] = 'Initialising input parser'
-        #     try:
-        #         self.core.initInputParser(self.inPath.get())
-        #     except Exception as x:
-        #         self.displayException(x)
-        #         self.outputInfo['text'] = "Couldn't open input path"
-        #         self.cancelFunction()
-        #         return
-
-        #     self.outputInfo['text'] = 'Initialising output'
-        #     try:
-        #         self.core.initOutput(self.outPath.get())
-        #     except Exception as x:
-        #         self.displayException(x)
-        #         self.outputInfo['text'] = "Couldn't open output"
-        #         self.cancelFunction()
-        #         return
-
-        #     self.outputInfo['text'] = 'Initialising default regexes'
-        #     try:
-        #         self.core.initRegexes(self.checkbuttonValues)
-        #     except Exception as x:
-        #         self.displayException(x)
-        #         self.outputInfo['text'] = "Couldn't initialize regexes"
-        #         self.cancelFunction()
-        #         return
-            
-        #     if self.additionalValue.get() == 1:
-        #         self.outputInfo['text'] = 'Initialising additional regexes'
-        #         try:
-        #             self.core.initAdditional()
-        #         except Exception as x:
-        #             self.displayException(x)
-        #             self.outputInfo['text'] = "Failed to load additional regexes"
-        #             self.cancelFunction()
-        #             return
-
-        #     if self.dictionaryValue.get() == 1:
-        #         self.outputInfo['text'] = 'Initialising dictionary'
-        #         try:
-        #             self.core.initDictionary(self.dictPath.get())
-        #         except Exception as x:
-        #             self.displayException(x)
-        #             self.outputInfo['text'] = "Couldn't open dictionary path"
-        #             self.cancelFunction()
-        #             return
-
-        #     self.outputInfo['text'] = 'Started parsing'
-        #     self.core.start()
 
     def stopPushButtonEvent(self):
         if self.core is not None:
             self.core.cancel = True
             self.core = None
+        self.working = False
         #reset progress bar
 
     def displayException(self, x):
@@ -343,14 +331,20 @@ class Ui_window(object):
         self.selectedResult = self.resultSelectionModel.selection().indexes()[0].data()
         self.occuranceModel = QtCore.QStringListModel(self.data[self.selectedType]['results'][self.selectedResult]['occurances'])
         self.occuranceListView.setModel(self.occuranceModel)
-        self.occuranceListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # self.occuranceListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.resultSelectionModel = self.resultListView.selectionModel()
         self.resultSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)
+
+    def increaseProgressbar(self):
+        self.progressValue += 1
+        if self.progressValue < 101:
+            self.progressBar.setValue(self.progressValue)
 
     def occuranceSelectionChanged(self, index):
         pass
 
     def loadOutput(self):
+        self.working = False
         self.typeModel = QtCore.QStringListModel(self.data.keys())
         self.typeListView.setModel(self.typeModel)
         self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -368,6 +362,6 @@ if __name__ == "__main__":
     ui = Ui_window()
     ui.setupUi(window)
     ui.setDebugValues()
-    ui.loadDebugOutput()
+    # ui.loadDebugOutput()
     window.show()
     sys.exit(app.exec_())

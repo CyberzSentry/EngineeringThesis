@@ -35,7 +35,7 @@ class Parser:
 
 class Core(Thread):
 
-    def __init__(self, inputPath, outputPath, expectedRegexes=None, data=None, dictionaryPath=None, progressEvent=None, updateDataEvent=None, additional=True):
+    def __init__(self, inputPath, outputPath, expectedRegexes=None, data=None, dictionaryPath=None, progressEvent=None, updateDataEvent=None, finishedEvent=None, additional=True):
         Thread.__init__(self)
         self.cancel = False
         self.compiledRegexes = []
@@ -43,7 +43,7 @@ class Core(Thread):
         self.inputPath = inputPath
         self.parser = Parser(inputPath)
         print("\n--------------------------Initialising output-------------------------\n")
-        self.outputFile = open(outputPath, "a")
+        self.outputFile = open(outputPath, "w")
         self.outputPath = outputPath
 
         if dictionaryPath is not None:
@@ -60,7 +60,6 @@ class Core(Thread):
             self.output = {}
         else:
             self.output = data
-        self.output = {}
 
         if progressEvent is not None:
             self.progressEvent = progressEvent
@@ -70,6 +69,10 @@ class Core(Thread):
             self.updateDataEvent = updateDataEvent
         else:
             self.updateDataEvent = self.dummy
+        if finishedEvent is not None:
+            self.finishedEvent = finishedEvent
+        else:
+            self.finishedEvent = self.dummy
 
     def initAdditional(self, additionalRegexLibPath='regexLib.json', additionalCodeLibpath='codeLib.py'):
         """Throws key KeyError when the input file structure is incorrect"""
@@ -120,18 +123,17 @@ class Core(Thread):
         with open(regexLibPath,'r') as rl:
             self.regexList = json.load(rl)['main']
             if expectedRegexes is not None:
-                for x, y in expectedRegexes.items():
-                    if y.get() == 1:
-                        reg = self.regexList[x]['regex']
-                        funct = self.regexList[x]['code']
-                        if reg is not '':
-                            print("Init regex ", x, " ", reg)
-                            if funct is not '':
-                                self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
-                            else:
-                                self.compiledRegexes.append([re.compile(reg), None, x])
+                for x in expectedRegexes:
+                    reg = self.regexList[x]['regex']
+                    funct = self.regexList[x]['code']
+                    if reg is not '':
+                        print("Init regex ", x, " ", reg)
+                        if funct is not '':
+                            self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
                         else:
-                            print("Regex empty, not compiling")  
+                            self.compiledRegexes.append([re.compile(reg), None, x])
+                    else:
+                        print("Regex empty, not compiling")  
             else:
                 for x in self.regexList:
                     reg = self.regexList[x]['regex']
@@ -180,6 +182,7 @@ class Core(Thread):
                     else:
                         self.addOutput(regex[2], result, content['id'])
 
+        self.finishedEvent()
         json.dump(self.output, self.outputFile)
         self.outputFile.close()
 
