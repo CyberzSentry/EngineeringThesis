@@ -221,11 +221,11 @@ class Ui_window(object):
         self.macCheckButton.setText(_translate("window", "MAC"))
         self.ip_v6CheckBox.setText(_translate("window", "IP v6"))
         self.phoneNoCheckBox.setText(_translate("window", "Phone no."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("window", "Settings Tab"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("window", "Settings"))
         self.typeLabel.setText(_translate("window", "Category:"))
         self.resultLabel.setText(_translate("window", "Results:"))
         self.occuranceLabel.setText(_translate("window", "Occurance:"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("window", "Results Tab"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("window", "Results"))
         self.menuFile.setTitle(_translate("window", "File"))
 
 
