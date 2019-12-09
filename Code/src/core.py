@@ -11,7 +11,7 @@ class Parser:
     def __init__(self, inputPath):
         self.inPath = inputPath
         self.count = -1
-        with open(inputPath, 'r') as inFile:
+        with open(inputPath, 'r',encoding='utf-8') as inFile:
             self.inData = json.load(inFile)
 
         self.len = len(self.inData['messages'])
@@ -94,13 +94,13 @@ class Core(Thread):
             self.additionalList = json.load(rl)['additional']
             for x in self.additionalList:
                 reg = self.additionalList[x]['regex']
-                funct = self.regexList[x]['code']
+                funct = self.additionalList[x]['code']
                 if reg is not '':
                     print("Init regex ", x, " ", reg)
                     if funct is not '':
-                        self.compiledRegexes.append([re.compile(reg), getattr(self.additionalCodeModule, funct), x])
+                        self.compiledRegexes.append([re.compile(reg, re.UNICODE), getattr(self.additionalCodeModule, funct), x])
                     else:
-                        self.compiledRegexes.append([re.compile(reg), None, x])
+                        self.compiledRegexes.append([re.compile(reg, re.UNICODE), None, x])
                 else:
                     print("Regex empty, not compiling")
 
@@ -129,9 +129,9 @@ class Core(Thread):
                     if reg is not '':
                         print("Init regex ", x, " ", reg)
                         if funct is not '':
-                            self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
+                            self.compiledRegexes.append([re.compile(reg, re.UNICODE), getattr(self.codeModule, funct), x])
                         else:
-                            self.compiledRegexes.append([re.compile(reg), None, x])
+                            self.compiledRegexes.append([re.compile(reg, re.UNICODE), None, x])
                     else:
                         print("Regex empty, not compiling")  
             else:

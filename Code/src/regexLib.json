@@ -42,9 +42,16 @@
         }
     },
     "additional":{
-        
+        "additional_regex":{
+            "regex": "test",
+            "code": ""
+        },
+        "test":{
+            "regex": "[ęążźćśłó]{1}",
+            "code": ""
+        }
     },
     "dictionary":{
-        
+        "dictionary": "[0-9a-zA-Z]{3,8}"
     }   
 }
