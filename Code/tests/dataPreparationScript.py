@@ -80,15 +80,15 @@ def facebookData(inboxPath, outPath, outFileName, ranges):
             messageFile = os.path.join(dir, fileName)
             if os.path.isfile(messageFile):
                 with open(messageFile, 'r') as f:
-                    data = json.load(f)
+                    data = json.load(f, encoding='iso-8859-1')
                     for mes in data['messages']:
                         try:
-                            outputData['messages'].append({"id": str(i), "content":mes['sender_name'] + '\n' + mes['content']})
+                            outputData['messages'].append({"id": str(i), "content":mes['sender_name'].encode('iso-8859-1').decode('utf-8') + '\n' + mes['content'].encode('iso-8859-1').decode('utf-8')})
                             i+=1
-                            print(i, mes['content'])
                             if i in ranges:
                                 fout = open(outPath + outFileName.format(str(i)), 'x')
                                 json.dump(outputData, fout)
+                                print(i)
                                 fout.close()
                         except:
                             pass
@@ -99,5 +99,5 @@ def facebookData(inboxPath, outPath, outFileName, ranges):
     json.dump(outputData, fout)
     fout.close()
                         
-
-facebookData(facebookInbox, facebookOutput, facebookFilename, [1000, 2000, 5000 , 10000, 20000, 50000, 100000])
+facebookData(facebookInbox, facebookOutput, facebookFilename, [1000])
+facebookData(facebookInbox, facebookOutput, facebookFilename, [1000, 2000, 5000 , 10000, 20000, 50000, 100000, 227360])
