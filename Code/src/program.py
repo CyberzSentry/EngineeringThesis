@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 from core import Core
 import traceback
+import os
 
 class MySignal(QtCore.QObject):
     updateSignal = QtCore.pyqtSignal()
@@ -205,6 +206,14 @@ class Ui_window(object):
         self.statusbar = QtWidgets.QStatusBar(window)
         self.statusbar.setObjectName("statusbar")
         window.setStatusBar(self.statusbar)
+        self.actionOpen_output = QtWidgets.QAction(window)
+        self.actionOpen_output.setObjectName("actionOpen_output")
+        self.actionOpen_output.triggered.connect(self.loadOutputFile)
+        self.actionAbout = QtWidgets.QAction(window)
+        self.actionAbout.setObjectName("actionAbout")
+        self.actionAbout.triggered.connect(self.about)
+        self.menuFile.addAction(self.actionOpen_output)
+        self.menuFile.addAction(self.actionAbout)
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(window)
@@ -252,19 +261,36 @@ class Ui_window(object):
         self.occuranceLabel.setText(_translate("window", "Occurance:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("window", "Results"))
         self.menuFile.setTitle(_translate("window", "File"))
+        self.actionOpen_output.setText(_translate("window", "Open output"))
+        self.actionAbout.setText(_translate("window", "About"))
 
+    def loadOutputFile(self):
+        outputFilePath = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select output file')[0]
+        with open(outputFilePath, 'r') as file:
+            self.data = json.load(file)
+        self.typeModel = QtCore.QStringListModel(self.data.keys())
+        self.typeListView.setModel(self.typeModel)
+        self.typeSelectionModel = self.typeListView.selectionModel()
+        self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
+
+    def about(self):
+        print("about")
+        pass
 
     def inPathPushButtonEvent(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
-        self.inPathLineEdit.setText(fileName)
+        if fileName:
+            self.inPathLineEdit.setText(fileName)
 
     def outPathPushButtonEvent(self):
-        fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
-        self.outPathLineEdit.setText(fileName)
+        fileName = QtWidgets.QFileDialog.getSaveFileName(self.window, 'Select output')[0]
+        if fileName:
+            self.outPathLineEdit.setText(fileName)
 
     def dictPathPushButtonEvent(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(self.window, 'Select input')[0]
-        self.dictPathLineEdit.setText(fileName)
+        if fileName:
+            self.dictPathLineEdit.setText(fileName)
 
     def progressBarEvent(self):
         self.signal.progressBarSignal.emit()
@@ -280,6 +306,7 @@ class Ui_window(object):
         if self.working == False:
 
             toCheck = []
+            additional = False
             if self.ip_v4CheckBox.isChecked():
                 toCheck.append("ip_v4")
             if self.ip_v6CheckBox.isChecked():
@@ -300,14 +327,22 @@ class Ui_window(object):
                 toCheck.append("login")
             if self.phoneNoCheckBox.isChecked():
                 toCheck.append("phone_number")
+            if self.additionalCheckBox.isChecked():
+                additional = True
 
             self.progressValue = 0
             self.progressBar.setValue(self.progressValue)
             self.working = True
 
+            if self.outPathLineEdit.text() == '':
+                inPath = self.inPathLineEdit.text()
+                self.outPathLineEdit.setText(os.path.splitext(inPath)[0] + "_output.json")
+
             try:
-                self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), expectedRegexes=toCheck, data=self.data, progressEvent=self.progressBarEvent, finishedEvent=self.finishedDataEvent)
-                # self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), data=self.data, progressEvent=self.progressBarEvent, updateDataEvent=self.updateDataEvent, finishedEvent=self.finishedDataEvent)
+                self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), 
+                                expectedRegexes=toCheck, data=self.data, additional=additional, 
+                                progressEvent=self.progressBarEvent, finishedEvent=self.finishedDataEvent)
+
             except Exception as x:
                 self.displayException(x)
                 self.stopPushButtonEvent()
@@ -328,8 +363,7 @@ class Ui_window(object):
         print(traceback.format_exc())
 
     def setDebugValues(self):
-        self.inPathLineEdit.setText("C:/Projects/ThesisTestData/facebook/facebookDump_50000.json")
-        self.outPathLineEdit.setText("C:/Projects/ThesisTestData/results/output_facebookDump_50000.json")
+        self.inPathLineEdit.setText("C:/Projects/ThesisTestData/facebook/facebookDump_50000_strid.json")
         self.dictPathLineEdit.setText("")
 
     def loadDebugOutput(self):
@@ -337,7 +371,6 @@ class Ui_window(object):
             self.data = json.load(file)
         self.typeModel = QtCore.QStringListModel(self.data.keys())
         self.typeListView.setModel(self.typeModel)
-        # self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.typeSelectionModel = self.typeListView.selectionModel()
         self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
 
@@ -345,7 +378,6 @@ class Ui_window(object):
         self.selectedType = self.typeSelectionModel.selection().indexes()[0].data()
         self.resultModel = QtCore.QStringListModel(self.data[self.selectedType]['results'].keys())
         self.resultListView.setModel(self.resultModel)
-        # self.resultListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.resultSelectionModel = self.resultListView.selectionModel()
         self.resultSelectionModel.selectionChanged.connect(self.resultSelectionChanged)
 
@@ -353,18 +385,15 @@ class Ui_window(object):
         self.selectedResult = self.resultSelectionModel.selection().indexes()[0].data()
         self.occuranceModel = QtCore.QStringListModel(self.data[self.selectedType]['results'][self.selectedResult]['occurances'])
         self.occuranceListView.setModel(self.occuranceModel)
-        # self.occuranceListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.occuranceSelectionModel = self.occuranceListView.selectionModel()
         self.occuranceSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)
 
     def occuranceSelectionChanged(self, index):
-        print("test")
         self.selectedOccurance = self.occuranceSelectionModel.selection().indexes()[0].data()
         self.inputData = json.load(open(self.inPathLineEdit.text(), 'r', encoding='utf-8'))
         i = 0
         self.inputIndex = 0
         for x in self.inputData["messages"]:
-            # print(x['id'])
             if str(x["id"]) == self.selectedOccurance:
                 self.inputIndex = i
                 break
@@ -402,6 +431,8 @@ class Ui_window(object):
     def __del__(self):
         if self.core is not None:
             self.core.cancel = True
+        # if self.dialog is not None:
+        #     self.dialog.close()
 
 if __name__ == "__main__":
     import sys
