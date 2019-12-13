@@ -85,22 +85,21 @@ class Core(Thread):
         if additionalCodeLibpath == 'codeLib.py':
             loader = machinery.SourceFileLoader('codeLib', os.path.join(os.path.dirname(__file__),additionalCodeLibpath))
             self.additionalCodeModule = loader.load_module()
-            #self.codeModule = importlib.import_module(codeLibPath[:-3], os.path.dirname(__file__))
         else:
             loader = machinery.SourceFileLoader(os.path.basename(additionalCodeLibpath[:-3]), additionalCodeLibpath)
             self.additionalCodeModule = loader.load_module()
 
         with open(additionalRegexLibPath,'r') as rl:
-            self.additionalList = json.load(rl)['additional']
+            self.additionalList = json.load(rl, encoding='utf-8')['additional']
             for x in self.additionalList:
                 reg = self.additionalList[x]['regex']
                 funct = self.additionalList[x]['code']
                 if reg is not '':
                     print("Init regex ", x, " ", reg)
                     if funct is not '':
-                        self.compiledRegexes.append([re.compile(reg, re.UNICODE), getattr(self.additionalCodeModule, funct), x])
+                        self.compiledRegexes.append([re.compile(reg), getattr(self.additionalCodeModule, funct), x])
                     else:
-                        self.compiledRegexes.append([re.compile(reg, re.UNICODE), None, x])
+                        self.compiledRegexes.append([re.compile(reg), None, x])
                 else:
                     print("Regex empty, not compiling")
 
@@ -114,7 +113,6 @@ class Core(Thread):
         if codeLibPath == 'codeLib.py':
             loader = machinery.SourceFileLoader('codeLib', os.path.join(os.path.dirname(__file__),codeLibPath))
             self.codeModule = loader.load_module()
-            #self.codeModule = importlib.import_module(codeLibPath[:-3], os.path.dirname(__file__))
         else:
             loader = machinery.SourceFileLoader(os.path.basename(codeLibPath[:-3]), codeLibPath)
             self.codeModule = loader.load_module()
@@ -129,9 +127,9 @@ class Core(Thread):
                     if reg is not '':
                         print("Init regex ", x, " ", reg)
                         if funct is not '':
-                            self.compiledRegexes.append([re.compile(reg, re.UNICODE), getattr(self.codeModule, funct), x])
+                            self.compiledRegexes.append([re.compile(reg), getattr(self.codeModule, funct), x])
                         else:
-                            self.compiledRegexes.append([re.compile(reg, re.UNICODE), None, x])
+                            self.compiledRegexes.append([re.compile(reg), None, x])
                     else:
                         print("Regex empty, not compiling")  
             else:
@@ -146,15 +144,6 @@ class Core(Thread):
                             self.compiledRegexes.append([re.compile(reg), None, x])
                     else:
                         print("Regex empty, not compiling")
-
-
-    # def initOutput(self, path, backup=True):
-    #     print("\n--------------------------Initialising output-------------------------\n")
-    #     fullPath = os.path.join(path, "output.json")
-    #     self.outputFile = open(fullPath, "a")
-    #     self.outputPath = fullPath
-    #     if backup:
-    #         shutil.copy(self.inputPath, os.path.join(path, "input_backup.json"))
 
 
     def run(self):
