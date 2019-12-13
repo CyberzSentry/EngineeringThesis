@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Projects\Thesis_v2\Code\gui\first_version_final_v3.ui'
+# Form implementation generated from reading ui file 'C:\Projects\Thesis\Code\gui\main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_window(object):
     def setupUi(self, window):
         window.setObjectName("window")
-        window.resize(636, 433)
+        window.resize(636, 395)
         self.centralwidget = QtWidgets.QWidget(window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -161,6 +161,12 @@ class Ui_window(object):
         self.statusbar = QtWidgets.QStatusBar(window)
         self.statusbar.setObjectName("statusbar")
         window.setStatusBar(self.statusbar)
+        self.actionOpen_output = QtWidgets.QAction(window)
+        self.actionOpen_output.setObjectName("actionOpen_output")
+        self.actionAbout = QtWidgets.QAction(window)
+        self.actionAbout.setObjectName("actionAbout")
+        self.menuFile.addAction(self.actionOpen_output)
+        self.menuFile.addAction(self.actionAbout)
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(window)
@@ -197,6 +203,8 @@ class Ui_window(object):
         self.occuranceLabel.setText(_translate("window", "Occurance:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("window", "Results Tab"))
         self.menuFile.setTitle(_translate("window", "File"))
+        self.actionOpen_output.setText(_translate("window", "Open output"))
+        self.actionAbout.setText(_translate("window", "About"))
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>636</width>
-    <height>433</height>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -301,10 +301,22 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpen_output"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen_output">
+   <property name="text">
+    <string>Open output</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
