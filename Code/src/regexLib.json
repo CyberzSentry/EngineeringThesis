@@ -42,12 +42,12 @@
         }
     },
     "additional":{
-        "additional_regex":{
-            "regex": "test",
+        "l":{
+            "regex": "[\u0142]{1}",
             "code": ""
         },
-        "test":{
-            "regex": "[ęążźćśłó]{1}",
+        "\u0119":{
+            "regex": "\u0119",
             "code": ""
         }
     },
