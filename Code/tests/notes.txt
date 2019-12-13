@@ -21,7 +21,8 @@ Password
 
 
 #########
-1.Run additional only while checkbox
+1.Run additional only while checkbox - done
 2.Pass full message to check function
-3.If no output path than put next to input, if no output name change input to output name
+3.If no output path than put next to input, if no output name change input to output name - done
+4.Implement dictionary search
 Add rodo to introduction
