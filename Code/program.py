@@ -9,7 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
-from core import Core
+from src.core import Core
 import traceback
 import os
 
@@ -431,8 +431,6 @@ class Ui_window(object):
     def __del__(self):
         if self.core is not None:
             self.core.cancel = True
-        # if self.dialog is not None:
-        #     self.dialog.close()
 
 if __name__ == "__main__":
     import sys
