@@ -274,7 +274,11 @@ class Ui_window(object):
         self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
 
     def about(self):
-        print("about")
+        msgBox = QtWidgets.QMessageBox(self.window)
+        msgBox.setText("This program is a part of a thesis on sensitive data search\nMore information: https://github.com/maksbrz184/EngineeringThesis")
+        msgBox.setWindowTitle("About")
+        msgBox.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        msgBox.exec()
         pass
 
     def inPathPushButtonEvent(self):
@@ -296,7 +300,6 @@ class Ui_window(object):
         self.signal.progressBarSignal.emit()
     
     def updateDataEvent(self):
-        # self.signal.sig_no_args.emit()
         pass
 
     def finishedDataEvent(self):
@@ -357,9 +360,9 @@ class Ui_window(object):
         #reset progress bar
 
     def displayException(self, x):
+        self.outputLabel.setText("Exception occured\n" + str(x) + "\nMore information in commandline interface")
         print("-"*15,"EXCEPTION","-"*15)
-        print(type(x))
-        print(x)
+        print(str(x))
         print(traceback.format_exc())
 
     def setDebugValues(self):
@@ -371,6 +374,8 @@ class Ui_window(object):
             self.data = json.load(file)
         self.typeModel = QtCore.QStringListModel(self.data.keys())
         self.typeListView.setModel(self.typeModel)
+        self.typeListView.set
+        self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.typeSelectionModel = self.typeListView.selectionModel()
         self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
 
@@ -398,7 +403,7 @@ class Ui_window(object):
                 self.inputIndex = i
                 break
             i += 1
-        self.dialog = QtWidgets.QDialog()
+        self.dialog = QtWidgets.QDialog(self.window)
         self.Ui_previewDialog = Ui_PreviewDialog()
         self.Ui_previewDialog.setupUi(self.dialog)
         self.Ui_previewDialog.prevPushButton.clicked.connect(self.prevButtonEvent)
