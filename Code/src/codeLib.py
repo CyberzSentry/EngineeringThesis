@@ -1,5 +1,5 @@
 
-def pesel(snip):
+def pesel(snip, content):
     snip = snip[1:-1]
     weight = [9, 7, 3, 1, 9, 7, 3, 1, 9, 7]
     checksum = (int(snip[0]) * weight[0]) + (int(snip[1]) * weight[1]) + (int(snip[2]) * weight[2]) + (int(snip[3]) * weight[3])+ (int(snip[4]) * weight[4]) + \
@@ -10,7 +10,7 @@ def pesel(snip):
     else:
         return False
 
-def idnum(snip):
+def idnum(snip, content):
     weight = [7, 3, 1, 0, 7, 3, 1, 7, 3]
     key = {"A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15, "G": 16, "H": 17, "I": 18, "J": 19, "K": 20, "L": 21, "M": 22, \
         "N": 23, "O": 24, "P": 25, "Q": 26, "R": 27, "S": 28, "T": 29, "U": 30, "V": 31, "W": 32, "X": 33, "Y": 34, "Z": 35}
@@ -24,7 +24,7 @@ def idnum(snip):
     else:
         return False
 
-def passwd(snip):
+def passwd(snip, content):
     specialChars = "!@#$%^&*()_+-={}[];:\"'\\|<>?,./"
     nums = "0123456789"
     uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

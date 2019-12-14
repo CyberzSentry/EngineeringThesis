@@ -166,7 +166,7 @@ class Core(Thread):
                 results = regex[0].findall(content['content'])
                 for result in results:
                     if regex[1] is not None:
-                        if regex[1](result):
+                        if regex[1](result, content['content']):
                             self.addOutput(regex[2], result, content['id'])
                     else:
                         self.addOutput(regex[2], result, content['id'])
