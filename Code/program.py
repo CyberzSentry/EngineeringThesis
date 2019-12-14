@@ -169,6 +169,7 @@ class Ui_window(object):
         self.verticalLayout_2.addWidget(self.typeLabel)
         self.typeListView = QtWidgets.QListView(self.tab_2)
         self.typeListView.setObjectName("typeListView")
+        self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.verticalLayout_2.addWidget(self.typeListView)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -333,18 +334,23 @@ class Ui_window(object):
             if self.additionalCheckBox.isChecked():
                 additional = True
 
+            dictPath = None
+            if self.dictCheckBox.isChecked():
+                dictPath = self.dictPathLineEdit.text()
+
             self.progressValue = 0
             self.progressBar.setValue(self.progressValue)
             self.working = True
 
-            if self.outPathLineEdit.text() == '':
+            if self.outPathLineEdit.text() == '':   
                 inPath = self.inPathLineEdit.text()
                 self.outPathLineEdit.setText(os.path.splitext(inPath)[0] + "_output.json")
 
             try:
                 self.core = Core(self.inPathLineEdit.text(), self.outPathLineEdit.text(), 
                                 expectedRegexes=toCheck, data=self.data, additional=additional, 
-                                progressEvent=self.progressBarEvent, finishedEvent=self.finishedDataEvent)
+                                progressEvent=self.progressBarEvent, finishedEvent=self.finishedDataEvent,
+                                dictionaryPath=dictPath)
 
             except Exception as x:
                 self.displayException(x)
@@ -367,15 +373,14 @@ class Ui_window(object):
 
     def setDebugValues(self):
         self.inPathLineEdit.setText("C:/Projects/ThesisTestData/facebook/facebookDump_50000_strid.json")
-        self.dictPathLineEdit.setText("")
+        self.dictPathLineEdit.setText("C:/Projects/Thesis/Code/src/dictionary.txt")
+
 
     def loadDebugOutput(self):
         with open("C:\\Projects\\ThesisTestData\\results\\output_facebookDump_50000.json", 'r') as file:
             self.data = json.load(file)
         self.typeModel = QtCore.QStringListModel(self.data.keys())
         self.typeListView.setModel(self.typeModel)
-        self.typeListView.set
-        self.typeListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.typeSelectionModel = self.typeListView.selectionModel()
         self.typeSelectionModel.selectionChanged.connect(self.typeSelectionChanged)
 
@@ -444,6 +449,6 @@ if __name__ == "__main__":
     ui = Ui_window()
     ui.setupUi(window)
     ui.setDebugValues()
-    # ui.loadDebugOutput()
+    ui.loadDebugOutput()
     window.show()
     sys.exit(app.exec_())
