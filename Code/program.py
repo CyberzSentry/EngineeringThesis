@@ -449,6 +449,6 @@ if __name__ == "__main__":
     ui = Ui_window()
     ui.setupUi(window)
     ui.setDebugValues()
-    ui.loadDebugOutput()
+    # ui.loadDebugOutput()
     window.show()
     sys.exit(app.exec_())

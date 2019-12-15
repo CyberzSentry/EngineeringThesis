@@ -52,6 +52,8 @@
         }
     },
     "dictionary":{
-        "dictionary": "[0-9a-zA-Z]{3,8}"
-    }   
+        "dictionary_1": {
+            "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
+        }
+    }
 }

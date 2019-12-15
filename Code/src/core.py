@@ -38,7 +38,7 @@ class Core(Thread):
     def __init__(self, inputPath, outputPath, expectedRegexes=None, data=None, dictionaryPath=None, progressEvent=None, updateDataEvent=None, finishedEvent=None, additional=True):
         Thread.__init__(self)
         self.cancel = False
-        self.compiledRegexes = []
+        self.dictionarySearch = False
         print("\n-----------------------Initialising input parser----------------------\n")
         self.inputPath = inputPath
         self.parser = Parser(inputPath)
@@ -46,10 +46,10 @@ class Core(Thread):
         self.outputFile = open(outputPath, "w")
         self.outputPath = outputPath
 
+        
+        self.compiledRegexes = []
         if dictionaryPath is not None:
-            print("\n------------------------Initialising dictionary-----------------------\n")
-            self.dictionaryPath = path
-            # Implement dictionary
+            self.initDictionary(dictionaryPath=dictionaryPath)
         
         if additional:
             self.initAdditional()
@@ -145,31 +145,85 @@ class Core(Thread):
                     else:
                         print("Regex empty, not compiling")
 
+    def initDictionary(self,dictionaryPath, regexLibPath='regexLib.json'):
+        print("\n------------------------Initialising dictionary-----------------------\n")
+        if regexLibPath == 'regexLib.json':
+            regexLibPath = os.path.join(os.path.dirname(__file__), regexLibPath)
+        self.dictRegexPath = regexLibPath
+        self.dictionaryPath = dictionaryPath
+        self.dictionary = {}
+        self.dictionarySearch = True
+        with open(self.dictionaryPath, "r", encoding='utf-8') as f:
+            for line in f:
+                self.dictionary[line.strip()] = None
+
+        self.dictionaryCompiledRegexes = []
+        with open(regexLibPath,'r') as rl:
+            self.dictionaryRegexList = json.load(rl)['dictionary']
+            for x in self.dictionaryRegexList:
+                reg = self.dictionaryRegexList[x]['regex']
+                if reg is not '':
+                    print("Init dictionary regex ", x, " ", reg)
+                    self.dictionaryCompiledRegexes.append([re.compile(reg), x])
+                else:
+                    print("Regex empty, not compiling")
 
     def run(self):
 
-        for regex in self.compiledRegexes:
-            self.output[regex[2]] = {"no": 0, "results": {}}
-        x = 0
-        while not self.cancel:
-            content = self.parser.getNext()
-
-            if content is None:
-                break
-
-            x+=1
-            if x == self.parser.stepValue:
-                self.progressEvent()
-                x=0
-            
+        if self.dictionarySearch:
             for regex in self.compiledRegexes:
-                results = regex[0].findall(content['content'])
-                for result in results:
-                    if regex[1] is not None:
-                        if regex[1](result, content['content']):
+                self.output[regex[2]] = {"no": 0, "results": {}}
+            for regex in self.dictionaryCompiledRegexes:
+                self.output[regex[1]] = {"no": 0, "results": {}}
+            x = 0
+            while not self.cancel:
+                content = self.parser.getNext()
+
+                if content is None:
+                    break
+
+                x+=1
+                if x == self.parser.stepValue:
+                    self.progressEvent()
+                    x=0
+                
+                for regex in self.compiledRegexes:
+                    results = regex[0].findall(content['content'])
+                    for result in results:
+                        if regex[1] is not None:
+                            if regex[1](result, content['content']):
+                                self.addOutput(regex[2], result, content['id'])
+                        else:
                             self.addOutput(regex[2], result, content['id'])
-                    else:
-                        self.addOutput(regex[2], result, content['id'])
+                
+                for dictRegex in self.dictionaryCompiledRegexes:
+                    results = dictRegex[0].findall(content['content'])
+                    for result in results:
+                        if result.lower() in self.dictionary:
+                            self.addOutput(dictRegex[1], result, content['id'])
+        else:
+            for regex in self.compiledRegexes:
+                self.output[regex[2]] = {"no": 0, "results": {}}
+            x = 0
+            while not self.cancel:
+                content = self.parser.getNext()
+
+                if content is None:
+                    break
+
+                x+=1
+                if x == self.parser.stepValue:
+                    self.progressEvent()
+                    x=0
+                
+                for regex in self.compiledRegexes:
+                    results = regex[0].findall(content['content'])
+                    for result in results:
+                        if regex[1] is not None:
+                            if regex[1](result, content['content']):
+                                self.addOutput(regex[2], result, content['id'])
+                        else:
+                            self.addOutput(regex[2], result, content['id'])
 
         self.finishedEvent()
         json.dump(self.output, self.outputFile)

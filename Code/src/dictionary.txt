@@ -1,0 +1,7 @@
+login
+haslo
+password
+pass
+hasło
+michał
+się
