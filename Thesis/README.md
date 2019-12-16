@@ -1,2 +1,2 @@
 # EngineeringThesis
-My engineering thesis thesis
+My engineering thesis text
