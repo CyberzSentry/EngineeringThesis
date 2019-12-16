@@ -323,41 +323,43 @@ Gliwice, dnia {\selectlanguage{polish}\today}
 %\item clear description of contribution of the thesis's author – in case of more authors table with enumeration of contribution of authors
 %\end{itemize}
 
-%Artykuł do ważnej roli pentesterów 
-The invention and propagation of internet has boosted the ways in which technology impacts
-all of us. In this age increasing amount of our everyday life is digitized and dependent 
-on cybernetic systems hosted and operated by independent corporations and institutions. Each of 
-us caries in a pocket a computer constantly connected to internet with dozens of applications 
-that constantly communicate with servers which can be located on the other side of the world. 
-Aditionally many of simple items that we have learned to depend on like door locks or even 
-lightbulbs become connected to the web (Internet of Things). This digitization has made our 
-lives simpler and allowed us to achieve amazing things but it has also made us vulnerable to 
-cybernetic attacks. It is only natural that the rize of the impact of technology was followed 
-by the rize in the cyber crime and cyber security providers. Over the years an ecosystem has 
-emerged that constantly compeets with malicious hackers to keep us all secured. 
+This chapter presents the problem that the project tries to solve and presents the document structure.
 
+\section{Description of the problem}
+
+The invention and propagation of the internet has boosted the ways in which technology impacts
+all of us. In this age an increasing amount of our everyday life is digitized and dependent 
+on cybernetic systems hosted and operated by independent corporations and institutions. Significant
+amount of our tasks has become automated through information technology solutions. The phisical word 
+surrounding us also becomes intertwined with technology. We are gradualy connecting things of everyday 
+use like cars or house locks to the web through Internet of Things technologies. This process has 
+made our lives simpler and allowed us to achieve amazing things but it has also made us vulnerable to 
+cybernetic attacks. It is only natural that the rize of the impact of technology was followed 
+by the rise in the cyber crime and cyber security providers. \cite{bib:articleImportanceOfCybersecurity} 
+
+Over the years an ecosystem has emerged that constantly competes with malicious hackers to keep us all secure.
 One of the elements of this structure is penetration testing also known as ethical hacking. In it's core, 
-this practice is simply symulating a real attack. There are multiple sources that depict approaches 
-used to petrform this process. One of the common denominators between all of them is the importance of 
-gathering information. The reason for that is because the more information you can uncover and analyse, 
+this practice is simply simulating a real attack. There are multiple sources that depict approaches 
+used to perform this process. One of the common denominators between all of them is the importance of 
+gathering information. \cite{bib:bookEthicalHacking} The reason for that is because the more information you can uncover and analyze, 
 the bigger the chance of finding vulnerable systems or flaws in them. One of the clusters of information 
 in in companies is a communication channel like slack or discord. There are manny situations where employees 
-share information connected to projects and their workplace enviroment. That is esspecially true with 
-companies that focus on software development. If an attacker was to acces such a platform he could 
-potentially analyse the conversation history in search of sensitive information like ip adresses, logins, 
-passwords etc. Unfortunately such a action may be very time consuming and that is where automating 
-could prove very useful. a
+share information connected to projects and their workplace enviroment. If an attacker was to acces such a 
+platform he could potentially analyse the conversation history in search of sensitive information like ip addresses, 
+logins, passwords, emails, phone numbers, etc.
 
-%This problem could be solved by creating a tool capable of scanning multiple input messages and outputing
-%list of possible sensitive information. Achiving required result would require collecting all possible 
-%types of useful data that could be found in the input to the program and implementing a algorithm capable
-%of recognising them in a plain text. From the security testing point of view, it is important to be able to 
-%easly acces context of the information found. 
+Such information is especially important from a legal point of view. Introduction of General Data Protection
+Regulation in 2016 has put a preassure on manny legal bodies to responsibly handle people's personal data under
+a threat of heavy financial penalties. \cite{bib:bookRODO} Monitoring of the data located in the private entity's internal communication
+channel might prove very useful in fulfilling the legislative requirements of private information processing.
 
+Unfortunately such a task may be very time and resource consuming. A tool capable of scanning the history of 
+communication channel in search of data that would meet some established criteria could however fulfill this job or at least
+increase efficiency of the person responsible for it.
 
-\section{Contribution}
-The focus of this thesis is design and implementation of "sensitive data" search tool. Acomplishing this 
-task requires 
+\section{Project scope}
+
+\section{Description of chapters}
 
 \chapter{[Problem analysis]}
 
