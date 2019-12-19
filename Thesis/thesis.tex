@@ -150,7 +150,7 @@ escapeinside={@*}{*@},%
 \newcommand{\Author}{Maksym Brzęczek}
 \newcommand{\Supervisor}{Błażej Adamczyk, DSc PhD}
 \newcommand{\Consultant}{Michał Kawulok, PhD}
-\newcommand{\Title}{Sensitive information extraction from datasets}
+\newcommand{\Title}{Sensitive data extraction tool}
 \newcommand{\Polsl}{Silesian University of Technology}
 \newcommand{\Faculty}{Faculty of Automatic Control, Electronics and Computer Science}
 
@@ -314,15 +314,6 @@ Gliwice, dnia {\selectlanguage{polish}\today}
 
 \chapter{Introduction}
 
-%\begin{itemize}
-%\item introduction into the problem domain
-%\item settling of the problem in the domain
-%\item objective of the thesis 
-%\item scope of the thesis
-%\item short description of chapters
-%\item clear description of contribution of the thesis's author – in case of more authors table with enumeration of contribution of authors
-%\end{itemize}
-
 This chapter presents the problem that the project tries to solve and presents the document structure.
 
 \section{Description of the problem}
@@ -359,8 +350,14 @@ increase efficiency of the person responsible for it.
 
 \section{Project scope}
 
-The focus of this project is design and development of a tool capable of processing a large amounts of natural 
-language messages in search of sensitive data. 
+This thesis focuses on the research into proper implementation of a cyber security tool with the purpose of processing 
+a large amount of natural language messages in search of data that can be classified as sensitive. Special focus is 
+put on possibility of calibration and customisation of the search engine and it's reusability, regardless of 
+circumstances and enviroment.
+
+This thesis however does not elaborate the process of defining a proper sensitive data structure outside of the scope 
+required for testing.
+
 
 \section{Description of chapters}
 
@@ -368,22 +365,72 @@ This document is divided into seven chapters with following focus:
 
 \begin{itemize}
    \item Chapter 1 Introduction - Presentation of the problem domain and scope, introduction of the document structure.
-   \item Chapter 2 Problem analysis
-   \item Chapter 3 Requirements and tools
-   \item Chapter 4 External specification
-   \item Chapter 5 Internal specification
-   \item Chapter 6 Verification and validation
-   \item Chapter 7 Conclusions
+   \item Chapter 2 Problem analysis - Research of the topic and design of the program.
+   \item Chapter 3 Requirements and tools - Description of the used technologies and required prerequisites.
+   \item Chapter 4 External specification - Instruction of the program usage.
+   \item Chapter 5 Internal specification - Elaboration on the programs internal structure.
+   \item Chapter 6 Verification and validation - Presentation of the testing methodology and results.
+   \item Chapter 7 Conclusions - Final remarks and conclusions for the future of the project.
    \end{itemize}
 
-\chapter{[Problem analysis]}
+\chapter{Problem analysis}
+
+There are multiple important project assumptions that have to be thought through before the design and 
+implementation of the project. 
+
+\section{Sensitive data definition}
+
+The project will focus on finding nine categories of information:
 
 \begin{itemize}
-\item  problem analysis
-\item state of the art, problem statement
-\item  literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference,bib:internet})
-\item description of existing solutions (also scientific ones, if the problem is scientifically researched), algorithms,  location of the thesis in the scientific domain
+   \item IP addresses
+   \item Social security numbers
+   \item ID card numbers
+   \item MAC addresses
+   \item Domains
+   \item Email addresses
+   \item Passwords
+   \item Logins
+   \item Phone numbers
 \end{itemize}
+
+Due to the random nature of those categories generating a dictionary for search purposes can prove difficult or in some cases
+even impossible. The complexity of this task would be further increased because of the different ways that some of those
+data types can be presented. In example an ip address can be stated either as "127.0.0.1" or "127 0 0 1" with the same meaning
+for the recipient of the message. 
+
+There is exists however a tool called "regural expresions" that is frequently used for parsing users input and capturing 
+parts of strings. \cite{bib:conferenceRegex} This natural language processing tool is capable of taking under consideration 
+fluctuations in the message formulation. 
+
+A dictionary search could however prove useful in searching for specific keywords that could indicate a presence of searched
+information. Such words like "login" or "password".
+
+It might be advantageous for the purposes of this project to take under consideration additional properties of the considered 
+data types. It is common for the personal information issued by some entities to implement a check sum algorithm 
+used for validation of authenticity. Implementing a adjustable additional check of the data discovered by regular expressions 
+could possibly reduce the amount of false positives. Such feature could be utilised by individual user to further enhance 
+accuracy in any case where identifing additional patterns, that escape regular expression domain, is possible.
+
+\section{Modularity and Customisation}
+
+Each usecase of the designed system might differ depending on the user, enviroment and multitude of other conditions. 
+Some clients of the program might be interested in searching for a subset of data types implemented in the program. It is
+also possible that an unanticipated in the design information type might be of a particular interest for a user. 
+
+In order to mitigate those problems a modular approach to the design could be taken that would allow for 
+
+
+\section{Enviroment independence}
+
+\section{Result presentation}
+
+% \begin{itemize}
+% \item  problem analysis
+% \item state of the art, problem statement
+% \item  literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference,bib:internet})
+% \item description of existing solutions (also scientific ones, if the problem is scientifically researched), algorithms,  location of the thesis in the scientific domain
+% \end{itemize}
 
 
 
@@ -461,7 +508,7 @@ Longer parts of code put in the figure environment, eg. code in Fig. \ref{fig:ps
 class descriptor_gaussian : virtual public descriptor
 {
    protected:
-      /** core of the gaussian fuzzy set */
+      /** core of the   set */
       double _mean;
       /** fuzzyfication of the gaussian fuzzy set */
       double _stddev;
@@ -639,7 +686,7 @@ partition fcm_possibilistic::doPartition
    }                                                            
    catch (std::string & ex)                                     
    {                                                            
-      throw my_exception (__FILE__, __FUNCTION__, __LINE__, ex);        
+      throw  (__FILE__, __FUNCTION__, __LINE__, ex);        
    }                                                             
    catch (...)                                                   
    {                                                             
