@@ -326,13 +326,13 @@ surrounding us also becomes intertwined with technology. We are gradualy connect
 use like cars or house locks to the web through Internet of Things technologies. This process has 
 made our lives simpler and allowed us to achieve amazing things but it has also made us vulnerable to 
 cybernetic attacks. It is only natural that the rize of the impact of technology was followed 
-by the rise in the cyber crime and cyber security providers. \cite{bib:articleImportanceOfCybersecurity} 
+by the rise in the cyber crime and cyber security providers \cite{bib:articleImportanceOfCybersecurity}. 
 
 Over the years an ecosystem has emerged that constantly competes with malicious hackers to keep us all secure.
 One of the elements of this structure is penetration testing also known as ethical hacking. In it's core, 
 this practice is simply simulating a real attack. There are multiple sources that depict approaches 
 used to perform this process. One of the common denominators between all of them is the importance of 
-gathering information. \cite{bib:bookEthicalHacking} The reason for that is because the more information you can uncover and analyze, 
+gathering information \cite{bib:bookEthicalHacking}. The reason for that is because the more information you can uncover and analyze, 
 the bigger the chance of finding vulnerable systems or flaws in them. One of the clusters of information 
 in in companies is a communication channel like slack or discord. There are manny situations where employees 
 share information connected to projects and their workplace enviroment. If an attacker was to acces such a 
@@ -341,7 +341,7 @@ logins, passwords, emails, phone numbers, etc.
 
 Such information is especially important from a legal point of view. Introduction of General Data Protection
 Regulation in 2016 has put a preassure on manny legal bodies to responsibly handle people's personal data under
-a threat of heavy financial penalties. \cite{bib:bookRODO} Monitoring of the data located in the private entity's internal communication
+a threat of heavy financial penalties \cite{bib:bookRODO}. Monitoring of the data located in the private entity's internal communication
 channel might prove very useful in fulfilling the legislative requirements of private information processing.
 
 Unfortunately such a task may be very time and resource consuming. A tool capable of scanning the history of 
@@ -351,12 +351,27 @@ increase efficiency of the person responsible for it.
 \section{Project scope}
 
 This thesis focuses on the research into proper implementation of a cyber security tool with the purpose of processing 
-a large amount of natural language messages in search of data that can be classified as sensitive. Special focus is 
-put on possibility of calibration and customisation of the search engine and it's reusability, regardless of 
+a large amount of natural language messages in search of data that can be classified as personal or sensitive from the cyber security
+point of view. Special focus is put on possibility of calibration and customisation of the search engine and it's reusability, regardless of 
 circumstances and enviroment.
 
-This thesis however does not elaborate the process of defining a proper sensitive data structure outside of the scope 
-required for testing.
+The project will primarily focus on finding nine categories of information:
+
+\begin{itemize}
+   \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication.
+   \item Personal identification numbers - tokes issued by countries to citizens for identification purposes, e.g., Social Security Number, PESEL. 
+   \item ID card numbers - serial numbers of phisical identification cards issued to country citizens.
+   \item MAC addresses - unique identifiers assigned to a network interface controller for use as a network address in communications within a network segment.
+   \item Domain names - an identification strings that define a realm of administrative autonomy, authority or control within the Internet. Domain names are used
+    in various networking contexts and for application-specific naming and addressing purposes.
+   \item Email addresses - identifiers of an email box to which email messages are delivered.
+   \item Passwords - secrets used to confirm the identity of a user.
+   \item Usernames - a unique sequence of characters used by a person with access to a computer, network, or online service.
+   \item Phone numbers - sequence of digits assigned to a fixed-line telephone subscriber station connected to a telephone line or to a wireless electronic telephony 
+   device, such as a radio telephone or a mobile telephone, or to other devices for data transmission via the public switched telephone network (PSTN) or other 
+   public and private networks.
+   \item Additional - data types specified and implemented by the users.
+\end{itemize}
 
 
 \section{Description of chapters}
@@ -375,42 +390,26 @@ This document is divided into seven chapters with following focus:
 
 \chapter{Problem analysis}
 
-There are multiple important project assumptions that have to be thought through before the design and 
-implementation of the project. 
+\section{Existing solutions}
 
-\section{Sensitive data definition}
+There are not manny widely available solutions that are capable of performing the job presented in the thesis introduction. However the scope of the project shares
+similarities with Data Lekage Prevention Systems which focus on analysis of the content of confidential data and the surrounding context in order to
+prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitore the sensitive information - regular expressions (regexes),
+data fingerprinting and statistical analysis \cite{bib:articleDLPS}. This approach could be adapted for the purposes of this thesis. 
 
-The project will focus on finding nine categories of information:
+Regular expressions are an abstraction of key-word search that enables the identification of text using apattern instead of an exact string. They are a tool 
+frequently used for parsing users input and capturing parts of strings \cite{bib:conferenceRegex}. Regexes are used in Data Leakage Prevention Systems for detecting 
+data like credit card numbers and social security mumbers \cite{bib:articleDLPS} which belong to the scope of this thesis. It might be possible to extend this approach 
+in to other categories of data covered by the designed program.
 
-\begin{itemize}
-   \item IP addresses
-   \item Social security numbers
-   \item ID card numbers
-   \item MAC addresses
-   \item Domains
-   \item Email addresses
-   \item Passwords
-   \item Logins
-   \item Phone numbers
-\end{itemize}
+Regular expressions are however known to have high false positives rates \cite{bib:articleDLPS}. It might be advantageous for the purposes of this project 
+to take under consideration additional properties of the considered data types. It is possible for the personal information issued
+by some entities to implement a check sum algorithm used for validation of authenticity. Implementing a adjustable additional check 
+of the data discovered by regular expressions could possibly reduce the amount of false positives. Such feature could be utilised by 
+individual user to further enhance accuracy in any case where identifing additional patterns, that escape regular expression domain, is possible.
 
-Due to the random nature of those categories generating a dictionary for search purposes can prove difficult or in some cases
-even impossible. The complexity of this task would be further increased because of the different ways that some of those
-data types can be presented. In example an ip address can be stated either as "127.0.0.1" or "127 0 0 1" with the same meaning
-for the recipient of the message. 
-
-There is exists however a tool called "regural expresions" that is frequently used for parsing users input and capturing 
-parts of strings. \cite{bib:conferenceRegex} This natural language processing tool is capable of taking under consideration 
-fluctuations in the message formulation. 
-
-A dictionary search could however prove useful in searching for specific keywords that could indicate a presence of searched
-information. Such words like "login" or "password".
-
-It might be advantageous for the purposes of this project to take under consideration additional properties of the considered 
-data types. It is common for the personal information issued by some entities to implement a check sum algorithm 
-used for validation of authenticity. Implementing a adjustable additional check of the data discovered by regular expressions 
-could possibly reduce the amount of false positives. Such feature could be utilised by individual user to further enhance 
-accuracy in any case where identifing additional patterns, that escape regular expression domain, is possible.
+% A dictionary search could however prove useful in searching for specific keywords that could indicate a presence of searched
+% information. Such words like "login" or "password".
 
 \section{Modularity and Customisation}
 
@@ -418,12 +417,18 @@ Each usecase of the designed system might differ depending on the user, envirome
 Some clients of the program might be interested in searching for a subset of data types implemented in the program. It is
 also possible that an unanticipated in the design information type might be of a particular interest for a user. 
 
-In order to mitigate those problems a modular approach to the design could be taken that would allow for 
+In order to mitigate those problems a modular approach to the design of program could be taken. Its main goal would be to allow specifing
+which of the stock implemented data types to search for as well as simplifying the augmentation of the program's scope.
 
-
-\section{Enviroment independence}
+It is also crucial to take under consideration the fact that the structure of some data types can differ significantly between uses.
+An example of this is a personal identification number which may vary depending on issuing authority. Giving the user a accessible possibility to 
+adjust the regular expressions used in searching process as well as addictional check functions may increase the use cases of the solutions.
 
 \section{Result presentation}
+
+While the focus of this thesis is a program which focuses on finding some sensitive data, it might be useful to put a special emphasis on the
+presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
+to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
 
 % \begin{itemize}
 % \item  problem analysis
@@ -431,9 +436,6 @@ In order to mitigate those problems a modular approach to the design could be ta
 % \item  literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference,bib:internet})
 % \item description of existing solutions (also scientific ones, if the problem is scientifically researched), algorithms,  location of the thesis in the scientific domain
 % \end{itemize}
-
-
-
 
 \chapter{Requirements and tools}
 
@@ -543,6 +545,11 @@ class descriptor_gaussian : virtual public descriptor
  
 
 \chapter{Conclusions}
+
+% Modification of results after presentation
+% Low python gui capabilities
+
+
 \begin{itemize}
 \item achieved results with regard to objectives of the thesis and requirements
 \item path of further development (eg functional extension …)
