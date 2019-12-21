@@ -408,8 +408,10 @@ by some entities to implement a check sum algorithm used for validation of authe
 of the data discovered by regular expressions could possibly reduce the amount of false positives. Such feature could be utilised by 
 individual user to further enhance accuracy in any case where identifing additional patterns, that escape regular expression domain, is possible.
 
-% A dictionary search could however prove useful in searching for specific keywords that could indicate a presence of searched
-% information. Such words like "login" or "password".
+While dictionary search does not seem to be a common part of Data Leakage Prevention Systems it might prove useful in achieving the goal of this thesis.
+The natural language messages processed by the developed program may contain keywords indicating presence of the desired data, which might have not been 
+detected by the initial regex search. Implementing a dictionary search which focuses on words like "password", "login" etc. could potentially increase the
+reliability of the solution. 
 
 \section{Modularity and Customisation}
 
@@ -547,6 +549,7 @@ class descriptor_gaussian : virtual public descriptor
 \chapter{Conclusions}
 
 % Modification of results after presentation
+% Point system forrating results
 % Low python gui capabilities
 
 
