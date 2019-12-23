@@ -1,2 +1,2 @@
 1. Add sources for the data types definitions
-2. 
+2. Czy można podać wikipedię za definicję.
