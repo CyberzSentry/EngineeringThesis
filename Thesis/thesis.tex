@@ -358,18 +358,18 @@ circumstances and enviroment.
 The project will primarily focus on finding nine categories of information:
 
 \begin{itemize}
-   \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication.
-   \item Personal identification numbers - tokes issued by countries to citizens for identification purposes, e.g., Social Security Number, PESEL. 
-   \item ID card numbers - serial numbers of phisical identification cards issued to country citizens.
-   \item MAC addresses - unique identifiers assigned to a network interface controller for use as a network address in communications within a network segment.
-   \item Domain names - an identification strings that define a realm of administrative autonomy, authority or control within the Internet. Domain names are used
-    in various networking contexts and for application-specific naming and addressing purposes.
-   \item Email addresses - identifiers of an email box to which email messages are delivered.
-   \item Passwords - secrets used to confirm the identity of a user.
-   \item Usernames - a unique sequence of characters used by a person with access to a computer, network, or online service.
-   \item Phone numbers - sequence of digits assigned to a fixed-line telephone subscriber station connected to a telephone line or to a wireless electronic telephony 
-   device, such as a radio telephone or a mobile telephone, or to other devices for data transmission via the public switched telephone network (PSTN) or other 
-   public and private networks.
+   \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
+   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and or Aliens\cite{bib:internetIdentityNumber}.
+   \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
+   name appears on it\cite{bib:internetID}. 
+   \item MAC addresses - unique identifier for an Ethernet or network adapter over a network. It distinguishes different network interfaces and is used for a number 
+   of network technologies, particularly most IEEE 802 networks, including Ethernet \cite{bib:internetMAC}.
+   \item Domain names - combinations of letters and numbers used in combination of the various domain name extensions, such as .com, .net to find and 
+   identify computers on the Internet\cite{bib:internetDomain}.
+   \item Email addresses - serieses of letters, numbers, and symbols used to send and receive email \cite{bib:internetEmail}.
+   \item Passwords - secret words or combinations of letters or numbers, used for communicating with another person or with a computer to prove who you are \cite{bib:internetPassword}.
+   \item Usernames - a unique sequence of characters used by a person with access to a computer, network, or online service \cite{bib:internetUsername}.
+   \item Phone numbers - numbers assigned to a telephone line for a specific phones or set of phones (as for a residence) that are used to call those phones \cite{bib:internetPhone}.
    \item Additional - data types specified and implemented by the users.
 \end{itemize}
 
@@ -423,7 +423,7 @@ In order to mitigate those problems a modular approach to the design of program 
 which of the stock implemented data types to search for as well as simplifying the augmentation of the program's scope.
 
 It is also crucial to take under consideration the fact that the structure of some data types can differ significantly between uses.
-An example of this is a personal identification number which may vary depending on issuing authority. Giving the user a accessible possibility to 
+An example of this is a personal identification number which may vary depending on issuing authority. Giving the user a easily accessible possibility to 
 adjust the regular expressions used in searching process as well as addictional check functions may increase the use cases of the solutions.
 
 \section{Result presentation}
@@ -431,13 +431,6 @@ adjust the regular expressions used in searching process as well as addictional 
 While the focus of this thesis is a program which focuses on finding some sensitive data, it might be useful to put a special emphasis on the
 presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
 to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
-
-% \begin{itemize}
-% \item  problem analysis
-% \item state of the art, problem statement
-% \item  literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference,bib:internet})
-% \item description of existing solutions (also scientific ones, if the problem is scientifically researched), algorithms,  location of the thesis in the scientific domain
-% \end{itemize}
 
 \chapter{Requirements and tools}
 
