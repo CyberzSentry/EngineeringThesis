@@ -432,14 +432,52 @@ While the focus of this thesis is a program which focuses on finding some sensit
 presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
 to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
 
+\section{Enviroment }
+
 \chapter{Requirements and tools}
 
+\section{Tools}
+In order to achieve the goal of this thesis following tools were used:
 \begin{itemize}
-\item functional and nonfunctional requirements
-\item use cases (UML diagrams)
-\item description of tools
-\item methodology of design and implementation
+   \item Visual Studio Code - a source-code editor developed by Microsoft for Windows, 
+   Linux and macOS. It's source code is free and open source and 
+   released under the permissive MIT License. It was used with a Python plugin which provides a rich support for the Python language , including 
+   features such as IntelliSense, linting, debugging, code navigation, code formatting, Jupyter notebook support, refactoring, variable explorer, 
+   test explorer, snippets, and more \cite{bib:internetVSC}\cite{bib:internetVSCLicence}.
+   \item Qt Designer - tool for designing and building graphical user interfaces (GUIs) with Qt Widgets. Allows for composing and customization 
+   of windows or dialogs in a what-you-see-is-what-you-get (WYSIWYG) manner, and testing of them using different styles and resolutions\cite{bib:internetQt}.
 \end{itemize} 
+\section{Technologies}
+Entire project is developed with use of following technologies:
+\begin{itemize}
+   \item Python 3.7.3 - an easy to learn, powerful programming language. It has efficient high-level data structures 
+   and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it 
+   an ideal language for scripting and rapid application development in many areas on most platforms.The Python interpreter and the extensive standard library 
+   are freely available in source or binary form for all major platforms from the Python Web site, https://www.python.org/, and may be freely distributed.   
+   The same site also contains distributions of and pointers to many free third party Python modules, programs and tools, and additional documentation \cite{bib:bookPython}.
+\end{itemize}
+\section{Functional requirements}
+
+The program designed in this thesis is supposed to:
+\begin{itemize}
+   \item Perform a regex search on natural language message sets.
+   \item Additionally check data found with regular expressions with false positives check function if one is available.
+   \item Perform dictionary search on natural language message sets.
+   \item Display the found data.
+   \item Allow for displaying of message context of found data.
+   \item Allow for implementation of custom searches.
+   \item Save to and load results from a output file.
+\end{itemize}
+
+\section{Nonfunctional requirements}
+
+
+% \begin{itemize}
+% \item functional and nonfunctional requirements
+% \item use cases (UML diagrams)
+% \item description of tools
+% \item methodology of design and implementation
+% \end{itemize} 
 
 
 \chapter{External specification}
@@ -450,7 +488,7 @@ to easily analyse the message and conversation context of found data could incre
 \item types of users
 \item user manual
 \item system administration
-\item security issues
+\item security issues % program is not safe!!!
 \item example of usage
 \item working scenarios (with screenshots or output files)
 \end{itemize}

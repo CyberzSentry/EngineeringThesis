@@ -1,2 +1,3 @@
 1. Add sources for the data types definitions
 2. Czy można podać wikipedię za definicję.
+3. Do extermal specification, że program jest niebezpieczny
