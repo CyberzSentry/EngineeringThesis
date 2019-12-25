@@ -2,7 +2,6 @@ import re
 import json
 import os
 from threading import Thread
-import time
 import shutil
 import importlib
 from importlib import machinery
