@@ -150,7 +150,7 @@ escapeinside={@*}{*@},%
 \newcommand{\Author}{Maksym Brzęczek}
 \newcommand{\Supervisor}{Błażej Adamczyk, DSc PhD}
 \newcommand{\Consultant}{Michał Kawulok, PhD}
-\newcommand{\Title}{Sensitive data extraction tool}
+\newcommand{\Title}{Design and implementation of natural language sensitive data extraction tool}
 \newcommand{\Polsl}{Silesian University of Technology}
 \newcommand{\Faculty}{Faculty of Automatic Control, Electronics and Computer Science}
 
@@ -432,15 +432,25 @@ While the focus of this thesis is a program which focuses on finding some sensit
 presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
 to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
 
-\section{Enviroment }
+\section{Enviroment independance}
+
+The typical user of the developed program might need to run it on multiple different operating systems. Administrators might require the program to run
+on Windows operating system while IT security specialists could possibly want to deploy it on a Kali Linux which is a Debian-based Linux distribution 
+aimed at advanced Penetration Testing and Security Auditing. Developing a program capable of runing regardless of the enviroment in which it is used would possibly
+allow for a bigger user base.
+
+\section{Input variability}
+
+The program is supposed to be capable of operating on manny different types of input like emails, Facebook messages, Slack messages etc. In order to 
+allow for that it may be necessary to design a arbitrary input format. A user would have to be required to transform initial data in their possession to 
+fit this predefined standard. 
 
 \chapter{Requirements and tools}
 
 \section{Tools}
 In order to achieve the goal of this thesis following tools were used:
 \begin{itemize}
-   \item Visual Studio Code - a source-code editor developed by Microsoft for Windows, 
-   Linux and macOS. It's source code is free and open source and 
+   \item Visual Studio Code - a source-code editor developed by Microsoft for Windows, Linux and macOS. It's source code is free and open source and 
    released under the permissive MIT License. It was used with a Python plugin which provides a rich support for the Python language , including 
    features such as IntelliSense, linting, debugging, code navigation, code formatting, Jupyter notebook support, refactoring, variable explorer, 
    test explorer, snippets, and more \cite{bib:internetVSC}\cite{bib:internetVSCLicence}.
@@ -452,13 +462,17 @@ Entire project is developed with use of following technologies:
 \begin{itemize}
    \item Python 3.7.3 - an easy to learn, powerful programming language. It has efficient high-level data structures 
    and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it 
-   an ideal language for scripting and rapid application development in many areas on most platforms.The Python interpreter and the extensive standard library 
-   are freely available in source or binary form for all major platforms from the Python Web site, https://www.python.org/, and may be freely distributed.   
-   The same site also contains distributions of and pointers to many free third party Python modules, programs and tools, and additional documentation \cite{bib:bookPython}.
+   an ideal language for scripting and rapid application development in many areas on most platforms\cite{bib:bookPython}. There are multiple arguments that support
+   choosing it as privary development language for the project. It has implemented modules for regular expression search and graphical user interface.
+   The scriptive nature of it makes it easy to create programs that are capable of runing in any operating system that has Pyhton interpreter installed.
+   \item JSON - a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a
+   subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition - December 1999. JSON is a text format that is completely language independent but
+   uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C\#, Java, JavaScript, Perl, Python, and many others. These
+   properties make JSON an ideal data-interchange language\cite{bib:internetJSON}.
 \end{itemize}
-\section{Functional requirements}
+\section{Requirements}
 
-The program designed in this thesis is supposed to:
+The program designed in this thesis is supposed to perform following tasks:
 \begin{itemize}
    \item Perform a regex search on natural language message sets.
    \item Additionally check data found with regular expressions with false positives check function if one is available.
@@ -469,9 +483,11 @@ The program designed in this thesis is supposed to:
    \item Save to and load results from a output file.
 \end{itemize}
 
-\section{Nonfunctional requirements}
+The program designed in this thesis is supposed to be capable of runing regardless of operating system.
 
+\section{Use cases}
 
+%%%%%%%%%%%%%%%%UML Diagrams%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{itemize}
 % \item functional and nonfunctional requirements
 % \item use cases (UML diagrams)
@@ -479,45 +495,85 @@ The program designed in this thesis is supposed to:
 % \item methodology of design and implementation
 % \end{itemize} 
 
-
 \chapter{External specification}
+% \begin{itemize}
+% \item hardware and software requirements
+% \item installation procedure
+% \item activation procedure
+% \item types of users
+% \item user manual
+% \item system administration
+% \item security issues % program is not safe!!!
+% \item example of usage
+% \item working scenarios (with screenshots or output files)
+% \end{itemize}
+
+\section{Requirements}
+For the program to work correctly, some software requirements have to be meet. It was developed with 
+Python and requires it's interpreter in version at least 3.7.3 to be installed. Additionally following Python packages
+have to be installed:
 \begin{itemize}
-\item hardware and software requirements
-\item installation procedure
-\item activation procedure
-\item types of users
-\item user manual
-\item system administration
-\item security issues % program is not safe!!!
-\item example of usage
-\item working scenarios (with screenshots or output files)
+   \item pyqt5 - used in GUI implementation.
+   \item json - utilised for data input and output.
+   \item os - used or enviroment related actions like proper joining of paths.
+   \item traceback - required for proper error presentation.
+   \item importlib - allows for dynamic loading of the additional check functions.
+   \item threading - implements Python multi-thread operations.
+   \item re - package for working with Python regular expressions.
 \end{itemize}
 
+Some of those are contained within standard Python installation and the rest can be obtained installed with package-management 
+system called pip. Example of installation script on Windows \ref{fig:windowsScript} and Linux \ref{fig:linuxScript} that fulfill 
+the above requirements.
+
 \begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    y tick label style={
-        /pgf/number format/.cd,
-            fixed,   
-            fixed zerofill, % 1.0 instead of 1
-            precision=1,
-        /tikz/.cd
-    },
-    x tick label style={
-        /pgf/number format/.cd,
-            fixed,
-            fixed zerofill,
-            precision=2,
-        /tikz/.cd
-    }
-]
-\addplot [domain=0.0:0.1] {rnd};
-\end{axis} 
-\end{tikzpicture}
-\caption{A caption of a figure is \textbf{below} it.}
-\label{fig:2}
+   \centering
+   \begin{lstlisting}
+   python -m pip install pyqt5
+   \end{lstlisting}
+   \caption{Windows installation script}
+   \label{fig:windowsScript}
 \end{figure}
+
+\begin{figure}
+   \centering
+   \begin{lstlisting}
+      !/bin/bash
+      python -m pip install pyqt5
+   \end{lstlisting}
+   \caption{Linux installation script}
+   \label{fig:linuxScript}
+\end{figure}
+
+\section{User manual}
+
+\section{}
+
+% \begin{figure}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     y tick label style={
+%         /pgf/number format/.cd,
+%             fixed,   
+%             fixed zerofill, % 1.0 instead of 1
+%             precision=1,
+%         /tikz/.cd
+%     },
+%     x tick label style={
+%         /pgf/number format/.cd,
+%             fixed,
+%             fixed zerofill,
+%             precision=2,
+%         /tikz/.cd
+%     }
+% ]
+% \addplot [domain=0.0:0.1] {rnd};
+% \end{axis} 
+% \end{tikzpicture}
+% \caption{A caption of a figure is \textbf{below} it.}
+% \label{fig:2}
+% \end{figure}
 
 
 \chapter{Internal specification}

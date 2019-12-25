@@ -1,3 +1,5 @@
 1. Add sources for the data types definitions
 2. Czy można podać wikipedię za definicję.
 3. Do extermal specification, że program jest niebezpieczny
+4. Wnoiski: Testy tego czy użytkowniczy są w stanie przystosowywać format 
+5. Sprawdzić czy skrypty instalacyjne działają.
