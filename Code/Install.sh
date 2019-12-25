@@ -1,2 +1,2 @@
-!/bin/bash
-python -m pip install pyqt5
+#!/bin/bash
+sudo pip3 install PyQt5
