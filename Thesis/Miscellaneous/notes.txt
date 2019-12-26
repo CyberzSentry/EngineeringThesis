@@ -1,5 +1,11 @@
 1. Add sources for the data types definitions
 2. Czy można podać wikipedię za definicję.
 3. Do extermal specification, że program jest niebezpieczny
-4. Wnoiski: Testy tego czy użytkowniczy są w stanie przystosowywać format 
+4. Wnoiski: Testy tego czy użytkowniczy są w stanie przystosowywać format inputu
 5. Sprawdzić czy skrypty instalacyjne działają.
+6. Wnioski: Escapowanie regexów może być trudne. Zasstanowić się nad inną formą przechowywania niż json, lub edytorem.
+7. Wyłączyć funkcje debugowania przed oddaniem programu
+8. Wnioski: Spliting the search on multiple threads to increase efficiency
+9. Wnioski: dodać ilość odnalezionych danych.
+10. Opisać wszystkie regexy użyte w testowaniu.
+11. Krzyżowe sprawdzanie znalezionych danych. Wyniki powtarzające się między kategoriami.

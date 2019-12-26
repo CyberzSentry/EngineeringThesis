@@ -434,7 +434,7 @@ to easily analyse the message and conversation context of found data could incre
 
 \section{Enviroment independance}
 
-The typical user of the developed program might need to run it on multiple different operating systems. Administrators might require the program to run
+The typical user of the developed program might need to run it on multiple different operating systems (OS). Administrators might require the program to run
 on Windows operating system while IT security specialists could possibly want to deploy it on a Kali Linux which is a Debian-based Linux distribution 
 aimed at advanced Penetration Testing and Security Auditing. Developing a program capable of runing regardless of the enviroment in which it is used would possibly
 allow for a bigger user base.
@@ -454,7 +454,7 @@ In order to achieve the goal of this thesis following tools were used:
    released under the permissive MIT License. It was used with a Python plugin which provides a rich support for the Python language , including 
    features such as IntelliSense, linting, debugging, code navigation, code formatting, Jupyter notebook support, refactoring, variable explorer, 
    test explorer, snippets, and more \cite{bib:internetVSC}\cite{bib:internetVSCLicence}.
-   \item Qt Designer - tool for designing and building graphical user interfaces (GUIs) with Qt Widgets. Allows for composing and customization 
+   \item Qt Designer - tool for designing and building graphical user interfaces (GUI) with Qt Widgets. Allows for composing and customization 
    of windows or dialogs in a what-you-see-is-what-you-get (WYSIWYG) manner, and testing of them using different styles and resolutions\cite{bib:internetQt}.
 \end{itemize} 
 \section{Technologies}
@@ -470,6 +470,7 @@ Entire project is developed with use of following technologies:
    uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C\#, Java, JavaScript, Perl, Python, and many others. These
    properties make JSON an ideal data-interchange language\cite{bib:internetJSON}.
 \end{itemize}
+
 \section{Requirements}
 
 The program designed in this thesis is supposed to perform following tasks:
@@ -485,7 +486,7 @@ The program designed in this thesis is supposed to perform following tasks:
 
 The program designed in this thesis is supposed to be capable of runing regardless of operating system.
 
-\section{Use cases}
+% \section{Use cases}
 
 %%%%%%%%%%%%%%%%UML Diagrams%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{itemize}
@@ -503,28 +504,23 @@ The program designed in this thesis is supposed to be capable of runing regardle
 % \item types of users
 % \item user manual
 % \item system administration
-% \item security issues % program is not safe!!!
 % \item example of usage
 % \item working scenarios (with screenshots or output files)
 % \end{itemize}
 
-\section{Requirements}
+\section{Requirements and installation}
+
+The project consists of files "program.py" contained in the main program directory and
+"codeLib.py", "core.py", "regexLib.json" stored in "src" subdirectory. All of them are 
+required for the proper operation of the program.
+
 For the program to work correctly, some software requirements have to be meet. It was developed with 
-Python and requires it's interpreter in version at least 3.7.3 to be installed. Additionally following Python packages
-have to be installed:
-\begin{itemize}
-   \item pyqt5 - used in GUI implementation.
-   \item json - utilised for data input and output.
-   \item os - used or enviroment related actions like proper joining of paths.
-   \item traceback - required for proper error presentation.
-   \item importlib - allows for dynamic loading of the additional check functions.
-   \item threading - implements Python multi-thread operations.
-   \item re - package for working with Python regular expressions.
-\end{itemize}
+Python and requires it's interpreter in version at least 3.7.3 to be installed. Additionally a package called PyQt5 has 
+to be installed in the Python interpreter library.
 
 Some of those are contained within standard Python installation and the rest can be obtained installed with package-management 
-system called pip. Example of installation script on Windows \ref{fig:windowsScript} and Linux \ref{fig:linuxScript} that fulfill 
-the above requirements.
+system called pip. Example of installation script that fulfill the above requirements can be found
+in figure \ref{fig:windowsScript} for Windows and figure \ref{fig:linuxScript} for Linux.
 
 \begin{figure}
    \centering
@@ -538,97 +534,219 @@ the above requirements.
 \begin{figure}
    \centering
    \begin{lstlisting}
-      !/bin/bash
-      python -m pip install pyqt5
+   #!/bin/bash
+   sudo pip3 install PyQt5
    \end{lstlisting}
    \caption{Linux installation script}
    \label{fig:linuxScript}
 \end{figure}
 
-\section{User manual}
+The solution was not tested from the hardware requirements point of view however 
+during development it was deployed on a computer with following specifications:
 
-\section{}
+\begin{itemize}
+   \item Intel Core i5-6300HQ CPU 2.30 GHz
+   \item 8GBytes DDR4 RAM
+   \item Samsung SSD 860 EVO M.2 500GB
+\end{itemize}
 
-% \begin{figure}
-% \centering
-% \begin{tikzpicture}
-% \begin{axis}[
-%     y tick label style={
-%         /pgf/number format/.cd,
-%             fixed,   
-%             fixed zerofill, % 1.0 instead of 1
-%             precision=1,
-%         /tikz/.cd
-%     },
-%     x tick label style={
-%         /pgf/number format/.cd,
-%             fixed,
-%             fixed zerofill,
-%             precision=2,
-%         /tikz/.cd
-%     }
-% ]
-% \addplot [domain=0.0:0.1] {rnd};
-% \end{axis} 
-% \end{tikzpicture}
-% \caption{A caption of a figure is \textbf{below} it.}
-% \label{fig:2}
-% \end{figure}
+\section{User manual and usage examples}
 
+The program requires preparing of the input data in a JSON file containing
+a array of objects composed of two key-value pairs. Key "id" needs to be 
+suppied with unique id value for each object. Key "content" is supposed to be 
+paired with message text, this value will be processed in the search operation 
+of the program. Example proper input file is presented in figure \ref{fig:inputFormat}.
+
+\begin{figure}
+   \centering
+   \begin{lstlisting}
+   {
+      messages:
+      [
+         {
+            "id":"<unique_id>",
+            "content":"<message_content>"
+         },...
+      ]
+   }
+   \end{lstlisting}
+   \caption{Format of the input JSON file}
+   \label{fig:inputFormat}
+\end{figure}
+
+Configuration of the program is done partialy with two files contained in it's
+file structure. The "regexLib.json" contains the regular expression of a given
+data type and a optional name of the method used to to perform additional 
+validation. This JSON file is structured in a following maner. It contains
+three objects marqued with arbitrary keys: "main", "additional", "dictionary".
+These represent categories used for different types of search and contain
+objects consisting of two key-string pairs. The "regex" key represents regular
+expression utilised in the primary search and "code" contains name of the method 
+used for additional validity check. The "code" key can be paired with an empty string
+if no additional check is required.
+
+The "main" category contains data types marked by following keys:
+
+\begin{itemize}
+   \item "ip\_v4" - IP version 4.
+   \item "ip\_v6" - IP version 6.
+   \item "socialsec" - personal identity numbers.
+   \item "id\_number" - ID card numbers.
+   \item "mac" - MAC addresses.
+   \item "domain" - Domain names.
+   \item "email" - Email addresses.
+   \item "password" - Passwords.
+   \item "login" - Usernames.
+   \item "phone\_number" - Phone numbers.
+\end{itemize} 
+
+The "additional" object can be filled with any data type desired by the user as long 
+as it follows convention from the main category. The keys of each of those objects can have any value and represent the names of categories
+specified by the customers.
+
+Finally the "dictionary" object is contains regular expressions of words that are supposed to be matched with dictionary search. Each object in this category 
+is composed of a single key-value pair. It's key is "regex" and value is the regular expression used in the program. 
+
+When creating regular expressions for the "regexLib.json" files it is important to remember the restrictions of the 
+JSON format. Some characters in json format might require escaping characters or  representing them in UTF-8 notation.
+
+The example "regexLib.json" file can be found in the Listings part of the appendix.
+
+The "codeLib.py" file is intended to contain methods for additional validation. The methods are supposed
+to be writen in Python 3, accept two parameters and return either "True" if the validation was succesfull
+or "False" if not. First parameter is a string containing the data discovered by the regular expression and
+the second is the full content of the message in which it was found.
+
+The example "codeLib.py" file can be found in the Listings part of the appendix.
+
+Starting of the program can be done by runing the "program.py" file with Python interpreter. The proper command
+might differ depending on the operating system. Example commands run on a Windows OS from the project directory
+can be found in figure \ref{fig:startCommand}.
+
+\begin{figure}
+   \centering
+   \begin{lstlisting}
+   C:\Projects\Thesis\Code> python .\program.py
+   \end{lstlisting}
+   \caption{Command for starting the program}
+   \label{fig:startCommand}
+\end{figure}
+
+The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
+the desired job. It features three text inputs that allow for specifing files used durring program execution.
+
+\begin{itemize}
+   \item Input path - specifies location of the input file. It is obligatory for the program execution.
+   \item Output path - provides the output location used for saving the results of program execution. 
+   If left empty, the program appends the input path with "\_output" suffix. 
+   \item Dictionary path - points to the dictionary file. The proper format of a dictionary
+   is a txt file filled with all lower case words, separated with new line characters. This path is required
+   Only in case of performing a dictionary search.
+\end{itemize}
+
+The settings tab allows also to specify what types of data to search for with checkboxes labeled:
+
+\begin{itemize}
+   \item IP v4
+   \item IP v6
+   \item Social Sec node
+   \item ID no.
+   \item MAC
+   \item Domainds
+   \item Emails
+   \item Passwords
+   \item Logins
+   \item Phone no.
+   \item Dictionary
+   \item Additional
+\end{itemize}
+
+Uppon specifing the desired data types and required file paths the user can start and stop the search process
+with buttons labeled respectively "start" and "stop".
+
+Uppon complition of the programs work results are presented in the "Results" tab. It consists of three columns used for
+navigation of the results: 
+\begin{itemize}
+   \item Category - allows for specification of the search category to browse. Clicking on a given category loads
+   the results column.
+   \item Results - allows to browse the found results in a given category. Clicking on a given result loads the 
+   occurance column.
+   \item Occurance - allows to browse the id's of messages in which the result was found. Clicking on a given id
+   opens the preview window with the content of the specified message.
+\end{itemize}
+
+The goal of the preview window is to inspect the context of a found information. It consists of a central part 
+displaying the content of a message and "Previous" and "Next" buttons used for navigation of the messages stored
+in the input file, relative to the currently presented message.
+
+It is also possible to load a previously generated output file with the "Open output" option from the
+"File" menu located in upper left corner of the main window.
+
+\section{Security}
+
+While the focus of the program is providing additional cyber security and data safety, it's 
+improper use could result in security issues. The core of the solution implements
+dynamic importing of Python code which under some conditions could be used with malicious
+intent for purposes like privilege escalation. It is important to use the program 
+responsibly. Proper approach should contain at least restraining from executing
+the program as administrative users. It is additionally recomended to be aware of the 
+functions stored in src/codeLib.py and of the results of their execution. 
 
 \chapter{Internal specification}
 
+% \begin{itemize}
+% \item concept of the system
+% \item system architecture
+% \item description of data structures (and data bases)
+% \item components, modules, libraries, resume of important classes (if used)
+% \item resume of important algorithms (if used)
+% \item details of implementation of selected parts
+% \item applied design patterns
+% \item UML diagrams
+% \end{itemize}
+
+
+\section{System architecture}
+
+The system consists of two parts, one responsible for graphical user interface and other for
+performing the goal of the program. The GUI is implemented in two classes called "Ui\_window" used for the main window of the program and "Ui\_PreviewDialog" responsible for displaying 
+the message context preview. The logic of the system is implemented in classes "Parser" and "Core". The first one is used to retrive individual messages from the input file while the second
+processes them in search desired data. Unified modeling language (UML) diagram presenting the individual classes and connections between them can be found in the figure %%%%%%%UML  
+
+Custom implemented classes utilise following Python packages to perform their tasks: 
+
 \begin{itemize}
-\item concept of the system
-\item system architecture
-\item description of data structures (and data bases)
-\item components, modules, libraries, resume of important classes (if used)
-\item resume of important algorithms (if used)
-\item details of implementation of selected parts
-\item applied design patterns
-\item UML diagrams
+   \item PyQt5 - used in GUI implementation.
+   \item json - utilised for data input and output.
+   \item os - used or enviroment related actions like proper joining of paths.
+   \item traceback - required for proper error presentation.
+   \item importlib - allows for dynamic loading of the additional check functions.
+   \item threading - implements Python multi-thread operations.
+   \item re - package for working with Python regular expressions.
 \end{itemize}
 
+\section{Algorithms}
 
-Use special environment for inline code, eg \lstinline|descriptor| or \lstinline|descriptor_gaussian|. 
-Longer parts of code put in the figure environment, eg. code in Fig. \ref{fig:pseudokod}. Very long listings–move to an appendix.
-
-\begin{figure}
-\centering
-\begin{lstlisting}
-class descriptor_gaussian : virtual public descriptor
-{
-   protected:
-      /** core of the   set */
-      double _mean;
-      /** fuzzyfication of the gaussian fuzzy set */
-      double _stddev;
-      
-   public:
-      /** @param mean core of the set
-          @param stddev standard deviation */
-      descriptor_gaussian (double mean, double stddev);
-      descriptor_gaussian (const descriptor_gaussian & w);
-      virtual ~descriptor_gaussian();
-      virtual descriptor * clone () const;
-      
-      /** The method elaborates membership to the gaussian fuzzy set. */
-      virtual double getMembership (double x) const;
-     
-};
-\end{lstlisting}
-\caption{The \lstinline|descriptor_gaussian| class.}
-\label{fig:pseudokod}
-\end{figure}
-
+The algorithm taking on the main workload of the solution is a regular expression search. In the regular expression recognition technique each character in the text to be searched is examined in sequence against a 
+list of all possible current characters. During this examination a new list of all possible next characters is built. When the end of the current list is reached, the new list becomes the current list, the next 
+character is obtained, and the process continues. This algorithm continually takes the left derivative of the given regular expression with respect to the text to be searched. The parallel nature of this algorithm 
+makes it extremely fast \cite{bib:articleRE}. This solution utilises a Python module that provides regular expression matching operations.
 
 \chapter{Verification and validation}
-\begin{itemize}
-\item testing paradigm (eg V model)
-\item test cases, testing scope (full / partial)
-\item detected and fixed bugs
-\item results of experiments (optional)
-\end{itemize}
+
+\section{Data source}
+Data used in the testing of the program was sourced from a real life Facebook account. The history of communication through the platform was downloaded and adapted to the input format with a python script.
+The messages were divided into batches of sizes 1000, 2000, 5000, 10000, 20000, 50000, 100000, 227360. The script used for the preparation of data can be found in the Listings section of the appendix.
+
+\section{Testing methodology}
+
+% \begin{itemize}
+% \item testing paradigm (eg V model)
+% \item test cases, testing scope (full / partial)
+% \item detected and fixed bugs
+% \item results of experiments (optional)
+% \end{itemize}
 
  
  
@@ -640,11 +758,11 @@ class descriptor_gaussian : virtual public descriptor
 % Low python gui capabilities
 
 
-\begin{itemize}
-\item achieved results with regard to objectives of the thesis and requirements
-\item path of further development (eg functional extension …)
-\item encountered difficulties and problems
-\end{itemize}
+% \begin{itemize}
+% \item achieved results with regard to objectives of the thesis and requirements
+% \item path of further development (eg functional extension …)
+% \item encountered difficulties and problems
+% \end{itemize}
 
  
 \begin{table}
@@ -701,96 +819,158 @@ class descriptor_gaussian : virtual public descriptor
 \chapter*{List of abbreviations and symbols}
 
 \begin{itemize}
-\item[DNA] deoxyribonucleic acid
-\item[MVC] model--view--controller 
-\item[$N$] cardinality of data set
-\item[$\mu$] membership function of a fuzzy set
-\item[$\mathbb{E}$] set of edges of a graph
-\item[$\mathcal{L}$] Laplace transformation
+\item[OS] operating system
+\item[regex] regular expression
+\item[GUI] Graphical user interface
+\item[UML] Unified modeling language 
+% \item[$N$] cardinality of data set
+% \item[$\mu$] membership function of a fuzzy set
+% \item[$\mathbb{E}$] set of edges of a graph
+% \item[$\mathcal{L}$] Laplace transformation
 \end{itemize}
 
 
 \chapter*{Listings}
 
-(Put long listings in the appendix.)
+   
+Example of a "regexLib.json" file:
 
 \begin{lstlisting}
-partition fcm_possibilistic::doPartition
-                             (const dataset & ds)
 {
-   try
-   {
-      if (_nClusters < 1)
-         throw std::string ("unknown number of clusters");
-      if (_nIterations < 1 and _epsilon < 0)
-         throw std::string ("You should set a maximal number of iteration or minimal difference -- epsilon.");
-      if (_nIterations > 0 and _epsilon > 0)
-         throw std::string ("Both number of iterations and minimal epsilon set -- you should set either number of iterations or minimal epsilon.");
-   
-      auto mX = ds.getMatrix();
-      std::size_t nAttr = ds.getNumberOfAttributes();
-      std::size_t nX    = ds.getNumberOfData();
-      std::vector<std::vector<double>> mV;
-      mU = std::vector<std::vector<double>> (_nClusters);
-      for (auto & u : mU)
-         u = std::vector<double> (nX);
-      randomise(mU);
-      normaliseByColumns(mU);
-      calculateEtas(_nClusters, nX, ds);
-      if (_nIterations > 0)
-      {
-         for (int iter = 0; iter < _nIterations; iter++)
-         {
-            mV = calculateClusterCentres(mU, mX);
-            mU = modifyPartitionMatrix (mV, mX);
+   "main":{
+         "ip_v4": {
+            "regex":"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+            "code":""
+         },
+         "ip_v6": {
+            "regex":"(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}",
+            "code":""
+         },
+         "socialsec":{
+            "regex":"(?:\\s|\\A)[0-9]{11}(?:\\s|\\Z)"
+            ,"code":"pesel"
+         },
+         "id_number":{
+            "regex":"[A-Za-z]{3}[ ]*[0-9]{6}",
+            "code":"idnum"
+         },
+         "mac":{
+            "regex":"([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})",
+            "code":""
+         },
+         "domain":{
+            "regex":"[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\\.[a-zA-Z]{2,}",
+            "code":""
+         },
+         "email":{
+            "regex":"(?:\\s|\\A|:|-)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
+            "code":""
+         },
+         "password":{
+            "regex":"(?:\\s|\\A)\\S{8,32}(?:\\s|\\Z)",
+            "code":"passwd"
+         },
+         "login":{
+            "regex":"",
+            "code":""
+         },
+         "phone_number":{
+            "regex":"(?:\\s|\\A|:|-)(?:[0-9]{2} ?[0-9]{3} ?(?:[0-9]{2} ?){2}|(?:[0-9]{3}[ ]?){2}[0-9]{3})(?:\\s|\\Z)",
+            "code":""
          }
-      }
-      else if (_epsilon > 0)
-      {
-         double frob;
-         do 
-         {
-            mV = calculateClusterCentres(mU, mX);
-            auto mUnew = modifyPartitionMatrix (mV, mX);
-            
-            frob = Frobenius_norm_of_difference (mU, mUnew);
-            mU = mUnew;
-         } while (frob > _epsilon);
-      }
-      mV = calculateClusterCentres(mU, mX);
-      std::vector<std::vector<double>> mS = calculateClusterFuzzification(mU, mV, mX);
-      
-      partition part;
-      for (int c = 0; c < _nClusters; c++)
-      {
-         cluster cl; 
-         for (std::size_t a = 0; a < nAttr; a++)
-         {
-            descriptor_gaussian d (mV[c][a], mS[c][a]);
-            cl.addDescriptor(d);
+   },
+   "additional":{
+         "l":{
+            "regex": "[\u0142]{1}",
+            "code": ""
+         },
+         "\u0119":{
+            "regex": "\u0119",
+            "code": ""
          }
-         part.addCluster(cl);
-      }
-      return part;
+   },
+   "dictionary":{
+         "dictionary": {
+            "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
+         }
    }
-   catch (my_exception & ex)                                  
-   {                                                       
-      throw my_exception (__FILE__, __FUNCTION__, __LINE__, ex.what()); 
-   }                                                          
-   catch (std::exception & ex)                                 
-   {                                                            
-      throw my_exceptionn (__FILE__, __FUNCTION__, __LINE__, ex.what()); 
-   }                                                            
-   catch (std::string & ex)                                     
-   {                                                            
-      throw  (__FILE__, __FUNCTION__, __LINE__, ex);        
-   }                                                             
-   catch (...)                                                   
-   {                                                             
-      throw my_exception (__FILE__, __FUNCTION__, __LINE__, "unknown expection");       
-   }  
 }
-\end{lstlisting} 
+\end{lstlisting}
+
+Example of a "codeLib.py" file:
+
+\begin{lstlisting}
+def pesel(snip, content):
+   snip = snip[1:-1]
+   weight = [9, 7, 3, 1, 9, 7, 3, 1, 9, 7]
+   checksum = (int(snip[0]) * weight[0]) + (int(snip[1]) * weight[1]) + (int(snip[2]) * weight[2]) + (int(snip[3]) * weight[3])+ (int(snip[4]) * weight[4]) + \
+       (int(snip[5]) * weight[5]) + (int(snip[6]) * weight[6]) + (int(snip[7]) * weight[7]) + (int(snip[8]) * weight[8]) + (int(snip[9]) * weight[9])
+
+   if checksum%10 == int(snip[-1]):
+       return True
+   else:
+       return False
+
+def idnum(snip, content):
+   weight = [7, 3, 1, 0, 7, 3, 1, 7, 3]
+   key = {"A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15, "G": 16, "H": 17, "I": 18, "J": 19, "K": 20, "L": 21, "M": 22, \
+       "N": 23, "O": 24, "P": 25, "Q": 26, "R": 27, "S": 28, "T": 29, "U": 30, "V": 31, "W": 32, "X": 33, "Y": 34, "Z": 35}
+
+   snip_ready = snip.replace(" ", "").upper()
+   checksum = (key[snip_ready[0]] * weight[0]) + (key[snip_ready[1]] * weight[1]) + (key[snip_ready[2]] * weight[2]) + (int(snip_ready[3]) * weight[3]) + \
+       (int(snip_ready[4]) * weight[4]) + (int(snip_ready[5]) * weight[5]) + (int(snip_ready[6]) * weight[6]) + (int(snip_ready[7]) * weight[7]) + (int(snip_ready[8]) * weight[8])
+
+   if checksum%10 == int(snip_ready[3]):
+       return True
+   else:
+       return False
+
+def passwd(snip, content):
+   specialChars = "!@#$%^&*()_+-={}[];:\"'\\|<>?,./"
+   nums = "0123456789"
+   uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+   lowers = "abcdefghijklmnopqrstuvwxyz"
+   containsSpecial = False
+   containsNum = False
+   containsChars = False
+   containsLow = False
+   containsUpper = False
+
+   for num in nums:
+       if num in snip:
+           containsNum = True
+           break
+
+   if not containsNum:
+       return False
+
+   for char in specialChars:
+       if char in snip:
+           containsSpecial = True
+           break
+   
+   if not containsSpecial:
+       return False
+   
+   for low in lowers:
+       if low in snip:
+           containsLow = True
+           break
+
+   if not containsLow:
+       return False
+
+   for up in uppers:
+       if up in snip:
+           containsUpper = True
+           break
+
+   if not containsUpper:
+       return False
+   else:
+       return True
+   
+\end{lstlisting}
 
 \chapter*{Contents of attached CD}
 
