@@ -22,6 +22,7 @@
 \usepackage{mathtools}
 \usepackage{geometry}
 \usepackage[page]{appendix} 
+\usepackage{float}
 
 \usepackage{setspace}
 \onehalfspacing
@@ -360,6 +361,7 @@ The project will primarily focus on finding nine categories of information:
 \begin{itemize}
    \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
    \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and or Aliens\cite{bib:internetIdentityNumber}.
+   In this thesis it is frequently refered to as social security number.
    \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
    name appears on it\cite{bib:internetID}. 
    \item MAC addresses - unique identifier for an Ethernet or network adapter over a network. It distinguishes different network interfaces and is used for a number 
@@ -650,10 +652,10 @@ The settings tab allows also to specify what types of data to search for with ch
 \begin{itemize}
    \item IP v4
    \item IP v6
-   \item Social Sec node
+   \item Social Sec no
    \item ID no.
    \item MAC
-   \item Domainds
+   \item Domains
    \item Emails
    \item Passwords
    \item Logins
@@ -712,7 +714,7 @@ functions stored in src/codeLib.py and of the results of their execution.
 The system consists of two parts, one responsible for graphical user interface and other for
 performing the goal of the program. The GUI is implemented in two classes called "Ui\_window" used for the main window of the program and "Ui\_PreviewDialog" responsible for displaying 
 the message context preview. The logic of the system is implemented in classes "Parser" and "Core". The first one is used to retrive individual messages from the input file while the second
-processes them in search desired data. Unified modeling language (UML) diagram presenting the individual classes and connections between them can be found in the figure %%%%%%%UML  
+processes them in search desired data. Additionally a "Signal" class is used to pass messages from the "Core" to the GUI classes. Unified modeling language (UML) diagram presenting the individual classes and connections between them can be found in the figure %%%%%%%UML  
 
 Custom implemented classes utilise following Python packages to perform their tasks: 
 
@@ -736,20 +738,165 @@ makes it extremely fast \cite{bib:articleRE}. This solution utilises a Python mo
 \chapter{Verification and validation}
 
 \section{Data source}
+
 Data used in the testing of the program was sourced from a real life Facebook account. The history of communication through the platform was downloaded and adapted to the input format with a python script.
 The messages were divided into batches of sizes 1000, 2000, 5000, 10000, 20000, 50000, 100000, 227360. The script used for the preparation of data can be found in the Listings section of the appendix.
+The owner of the data was of a Polish nationality which had to be taken under consideration during the program execution. Due to the personal nature of the data set it had to be 
+redacted and is not a part of this thesis.
 
 \section{Testing methodology}
 
-% \begin{itemize}
-% \item testing paradigm (eg V model)
-% \item test cases, testing scope (full / partial)
-% \item detected and fixed bugs
-% \item results of experiments (optional)
-% \end{itemize}
+The entirety of testing was done manualy on a single data set. The effectiveness was tested on a 50000 sample and
+the efficiency tests were performed on 227360 message set.
 
- 
- 
+While a context analysis was performed to check if found results are not false positives, it is uncertain if and how manny
+positive results were omitted due to the data format unforeseen in regular expression implementation. 
+
+Following regexes were used durring the testing: 
+
+\begin{itemize}
+   \item IP v4 - "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\textbackslash .)\{3\}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+   \item IP v6 - "(?:[0-9a-fA-F]\{1,4\}:)\{7\}[0-9a-fA-F]\{1,4\}"
+   \item Social Sec no. - "(?:\textbackslash s|\textbackslash A)[0-9]\{11\}(?:\textbackslash s|\textbackslash Z)"
+   \item ID no. - "[A-Za-z]\{3\}[ ]*[0-9]\{6\}"
+   \item MAC - "([0-9A-Fa-f]{2}[:-])\{5\}([0-9A-Fa-f]\{2\})"
+   \item Domains - "[a-zA-Z0-9][a-zA-Z0-9-]\{1,61\}[a-zA-Z0-9]\textbackslash .[a-zA-Z]\{2,\}"
+   \item Emails - "(?:\textbackslash s|\textbackslash A|:|-)([a-zA-Z0-9\_.+-]+@[a-zA-Z0-9-]+\textbackslash .[a-zA-Z0-9-.]+)"
+   \item Passwords - "(?:\textbackslash s|\textbackslash A)\textbackslash S\{8,32\}(?:\textbackslash s|\textbackslash Z)"
+   \item Logins - "(?:\textbackslash s|\textbackslash A)[a-zA-Z0-9]\{3,7\}(?:\textbackslash s|\textbackslash Z)"
+   \item Phone no. - "(?:\textbackslash s|\textbackslash A|:|-)(?:[0-9]\{2\} ?[0-9]\{3\} ?(?:[0-9]\{2\} ?)\{2\}|(?:[0-9]\{3\}[ ]?)\{2\}[0-9]\{3\})(?:\textbackslash s|\textbackslash Z)"
+   \item Dictionary - "[0-9a-zA-Zł]\{4,8\}"
+\end{itemize}
+
+Their preparation was partialy bassed on the regional information of the data owner like a common structure of phone numbers, format of the social security number in the
+country of orgin, etc. Some of them remain true to the international standards like the one used for email addresses. Third group was designed solely from guesses and
+some vague standards. This set consists of password and login regular expressions.
+
+Additional check algorithms were implemented for following data types:
+
+\begin{itemize}
+   \item Passwords - checks if found word contains a special character, a numerical, a capital letter and a small letter et the same time
+   \item Login - checks if found word contains a letter and a number
+   \item Social Sec no. - calculates the check number implemented in polish PESEL and checks it's validity.
+   \item ID no. - calculates the check number implemented in polish ID number and checks it's validity.
+\end{itemize}
+
+The password and login searches are mutually exclusive based on the length of the found string but follow the same
+check rules.
+
+Dictionary used in search process consisted of eight keywords presented in figure \ref{fig:dictionary}. 
+Some of the words used are translations of the ones originating in english to polish. Their focus was on discovering
+additional data in following categories: Emails, Logins, Passwords.
+
+\begin{figure}
+   \centering
+   \begin{lstlisting}
+   login
+   haslo
+   has\u0142o
+   password
+   pass
+   username
+   email
+   mail
+   \end{lstlisting}
+   \caption{Testing dictionary}
+   \label{fig:dictionary}
+\end{figure}
+
+The additional search was not tested outside of a basic check of proper execution because it's use is completely dependent on the user.
+
+\section{Results}
+
+The results of running all the search categories on a 50000 messages sample are presented in table \ref{id:tab:wyniki}.
+Additional analysis of the result showed that multiple found domains were actually subparts of a single
+domain. It also happened that discovered domains were actually parts of a email addersses. In those cases
+they were rejected as false positives however when they led to an email as well as domain they 
+were considered valid results. 
+
+\begin{table}
+   \centering
+   \caption{Results of the execution on test data}
+   \label{id:tab:wyniki}
+   \begin{tabular}{rrrr}
+   \toprule
+      Category       &   Found &   False positives & Positives \\
+      IP v4          &      15 &                 1 &        14 \\
+      IP v6          &       0 &                 0 &         0 \\
+      Social Sec no. &       1 &                 0 &         1 \\
+      ID no.         &       6 &                 2 &         4 \\
+      MAC            &       0 &                 0 &         0 \\
+      Domains        &     516 &                58 &       458 \\
+      Emails         &      25 &                 0 &        25 \\
+      Passwords      &     105 &               100 &         5 \\
+      Logins         &     144 &               143 &         1 \\
+      Phone no.      &      41 &                 0 &        41 \\
+   \bottomrule
+   \end{tabular}
+   \end{table}  
+
+The analysis of the dictionary keyword search allowed to identify additional data in some categories. The results can be found in table \ref{id:tab:wynikiDictionary}
+
+\begin{table}
+   \centering
+   \caption{Dictionary search additional discoveries}
+   \label{id:tab:wynikiDictionary}
+   \begin{tabular}{rr}
+   \toprule
+      Category       &   Additional result \\
+      Emails         &                   0 \\
+      Passwords      &                   4 \\
+      Logins         &                   3 \\
+   \bottomrule
+   \end{tabular}
+   \end{table} 
+
+Efficiency of additional checks is presented in table \ref{id:tab:wynikiNoCheck}. Due to the large amount of potential passwords and logins
+found in the unchecked search the number of false positives is unknown. Manual context check of this amount of data proved imposible in this 
+thesis.
+
+\begin{table}
+   \centering
+   \caption{Influence of additional check}
+   \label{id:tab:wynikiNoCheck}
+   \begin{tabular}{rrrrrrr}
+   \toprule
+                     &           \multicolumn{3}{c}{Additional check}    &    \multicolumn{3}{c}{No check}\\
+                                 \cmidrule(r){2-4}                            \cmidrule(r){5-7}
+      Category       &   Found &   False positives & Positives &   Found &   False positives & Positives \\
+      Social Sec no. &       1 &                 0 &         1 &       2 &                 1 &         1 \\
+      ID no.         &       6 &                 2 &         4 &      18 &                16 &         4 \\
+      Passwords      &     105 &               100 &         5 &   25748 &              unk. &      unk. \\
+      Logins         &     144 &               143 &         1 &   15634 &              unk. &      unk. \\
+   \bottomrule
+   \end{tabular}
+   \end{table} 
+
+
+The timespan of the program execution on a 227360 samples data set can be found in table \ref{id:tab:wynikiTime}.
+
+\begin{table}
+   \centering
+   \caption{Timespan of execution}
+   \label{id:tab:wynikiTime}
+   \begin{tabular}{rr}
+   \toprule
+      Category       &  Time in seconds \\
+      IP v4          &           1.3349 \\
+      IP v6          &           0.9224 \\
+      Social Sec no. &           0.8259 \\
+      ID no.         &           0.9299 \\
+      MAC            &           0.8999 \\
+      Domains        &           1.2889 \\
+      Emails         &           0.9979 \\
+      Passwords      &           1.3460 \\
+      Logins         &           1.5800 \\
+      Phone no.      &           1.0913 \\
+      Dictionary     &           1.3450 \\
+      All            &           9.3316 \\  
+   \bottomrule
+   \end{tabular}
+   \end{table}  
 
 \chapter{Conclusions}
 
@@ -765,32 +912,32 @@ The messages were divided into batches of sizes 1000, 2000, 5000, 10000, 20000, 
 % \end{itemize}
 
  
-\begin{table}
-\centering
-\caption{A caption of a table is \textbf{above} it.}
-\label{id:tab:wyniki}
-\begin{tabular}{rrrrrrrr}
-\toprule
-	         &                                     \multicolumn{7}{c}{method}                                      \\
-	         \cmidrule{2-8}
-	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
-	         \cmidrule(r){4-6}\cmidrule(r){7-8}
-	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
-\midrule
-	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
-	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
-	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
-	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
-	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
-	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
-	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
-	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
-	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
-	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
-	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
-\bottomrule
-\end{tabular}
-\end{table}  
+% \begin{table}
+% \centering
+% \caption{A caption of a table is \textbf{above} it.}
+% \label{id:tab:wyniki}
+% \begin{tabular}{rrrrrrrr}
+% \toprule
+% 	         &                                     \multicolumn{7}{c}{method}                                      \\
+% 	         \cmidrule{2-8}
+% 	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
+% 	         \cmidrule(r){4-6}\cmidrule(r){7-8}
+% 	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
+% \midrule
+% 	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
+% 	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
+% 	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
+% 	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
+% 	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
+% 	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
+% 	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
+% 	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
+% 	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
+% 	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
+% 	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}  
 
  
 
@@ -977,8 +1124,7 @@ def passwd(snip, content):
 The thesis is accompanied by a CD containing:
 \begin{itemize}
 \item thesis (\LaTeX\ source files and final \texttt{pdf} file),
-\item source code of the application,
-\item test data.
+\item source code of the application
 \end{itemize}
  
 

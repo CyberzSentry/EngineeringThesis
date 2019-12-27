@@ -1,6 +1,7 @@
 
 def pesel(snip, content):
-    snip = snip[1:-1]
+    # snip = snip[1:-1]
+    snip = snip.replace(" ", "").replace("\n", "").upper()
     weight = [9, 7, 3, 1, 9, 7, 3, 1, 9, 7]
     checksum = (int(snip[0]) * weight[0]) + (int(snip[1]) * weight[1]) + (int(snip[2]) * weight[2]) + (int(snip[3]) * weight[3])+ (int(snip[4]) * weight[4]) + \
         (int(snip[5]) * weight[5]) + (int(snip[6]) * weight[6]) + (int(snip[7]) * weight[7]) + (int(snip[8]) * weight[8]) + (int(snip[9]) * weight[9])
@@ -27,7 +28,8 @@ def idnum(snip, content):
 def passwd(snip, content):
     specialChars = "!@#$%^&*()_+-={}[];:\"'\\|<>?,./"
     nums = "0123456789"
-    uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    # uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     lowers = "abcdefghijklmnopqrstuvwxyz"
     containsSpecial = False
     containsNum = False
@@ -43,21 +45,21 @@ def passwd(snip, content):
     if not containsNum:
         return False
 
-    for char in specialChars:
-        if char in snip:
-            containsSpecial = True
-            break
+    # for char in specialChars:
+    #     if char in snip:
+    #         containsSpecial = True
+    #         break
     
-    if not containsSpecial:
-        return False
+    # if not containsSpecial:
+    #     return False
     
-    for low in lowers:
-        if low in snip:
-            containsLow = True
-            break
+    # for low in lowers:
+    #     if low in snip:
+    #         containsLow = True
+    #         break
 
-    if not containsLow:
-        return False
+    # if not containsLow:
+    #     return False
 
     for up in uppers:
         if up in snip:
@@ -69,3 +71,28 @@ def passwd(snip, content):
     else:
         return True
     
+def login(snip, content):
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    nums = "0123456789"
+    containsNum = False
+    containsChars = False
+
+    for num in nums:
+        if num in snip:
+            containsNum = True
+            break
+
+    if not containsNum:
+        return False
+
+    for char in letters:
+        if char in snip:
+            containsChars = True
+            break
+
+    if not containsChars:
+        return False
+    else:
+        return True
+
+print(pesel("95082707756", "abc"))

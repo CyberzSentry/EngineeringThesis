@@ -9,3 +9,8 @@
 9. Wnioski: dodać ilość odnalezionych danych.
 10. Opisać wszystkie regexy użyte w testowaniu.
 11. Krzyżowe sprawdzanie znalezionych danych. Wyniki powtarzające się między kategoriami.
+12. Dodać skrypt przygotowywujący do listingów
+13. Additional data sets for testing
+14. A skilled user could narrow down the scope of login
+15. Implementing join for two domains in the same message
+16. Lepszy set danych, z dokładnie znanymi wartościami.

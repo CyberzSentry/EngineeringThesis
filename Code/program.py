@@ -13,7 +13,7 @@ from src.core import Core
 import traceback
 import os
 
-class MySignal(QtCore.QObject):
+class Signal(QtCore.QObject):
     updateSignal = QtCore.pyqtSignal()
     finishedSignal = QtCore.pyqtSignal()
     progressBarSignal = QtCore.pyqtSignal()
@@ -221,7 +221,7 @@ class Ui_window(object):
         self.tabWidget.setCurrentIndex(0)
 
         self.data = {}
-        self.signal = MySignal()
+        self.signal = Signal()
         self.signal.updateSignal.connect(self.loadOutput)
         self.signal.finishedSignal.connect(self.loadOutput)
         self.signal.progressBarSignal.connect(self.increaseProgressbar)
@@ -387,6 +387,7 @@ class Ui_window(object):
     def typeSelectionChanged(self, index):
         self.selectedType = self.typeSelectionModel.selection().indexes()[0].data()
         self.resultModel = QtCore.QStringListModel(self.data[self.selectedType]['results'].keys())
+        self.resultLabel.setText("Results: " + str(self.data[self.selectedType]['no']))
         self.resultListView.setModel(self.resultModel)
         self.resultSelectionModel = self.resultListView.selectionModel()
         self.resultSelectionModel.selectionChanged.connect(self.resultSelectionChanged)

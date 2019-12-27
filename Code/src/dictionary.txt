@@ -3,5 +3,7 @@ haslo
 password
 pass
 hasło
-michał
-się
+username
+email
+mail
+pesel
