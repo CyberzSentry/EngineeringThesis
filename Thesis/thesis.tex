@@ -315,7 +315,7 @@ Gliwice, dnia {\selectlanguage{polish}\today}
 
 \chapter{Introduction}
 
-This chapter presents the problem that the project tries to solve and presents the document structure.
+This chapter presents the problem that the project tries to solve and describes the scope of the thesis. It also declares the focus of each chapter.
 
 \section{Description of the problem}
 
@@ -333,9 +333,9 @@ Over the years an ecosystem has emerged that constantly competes with malicious 
 One of the elements of this structure is penetration testing also known as ethical hacking. In it's core, 
 this practice is simply simulating a real attack. There are multiple sources that depict approaches 
 used to perform this process. One of the common denominators between all of them is the importance of 
-gathering information \cite{bib:bookEthicalHacking}. The reason for that is because the more information you can uncover and analyze, 
+gathering information \cite{bib:bookEthicalHacking}. The reason for that is because the more information an attacker can uncover and analyze, 
 the bigger the chance of finding vulnerable systems or flaws in them. One of the clusters of information 
-in in companies is a communication channel like slack or discord. There are manny situations where employees 
+in companies is a communication channel like slack or discord. There are manny situations where employees 
 share information connected to projects and their workplace enviroment. If an attacker was to acces such a 
 platform he could potentially analyse the conversation history in search of sensitive information like ip addresses, 
 logins, passwords, emails, phone numbers, etc.
@@ -360,19 +360,19 @@ The project will primarily focus on finding nine categories of information:
 
 \begin{itemize}
    \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
-   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and or Aliens\cite{bib:internetIdentityNumber}.
+   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and or Aliens \cite{bib:internetIdentityNumber}.
    In this thesis it is frequently refered to as social security number.
    \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
-   name appears on it\cite{bib:internetID}. 
+   name appears on it \cite{bib:internetID}. 
    \item MAC addresses - unique identifier for an Ethernet or network adapter over a network. It distinguishes different network interfaces and is used for a number 
    of network technologies, particularly most IEEE 802 networks, including Ethernet \cite{bib:internetMAC}.
    \item Domain names - combinations of letters and numbers used in combination of the various domain name extensions, such as .com, .net to find and 
-   identify computers on the Internet\cite{bib:internetDomain}.
+   identify computers on the Internet \cite{bib:internetDomain}.
    \item Email addresses - serieses of letters, numbers, and symbols used to send and receive email \cite{bib:internetEmail}.
    \item Passwords - secret words or combinations of letters or numbers, used for communicating with another person or with a computer to prove who you are \cite{bib:internetPassword}.
    \item Usernames - a unique sequence of characters used by a person with access to a computer, network, or online service \cite{bib:internetUsername}.
    \item Phone numbers - numbers assigned to a telephone line for a specific phones or set of phones (as for a residence) that are used to call those phones \cite{bib:internetPhone}.
-   \item Additional - data types specified and implemented by the users.
+   \item Additional - data types specified and implemented by the individual users.
 \end{itemize}
 
 
@@ -385,12 +385,14 @@ This document is divided into seven chapters with following focus:
    \item Chapter 2 Problem analysis - Research of the topic and design of the program.
    \item Chapter 3 Requirements and tools - Description of the used technologies and required prerequisites.
    \item Chapter 4 External specification - Instruction of the program usage.
-   \item Chapter 5 Internal specification - Elaboration on the programs internal structure.
+   \item Chapter 5 Internal specification - Elaboration on the program internal structure.
    \item Chapter 6 Verification and validation - Presentation of the testing methodology and results.
    \item Chapter 7 Conclusions - Final remarks and conclusions for the future of the project.
    \end{itemize}
 
 \chapter{Problem analysis}
+
+In this chapter a analysis of solutions tackling similar problems is performed. It looks into methods used in them and checks their validity in the project scope.
 
 \section{Existing solutions}
 
@@ -402,7 +404,7 @@ data fingerprinting and statistical analysis \cite{bib:articleDLPS}. This approa
 Regular expressions are an abstraction of key-word search that enables the identification of text using apattern instead of an exact string. They are a tool 
 frequently used for parsing users input and capturing parts of strings \cite{bib:conferenceRegex}. Regexes are used in Data Leakage Prevention Systems for detecting 
 data like credit card numbers and social security mumbers \cite{bib:articleDLPS} which belong to the scope of this thesis. It might be possible to extend this approach 
-in to other categories of data covered by the designed program.
+in to other categories of information covered by the designed program.
 
 Regular expressions are however known to have high false positives rates \cite{bib:articleDLPS}. It might be advantageous for the purposes of this project 
 to take under consideration additional properties of the considered data types. It is possible for the personal information issued
@@ -430,7 +432,7 @@ adjust the regular expressions used in searching process as well as addictional 
 
 \section{Result presentation}
 
-While the focus of this thesis is a program which focuses on finding some sensitive data, it might be useful to put a special emphasis on the
+While the focus of this thesis is a program which focuses on finding some sensitive data, it might be profitable to put a special emphasis on the proper
 presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
 to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
 
@@ -449,6 +451,8 @@ fit this predefined standard.
 
 \chapter{Requirements and tools}
 
+This chapter tackles tools and technologies used during development. It also presents the functional and non-functional requirements of the program.
+
 \section{Tools}
 In order to achieve the goal of this thesis following tools were used:
 \begin{itemize}
@@ -462,15 +466,16 @@ In order to achieve the goal of this thesis following tools were used:
 \section{Technologies}
 Entire project is developed with use of following technologies:
 \begin{itemize}
-   \item Python 3.7.3 - an easy to learn, powerful programming language. It has efficient high-level data structures 
-   and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it 
-   an ideal language for scripting and rapid application development in many areas on most platforms\cite{bib:bookPython}. There are multiple arguments that support
-   choosing it as privary development language for the project. It has implemented modules for regular expression search and graphical user interface.
+   \item Python 3.7.3 - an easy to learn, powerful programing language. It has efficient high-level data structures 
+   and a simple but effective approach to object-oriented programing. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it 
+   an ideal language for scripting and rapid application development in many areas on most platforms \cite{bib:bookPython}. There are multiple arguments that support
+   choosing it as primary development language for the project. It has implemented modules for regular expression search and graphical user interface.
    The scriptive nature of it makes it easy to create programs that are capable of runing in any operating system that has Pyhton interpreter installed.
+   It is also familiar to the developer of the program.
    \item JSON - a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a
-   subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition - December 1999. JSON is a text format that is completely language independent but
-   uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C\#, Java, JavaScript, Perl, Python, and many others. These
-   properties make JSON an ideal data-interchange language\cite{bib:internetJSON}.
+   subset of the JavaScript Programing Language Standard ECMA-262 3rd Edition - December 1999. JSON is a text format that is completely language independent but
+   uses conventions that are familiar to programers of the C-family of languages, including C, C++, C\#, Java, JavaScript, Perl, Python, and many others. These
+   properties make JSON an ideal data-interchange language \cite{bib:internetJSON}.
 \end{itemize}
 
 \section{Requirements}
@@ -499,6 +504,8 @@ The program designed in this thesis is supposed to be capable of runing regardle
 % \end{itemize} 
 
 \chapter{External specification}
+
+Following chapter describes what requirements have to be satisfied for the program usage and how to handle it.
 % \begin{itemize}
 % \item hardware and software requirements
 % \item installation procedure
@@ -514,15 +521,15 @@ The program designed in this thesis is supposed to be capable of runing regardle
 
 The project consists of files "program.py" contained in the main program directory and
 "codeLib.py", "core.py", "regexLib.json" stored in "src" subdirectory. All of them are 
-required for the proper operation of the program.
+required for the proper operation of the solution.
 
 For the program to work correctly, some software requirements have to be meet. It was developed with 
 Python and requires it's interpreter in version at least 3.7.3 to be installed. Additionally a package called PyQt5 has 
-to be installed in the Python interpreter library.
-
-Some of those are contained within standard Python installation and the rest can be obtained installed with package-management 
+to be be in the Python interpreter library. It can be obtained with package-management 
 system called pip. Example of installation script that fulfill the above requirements can be found
 in figure \ref{fig:windowsScript} for Windows and figure \ref{fig:linuxScript} for Linux.
+The rest of the Python packages used in the project are usually contained within standard Python installation.
+In individual cases additional installation may be required.
 
 \begin{figure}
    \centering
@@ -581,7 +588,7 @@ Configuration of the program is done partialy with two files contained in it's
 file structure. The "regexLib.json" contains the regular expression of a given
 data type and a optional name of the method used to to perform additional 
 validation. This JSON file is structured in a following maner. It contains
-three objects marqued with arbitrary keys: "main", "additional", "dictionary".
+three objects marked with arbitrary keys: "main", "additional", "dictionary".
 These represent categories used for different types of search and contain
 objects consisting of two key-string pairs. The "regex" key represents regular
 expression utilised in the primary search and "code" contains name of the method 
@@ -607,11 +614,11 @@ The "additional" object can be filled with any data type desired by the user as 
 as it follows convention from the main category. The keys of each of those objects can have any value and represent the names of categories
 specified by the customers.
 
-Finally the "dictionary" object is contains regular expressions of words that are supposed to be matched with dictionary search. Each object in this category 
+Finally the "dictionary" object contains regular expressions of words that are supposed to be matched with dictionary search. Each object in this category 
 is composed of a single key-value pair. It's key is "regex" and value is the regular expression used in the program. 
 
 When creating regular expressions for the "regexLib.json" files it is important to remember the restrictions of the 
-JSON format. Some characters in json format might require escaping characters or  representing them in UTF-8 notation.
+JSON format. Some characters in it might require escaping or representing in UTF-8 notation.
 
 The example "regexLib.json" file can be found in the Listings part of the appendix.
 
@@ -636,7 +643,7 @@ can be found in figure \ref{fig:startCommand}.
 \end{figure}
 
 The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
-the desired job. It features three text inputs that allow for specifing files used durring program execution.
+the desired job. It features three text inputs that allow for specifing files used during program execution.
 
 \begin{itemize}
    \item Input path - specifies location of the input file. It is obligatory for the program execution.
@@ -664,10 +671,10 @@ The settings tab allows also to specify what types of data to search for with ch
    \item Additional
 \end{itemize}
 
-Uppon specifing the desired data types and required file paths the user can start and stop the search process
-with buttons labeled respectively "start" and "stop".
+Consequent to specifing the desired data types and required file paths the user can start and stop the search process
+with buttons labeled respectively "Start" and "Stop".
 
-Uppon complition of the programs work results are presented in the "Results" tab. It consists of three columns used for
+Upon completion of the program work results are presented in the "Results" tab. It consists of three columns used for
 navigation of the results: 
 \begin{itemize}
    \item Category - allows for specification of the search category to browse. Clicking on a given category loads
@@ -697,6 +704,7 @@ functions stored in src/codeLib.py and of the results of their execution.
 
 \chapter{Internal specification}
 
+This chapter presents the internal structure of the program. It focuses on the used technologies, algorithms and the system architecture.
 % \begin{itemize}
 % \item concept of the system
 % \item system architecture
@@ -711,7 +719,7 @@ functions stored in src/codeLib.py and of the results of their execution.
 
 \section{System architecture}
 
-The system consists of two parts, one responsible for graphical user interface and other for
+The system consists of two parts, separated into two files, one responsible for graphical user interface and other for
 performing the goal of the program. The GUI is implemented in two classes called "Ui\_window" used for the main window of the program and "Ui\_PreviewDialog" responsible for displaying 
 the message context preview. The logic of the system is implemented in classes "Parser" and "Core". The first one is used to retrive individual messages from the input file while the second
 processes them in search desired data. Additionally a "Signal" class is used to pass messages from the "Core" to the GUI classes. Unified modeling language (UML) diagram presenting the individual classes and connections between them can be found in the figure %%%%%%%UML  
@@ -730,12 +738,14 @@ Custom implemented classes utilise following Python packages to perform their ta
 
 \section{Algorithms}
 
-The algorithm taking on the main workload of the solution is a regular expression search. In the regular expression recognition technique each character in the text to be searched is examined in sequence against a 
+The algorithm taking on the main workload of the solution is a regular expression search. In it each character in the text to be searched is examined in sequence against a 
 list of all possible current characters. During this examination a new list of all possible next characters is built. When the end of the current list is reached, the new list becomes the current list, the next 
 character is obtained, and the process continues. This algorithm continually takes the left derivative of the given regular expression with respect to the text to be searched. The parallel nature of this algorithm 
 makes it extremely fast \cite{bib:articleRE}. This solution utilises a Python module that provides regular expression matching operations.
 
 \chapter{Verification and validation}
+
+This chapter describes methodology of testing of the solution and it's results.
 
 \section{Data source}
 
@@ -752,10 +762,10 @@ the efficiency tests were performed on 227360 message set.
 While a context analysis was performed to check if found results are not false positives, it is uncertain if and how manny
 positive results were omitted due to the data format unforeseen in regular expression implementation. 
 
-Following regexes were used durring the testing: 
+Following regexes were used during the testing: 
 
 \begin{itemize}
-   \item IP v4 - "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\textbackslash .)\{3\}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+   \item IP v4 - "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\textbackslash .)\{3\}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" - 
    \item IP v6 - "(?:[0-9a-fA-F]\{1,4\}:)\{7\}[0-9a-fA-F]\{1,4\}"
    \item Social Sec no. - "(?:\textbackslash s|\textbackslash A)[0-9]\{11\}(?:\textbackslash s|\textbackslash Z)"
    \item ID no. - "[A-Za-z]\{3\}[ ]*[0-9]\{6\}"
@@ -900,44 +910,79 @@ The timespan of the program execution on a 227360 samples data set can be found 
 
 \chapter{Conclusions}
 
-% Modification of results after presentation
-% Point system forrating results
-% Low python gui capabilities
+This chapter is a analysis of the solution, development and testing process. It states the possible future development goals and conclusions on the topic.
 
+\section{Additional tests}
 
-% \begin{itemize}
-% \item achieved results with regard to objectives of the thesis and requirements
-% \item path of further development (eg functional extension …)
-% \item encountered difficulties and problems
-% \end{itemize}
+The interaction of the users with the solution was not tested during the development process.
+At this time it is uncertain how the necessity of preparing the data will influence the usefulness
+of the program. Additional tests should be conducted to analyse how the users interact with the
+program to conduct if it is usable. 
 
+In order to definitely conclude how accurate the search settings are a sample data set should be prepared.
+In such test sample all quantities of different information types as well as their formats should be known.
+Such set would allow to analyse how narrowing down the search scope influences the results.
+
+Additionally the solution was tested only on a data set from a single source. Multiple source 
+tests should be conducted to check how different cases impact the usefulness of solution. 
+
+\section{Additional checks}
+
+The possibility of performing additional checks can greatly decrease the amount of false positives.
+It's main limitation is the need to identify a pattern or validation function specific to the data catogory.
+In the testing this is especially apparent in the search of logins and passwords. Searching for any string 
+of characters yelds results practically imposible to analyse. However it can be assumed that a password policy
+requires it to consist of arbitrary minimum number of characters, contain capital and small letters and numericals.
+Applying these common practices used during their creation significantly improves the output of the program. 
+A skilled user could analyse the enviroment of the data source to find additional patterns specific to each use.
+An example of such action could be identifing a internal company password policy and applying it in search.
+It is also possible to apply more and more precise constrains on the search patterns util reaching a amount of 
+results that is feasible to manual processing. 
+
+It is however worth mentioning that a dictionary search of keywords related to passwords and
+logins is as or more effective than regular expression check of the data and requires relatively
+less preparation to work. Running a keyword search first and implementing a regex search after 
+insufficient valiable results were discovered might be a proper approach.
+
+\section{Future development}
+
+The search performed on a dataset of 227360 messages is done in a resonable time. In the future development
+spliting of the search to multiple threads, one for each category can be implemented in order to more efficiently
+hadle working on extremely large imputs. 
+
+It became apparent during testing that in some cases a single result can present as multiple findings. 
+A feature could be implemented to check for reoccuurrence of a found data to improve
+results presentation. The processing of the output could also be augmented with a classification
+option that would assign priority to some results based on set weights, results of the additional
+check function and other factors.
  
-% \begin{table}
-% \centering
-% \caption{A caption of a table is \textbf{above} it.}
-% \label{id:tab:wyniki}
-% \begin{tabular}{rrrrrrrr}
-% \toprule
-% 	         &                                     \multicolumn{7}{c}{method}                                      \\
-% 	         \cmidrule{2-8}
-% 	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
-% 	         \cmidrule(r){4-6}\cmidrule(r){7-8}
-% 	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
-% \midrule
-% 	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
-% 	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
-% 	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
-% 	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
-% 	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
-% 	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
-% 	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
-% 	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
-% 	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
-% 	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
-% 	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
-% \bottomrule
-% \end{tabular}
-% \end{table}  
+Usage of Python proved very useful in prototyping of the solution. It did however come with some difficulties.
+The code of the soultion is lacking some coding practices and became difficult to implement changes.
+The graphical user interface framework used, at times, was unable to provide the desired functionality. This led to some
+compromises in the development. In the future a refactoring of solution into a different programing language might 
+be necessary in order to continue development. 
+
+Currently the preview functionality used for displaying of found data and message context 
+does not allow to perform any changes on the results. A possibility of removing false positive 
+results and performing changes on the found snippets of text could greatly improve the 
+usefulness of the program in it's working scenarios. This would require implementation of a saving of the work
+done to the output file.
+
+In a case where adapting data to the format required for the program poroves to be a significant 
+obstruction for the program users, a modular input adapter capable of accepting dataset common in 
+real use cases could be developed. An example of that could be a possibility to read mbox files 
+used to archive emails or loading dumps of slack messages.
+
+The use of a json file to store the regular expressions might be uncomfortable for the users due to the need of escaping characters. 
+This problem could be amended by implementing a different storing mechanism or a tool to manipulate the regexes in their natural form 
+and writing them in the transformed form to the file. 
+
+\section{Calibration}
+
+The process of calibration of the program may be complicated and dependent on manny factors. It might be 
+useful to develop a calibration framework and create a manual for development of search constrains.
+
+
 
  
 
@@ -970,10 +1015,6 @@ The timespan of the program execution on a 227360 samples data set can be found 
 \item[regex] regular expression
 \item[GUI] Graphical user interface
 \item[UML] Unified modeling language 
-% \item[$N$] cardinality of data set
-% \item[$\mu$] membership function of a fuzzy set
-% \item[$\mathbb{E}$] set of edges of a graph
-% \item[$\mathcal{L}$] Laplace transformation
 \end{itemize}
 
 
