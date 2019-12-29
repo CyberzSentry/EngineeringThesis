@@ -17,11 +17,6 @@ class Parser:
         self.stepValue = int(self.len/100)
         self.done = False
 
-    def __enter__(self):
-        return self.inData['messages']
-
-    def __exit__(self, type, value, traceback):
-        pass
 
     def getNext(self):
         """returns next element from the input file"""
@@ -33,7 +28,6 @@ class Parser:
             return None
 
 class Core(Thread):
-
     def __init__(self, inputPath, outputPath, expectedRegexes=None, data=None, dictionaryPath=None, progressEvent=None, updateDataEvent=None, finishedEvent=None, additional=True):
         Thread.__init__(self)
         self.cancel = False
