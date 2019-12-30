@@ -322,11 +322,11 @@ This chapter presents the problem that the project tries to solve and describes 
 The invention and propagation of the internet has boosted the ways in which technology impacts
 all of us. In this age an increasing amount of our everyday life is digitized and dependent 
 on cybernetic systems hosted and operated by independent corporations and institutions. Significant
-amount of our tasks has become automated through information technology solutions. The phisical word 
+amount of our tasks has become automated through information technology solutions. The phisical world 
 surrounding us also becomes intertwined with technology. We are gradualy connecting things of everyday 
 use like cars or house locks to the web through Internet of Things technologies. This process has 
 made our lives simpler and allowed us to achieve amazing things but it has also made us vulnerable to 
-cybernetic attacks. It is only natural that the rize of the impact of technology was followed 
+cybernetic attacks. It is only natural that the rise of the impact of technology was followed 
 by the rise in the cyber crime and cyber security providers \cite{bib:articleImportanceOfCybersecurity}. 
 
 Over the years an ecosystem has emerged that constantly competes with malicious hackers to keep us all secure.
@@ -360,7 +360,7 @@ The project will primarily focus on finding nine categories of information:
 
 \begin{itemize}
    \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
-   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and/or Aliens \cite{bib:internetIdentityNumber}.
+   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and/or aliens \cite{bib:internetIdentityNumber}.
    In this thesis it is frequently refered to as social security number.
    \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
    name appears on it \cite{bib:internetID}. 
@@ -398,7 +398,7 @@ In this chapter an analysis of solutions tackling similar problems is performed.
 
 There are not many widely available solutions that are capable of performing the job presented in the thesis introduction. However the scope of the project shares
 similarities with Data Leakage Prevention Systems which focus on analysis of the content of confidential data and the surrounding context in order to
-prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitore the sensitive information - regular expressions (regexes),
+prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitore the sensitive information - regular expressions (regex),
 data fingerprinting and statistical analysis \cite{bib:articleDLPS}. This approach could be adapted for the purposes of this thesis. 
 
 Regular expressions are an abstraction of keyword search that enables the identification of text using a pattern instead of an exact string. They are a tool 
@@ -432,7 +432,7 @@ adjust the regular expressions used in the searching process as well as addition
 
 \section{Result presentation}
 
-While the focus of this thesis is a program which focuses on finding some sensitive data, it might be profitable to put a special emphasis on the proper
+While the center of this thesis is a program which focuses on finding some sensitive data, it might be profitable to put a special emphasis on the proper
 presentation of the results. Information discovered by the solution might be riddled with false positives. In such case giving the user a possibility
 to easily analyse the message and conversation context of found data could increase the usefulness of the tool. 
 
@@ -505,7 +505,7 @@ The program designed in this thesis is supposed to be capable of runing regardle
 
 \chapter{External specification}
 
-Following chapter describes what requirements have to be satisfied for the program usage and how to handle it.
+Following chapter describes which requirements have to be satisfied for the program usage and how to handle it.
 % \begin{itemize}
 % \item hardware and software requirements
 % \item installation procedure
@@ -722,7 +722,15 @@ This chapter presents the internal structure of the program. It focuses on the s
 The system consists of two parts, separated into two files, one responsible for graphical user interface and other for
 performing the goal of the program. The GUI is implemented in two classes called "Ui\_window" used for the main window of the program and "Ui\_PreviewDialog" responsible for displaying 
 the message context preview. The logic of the system is implemented in classes "Parser" and "Core". The first one is used to retrive individual messages from the input file while the second
-processes them in search desired data. Additionally the "Signal" class is used to pass messages from the "Core" to the GUI classes. Unified Modeling Language (UML) diagram presenting the individual classes and connections between them can be found in the figure %%%%%%%UML  
+processes them in search desired data. Additionally the "Signal" class is used to pass messages from the "Core" to the GUI classes. Unified Modeling Language (UML) diagram presenting the 
+individual classes and connections between them can be found in the figure \ref{fig:UMLdiagram}.
+
+\begin{figure}
+   \centering
+   \includegraphics{DiagramUML}
+   \caption{UML class diagram}
+   \label{fig:UMLdiagram}
+\end{figure}
 
 Custom implemented classes utilise following Python packages to perform their tasks: 
 
@@ -765,7 +773,7 @@ positive results were omitted due to the data format unforeseen in regular expre
 Following regexes were used during the testing: 
 
 \begin{itemize}
-   \item IP v4 - "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\textbackslash .)\{3\}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" - 
+   \item IP v4 - "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\textbackslash .)\{3\}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" 
    \item IP v6 - "(?:[0-9a-fA-F]\{1,4\}:)\{7\}[0-9a-fA-F]\{1,4\}"
    \item Social Sec no. - "(?:\textbackslash s|\textbackslash A)[0-9]\{11\}(?:\textbackslash s|\textbackslash Z)"
    \item ID no. - "[A-Za-z]\{3\}[ ]*[0-9]\{6\}"
@@ -1014,7 +1022,7 @@ useful to develop a calibration framework and create a manual for development of
 \item[OS] operating system
 \item[regex] regular expression
 \item[GUI] Graphical user interface
-\item[UML] Unified modeling language 
+\item[UML] Unified Modeling Language 
 \end{itemize}
 
 
