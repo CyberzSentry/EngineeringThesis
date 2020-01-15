@@ -5,4 +5,4 @@ The project has two main parts.
 * [Thesis text](Thesis/) - Latex solution containing the actual text of the thesis.
 * [Thesis code](Code/) - Python solution with the code performing the search on natural language messages.
 ## Licence
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details
