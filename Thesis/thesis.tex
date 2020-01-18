@@ -149,8 +149,8 @@ escapeinside={@*}{*@},%
 
 
 \newcommand{\Author}{Maksym Brzęczek}
-\newcommand{\Supervisor}{Błażej Adamczyk, DSc PhD}
-\newcommand{\Consultant}{Michał Kawulok, PhD}
+\newcommand{\Supervisor}{Błażej Adamczyk, PhD}
+\newcommand{\Consultant}{Michał Kawulok, DSc PhD}
 \newcommand{\Title}{Design and implementation of natural language sensitive data extraction tool}
 \newcommand{\Polsl}{Silesian University of Technology}
 \newcommand{\Faculty}{Faculty of Automatic Control, Electronics and Computer Science}
@@ -315,11 +315,11 @@ Gliwice, dnia {\selectlanguage{polish}\today}
 
 \chapter{Introduction}
 
-This chapter presents the problem that the project tries to solve and describes the scope of the thesis. It also declares the focus of each chapter.
+This chapter presents the problem that the project tries to solve and describes the scope of the thesis. It also describes the document structure.
 
 \section{Description of the problem}
 
-The invention and propagation of the internet has boosted the ways in which technology impacts
+The invention and propagation of the Internet has boosted the ways in which technology impacts
 all of us. In this age an increasing amount of our everyday life is digitized and dependent 
 on cybernetic systems hosted and operated by independent corporations and institutions. Significant
 amount of our tasks has become automated through information technology solutions. The phisical world 
@@ -359,8 +359,9 @@ circumstances and enviroment.
 The project will primarily focus on finding nine categories of information:
 
 \begin{itemize}
-   \item IP addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
-   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and/or aliens \cite{bib:internetIdentityNumber}.
+   \item IP v4 addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
+   \item IP v6 addresses - 32 to 128 bits identifiers for interfaces and sets of interfaces implementing Internet Protocol version 6 \cite{bib:articleIPv6}\cite{bib:articleIPv6Address}. 
+   \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and/or foreigners \cite{bib:internetIdentityNumber}.
    In this thesis it is frequently refered to as social security number.
    \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
    name appears on it \cite{bib:internetID}. 
@@ -376,19 +377,11 @@ The project will primarily focus on finding nine categories of information:
 \end{itemize}
 
 
-\section{Description of chapters}
+\section{Document structure}
 
-This document is divided into seven chapters with following focus:
-
-\begin{itemize}
-   \item Chapter 1 Introduction - Presentation of the problem domain and scope, introduction to the document structure.
-   \item Chapter 2 Problem analysis - Research of the topic and design of the program.
-   \item Chapter 3 Requirements and tools - Description of the used technologies and required prerequisites.
-   \item Chapter 4 External specification - Instruction of the program usage.
-   \item Chapter 5 Internal specification - Elaboration on the program internal structure.
-   \item Chapter 6 Verification and validation - Presentation of the testing methodology and results.
-   \item Chapter 7 Conclusions - Final remarks and conclusions for the future of the project.
-   \end{itemize}
+This document is divided into seven chapters with following focus. First Chapter focuses on the presentation of the problem domain and scope, introduction to the document structure. 
+The second chapter researches the topic and design of the program. Third chapter describes the used technologies and required prerequisites. Chapter number four is a instruction of the program usage.
+Fifth one elaborates on the program internal structure. Sixth chapter presents the testing methodology and results and the final seventh presents the final remarks and conclusions for the future of the project.
 
 \chapter{Problem analysis}
 
@@ -399,7 +392,10 @@ In this chapter an analysis of solutions tackling similar problems is performed.
 There are not many widely available solutions that are capable of performing the job presented in the thesis introduction. However the scope of the project shares
 similarities with Data Leakage Prevention Systems which focus on analysis of the content of confidential data and the surrounding context in order to
 prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitore the sensitive information - regular expressions (regex),
-data fingerprinting and statistical analysis \cite{bib:articleDLPS}. This approach could be adapted for the purposes of this thesis. 
+data fingerprinting and statistical analysis \cite{bib:articleDLPS}. An example of DLP software known to implement such features is MyDLP which has a open source
+community edition as well as closed source enterprise version \cite{bib:internetDLP}. There are also other solutions that probably use the aforementioned approach 
+like Symantec Data Loss Prevention, Trustwave Data Loss Prevention, McAfee Total Protection for Data Loss Prevention and Check Point Data Loss Prevention.
+Similar techniques could be adapted for the purposes of this thesis. 
 
 Regular expressions are an abstraction of keyword search that enables the identification of text using a pattern instead of an exact string. They are a tool 
 frequently used for parsing users input and capturing parts of strings \cite{bib:conferenceRegex}. Regexes are used in Data Leakage Prevention Systems for detecting 
@@ -416,6 +412,23 @@ While dictionary search does not seem to be a common part of Data Leakage Preven
 The natural language messages processed by the developed program may contain keywords indicating presence of the desired data, which might have not been 
 detected by the initial regex search. Implementing a dictionary search which focuses on words like "password", "login" etc. could potentially increase the
 reliability of the solution. 
+
+\section{Designing search conditions}
+
+It is important to consider how to properly approach designing regualr expressions and additional checks for some data types. 
+For example it is relatively easy to implement search conditions for a social security number due to its specific structure.
+The scope can be additionally narrowed down if it implements some sort of check sum algorithm. Same can be said about 
+email addresses, ip addersses, MAC addresses, ID card numbers, domain names and phone numbers.
+
+However some data types might prove more difficult. A password or login can take almost any form and be indistinguishable from regular words.
+Searching for any string of characters can yield results practically imposible to analyse due to the quantity of false positives. 
+However it can be assumed that a password policy requires it to consist of arbitrary minimum number of characters, contain 
+capital and small letters and numericals. Implementing a reugualr expression and additional check function under those conditions
+could greatly decrease the percentage of false positive rasults, making it valuable for manual inspection and validation.
+
+The undesired consequence of setting such constrains can be omitting of the positive results in the search process. This could possibly be
+partialy mitigated by dictionary search for the same data type with proper keywords like "password", "pass" etc. 
+
 
 \section{Modularity and Customisation}
 
@@ -527,7 +540,7 @@ For the program to work correctly, some software requirements have to be meet. I
 Python and requires its interpreter in version at least 3.7.3 to be installed. Additionally a package called PyQt5 has 
 to be in the Python interpreter library. It can be obtained with package-management 
 system called pip. Example of installation script that fulfill the above requirements can be found
-in figure \ref{fig:windowsScript} for Windows and figure \ref{fig:linuxScript} for Linux.
+in figure \ref{fig:windowsScript} for Windows and \ref{fig:linuxScript} for Linux.
 The rest of the Python packages used in the project are usually contained within standard Python installation.
 In individual cases additional installation may be required.
 
@@ -554,12 +567,48 @@ The solution was not tested from the hardware requirements point of view however
 during development it was deployed on a computer with following specifications:
 
 \begin{itemize}
-   \item Intel Core i5-6300HQ CPU 2.30 GHz
-   \item 8GBytes DDR4 RAM
-   \item Samsung SSD 860 EVO M.2 500GB
+   \item Intel Core i5-6300HQ CPU 2.30 GHz.
+   \item 8GBytes DDR4 RAM.
+   \item Samsung SSD 860 EVO M.2 500GB.
 \end{itemize}
 
 \section{User manual and usage examples}
+
+Program described in this section is designed to perform a regular expression search on a dataset of messages supplied form a input file. Found results can 
+be additionally checked with a functions implemented in Python language. A dictionary search which checks if a string matched with regular expression belongs to a provided wordlist
+can also be performed.
+
+The obtained results are saved to the output file and presented in the GUI.
+
+Following search types can be carried out:
+
+\begin{itemize}
+   \item IP v4
+   \item IP v6
+   \item Social Sec no
+   \item ID no.
+   \item MAC
+   \item Domains
+   \item Emails
+   \item Passwords
+   \item Logins
+   \item Phone no.
+   \item Dictionary
+   \item Additional
+\end{itemize}
+
+The program requires following inputs:
+
+\begin{itemize}
+   \item Input path - specifies location of the input file. It is obligatory for the program execution.
+   \item Output path - provides the output location used for saving the results of program execution. 
+   If left empty, the program appends the input path with "\_output" suffix. 
+   \item Dictionary path - points to the dictionary file. The proper format of a dictionary
+   is a text file filled with all lower case words, separated with new line characters. This path is required
+   only in case of performing a dictionary search.
+\end{itemize}
+
+The configuration of the program is stored in files regexLib.json and codeLib.py.
 
 The program requires preparation of the input data in a JSON file containing
 an array of objects composed of two key-value pairs. Key "id" needs to be 
@@ -598,8 +647,8 @@ if no additional check is required.
 The "main" category contains data types marked by following keys:
 
 \begin{itemize}
-   \item "ip\_v4" - IP version 4.
-   \item "ip\_v6" - IP version 6.
+   \item "ipv4" - IP version 4.
+   \item "ipv6" - IP version 6.
    \item "socialsec" - personal identity numbers.
    \item "id\_number" - ID card numbers.
    \item "mac" - MAC addresses.
@@ -620,7 +669,31 @@ is composed of a single key-value pair. Its key is "regex" and value is the regu
 When creating regular expressions for the "regexLib.json" files it is important to remember the restrictions of the 
 JSON format. Some characters in it might require escaping or representing in UTF-8 notation.
 
-The example "regexLib.json" file can be found in the Listings part of the appendix.
+An abbreviation of a example "regexLib.json" file can be found in figure \ref{fig:regexLibSimple} and its full version is available the Listings part of the appendix.
+
+\begin{figure}
+\centering
+\begin{lstlisting}
+{
+   "main":{
+         "ip_v4": {
+            "regex":"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+            "code":""
+         },
+         ...
+   },
+   "additional":{
+   },
+   "dictionary":{
+         "dictionary": {
+            "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
+         }
+   }
+}
+\end{lstlisting}
+\caption{}
+\label{fig:regexLibSimple}
+\end{figure}
 
 The "codeLib.py" file is intended to contain methods for additional validation. The methods are supposed
 to be written in Python 3, accepting two parameters and returning either "True" if the validation was succesfull
@@ -634,45 +707,25 @@ might differ depending on the operating system. Example commands run on a Window
 can be found in figure \ref{fig:startCommand}.
 
 \begin{figure}
-   \centering
-   \begin{lstlisting}
-   C:\Projects\Thesis\Code> python .\program.py
-   \end{lstlisting}
-   \caption{Command for starting the program}
-   \label{fig:startCommand}
+\centering
+\begin{lstlisting}
+C:\Projects\Thesis\Code> python .\program.py
+\end{lstlisting}
+\caption{Command for starting the program}
+\label{fig:startCommand}
 \end{figure}
 
 The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
-the desired job. It features three text inputs that allow for specifing files used during program execution.
+the desired job. It features three text inputs that allow for specifing files used during program execution as well as 
+checkboxes for selecting the desired search types. Consequent to specifing the desired data types and required file paths the user can start and stop the search process
+with buttons labeled respectively "Start" and "Stop". This view can be found in figure \ref{fig:SettingsTab}.
 
-\begin{itemize}
-   \item Input path - specifies location of the input file. It is obligatory for the program execution.
-   \item Output path - provides the output location used for saving the results of program execution. 
-   If left empty, the program appends the input path with "\_output" suffix. 
-   \item Dictionary path - points to the dictionary file. The proper format of a dictionary
-   is a text file filled with all lower case words, separated with new line characters. This path is required
-   only in case of performing a dictionary search.
-\end{itemize}
-
-The settings tab allows also to specify what types of data to search for with checkboxes labeled:
-
-\begin{itemize}
-   \item IP v4
-   \item IP v6
-   \item Social Sec no
-   \item ID no.
-   \item MAC
-   \item Domains
-   \item Emails
-   \item Passwords
-   \item Logins
-   \item Phone no.
-   \item Dictionary
-   \item Additional
-\end{itemize}
-
-Consequent to specifing the desired data types and required file paths the user can start and stop the search process
-with buttons labeled respectively "Start" and "Stop".
+\begin{figure}
+\centering
+\includegraphics{SettingsTab}
+\caption{Settings view}
+\label{fig:SettingsTab}
+\end{figure}
 
 Upon completion of the program work results are presented in the "Results" tab. It consists of three columns used for
 navigation of the results: 
@@ -685,12 +738,69 @@ navigation of the results:
    opens the preview window with the content of the specified message.
 \end{itemize}
 
+An exemplary results view is presented in figure \ref{fig:ResultsTab}.
+
+\begin{figure}
+\centering
+\includegraphics{ResultsTab}
+\caption{Results view}
+\label{fig:ResultsTab}
+\end{figure}
+
 The goal of the preview window is to inspect the context of a found information. It consists of a central part 
 displaying the content of a message and "Previous" and "Next" buttons used for navigation of the messages stored
-in the input file, relative to the currently presented message.
+in the input file, relative to the currently presented message. Preview window can be found in figure \ref{fig:MessagePrev}.
+
+\begin{figure}
+\centering
+\includegraphics{MessagePrev}
+\caption{Message preview}
+\label{fig:MessagePrev}
+\end{figure}
 
 It is also possible to load a previously generated output file with the "Open output" option from the
-"File" menu located in upper left corner of the main window.
+"File" menu located in upper left corner of the main window as presented in figure \ref{fig:OpeningOutput}.
+
+\begin{figure}
+\centering
+\includegraphics{OpeningOutput}
+\caption{Loading output file}
+\label{fig:OpeningOutput}
+\end{figure}
+
+The output of the program is saved to a JSON formated file and takes a form presented in figure \ref{fig:outputFile}. 
+It consists of three nestings of objects. First layer represents desired search categories. Each of objects in
+this layer contains number of found occurances marked with the "no" tag and the "results" contains each
+result. They are stored in separate tags and each additionally contains a list of unique ID's of messages 
+pointing to each occurance.  
+
+\begin{figure}
+\centering
+\begin{lstlisting}
+{
+   "example": {
+         "no": 1, 
+         "results": {
+            "example_finding": {
+               "occurances": ["2628", "25920", "25944", "43187", "43187"]
+            }
+         }   
+   }, "ipv4": {
+         "no": 15, 
+         "results": {
+            "10.1.1.89": {
+               "occurances": ["5566", "10568"]
+            }, 
+            "31.186.81.18": {
+               "occurances": ["13582"]
+            }
+         }
+   }
+}
+\end{lstlisting}
+\caption{Example output file}
+\label{fig:outputFile}
+\end{figure}
 
 \section{Security}
 
@@ -700,7 +810,8 @@ dynamic importing of Python code which under some conditions could be used with 
 intent for purposes like privilege escalation. It is important to use the program 
 responsibly. Proper approach should contain at least restraining from executing
 the program as administrative users. It is additionally recomended to be aware of the 
-functions stored in src/codeLib.py and of the results of their execution. 
+functions stored in src/codeLib.py and of the results of their execution. Alternatively the solution could be run in a sandboxed or containerised
+enviroment without root privelages like a properly configured Docker virtual machine.
 
 \chapter{Internal specification}
 
@@ -853,18 +964,18 @@ were considered valid results.
    \end{tabular}
    \end{table}  
 
-The analysis of the dictionary keyword search allowed to identify additional data in some categories. The results can be found in table \ref{id:tab:wynikiDictionary}
+The analysis of the dictionary keyword search allowed to identify data in some categories. The results can be found in table \ref{id:tab:wynikiDictionary}
 
 \begin{table}
    \centering
-   \caption{Dictionary search additional discoveries}
+   \caption{Dictionary search discoveries}
    \label{id:tab:wynikiDictionary}
-   \begin{tabular}{rr}
+   \begin{tabular}{rrrr}
    \toprule
-      Category       &   Additional result \\
-      Emails         &                   0 \\
-      Passwords      &                   4 \\
-      Logins         &                   3 \\
+      Category       &   Found &    False positives & Positives \\
+      Emails         &      34 &                 29 &         5 \\
+      Passwords      &      33 &                 18 &        15 \\
+      Logins         &       5 &                  3 &         2 \\
    \bottomrule
    \end{tabular}
    \end{table} 
@@ -891,7 +1002,9 @@ thesis.
    \end{table} 
 
 
-The timespan of the program execution on a 227360 samples data set can be found in table \ref{id:tab:wynikiTime}.
+The timespan of the program execution on a file of size 18400 KB containing 227360 messages can be found in table \ref{id:tab:wynikiTime}. 
+The measurements do not include the timespan of data loading. Evaluations were performed multiple times. The presented results
+represent the average of the outcomes.
 
 \begin{table}
    \centering
@@ -900,18 +1013,17 @@ The timespan of the program execution on a 227360 samples data set can be found 
    \begin{tabular}{rr}
    \toprule
       Category       &  Time in seconds \\
-      IP v4          &           1.3349 \\
-      IP v6          &           0.9224 \\
-      Social Sec no. &           0.8259 \\
-      ID no.         &           0.9299 \\
-      MAC            &           0.8999 \\
-      Domains        &           1.2889 \\
-      Emails         &           0.9979 \\
-      Passwords      &           1.3460 \\
-      Logins         &           1.5800 \\
-      Phone no.      &           1.0913 \\
-      Dictionary     &           1.3450 \\
-      All            &           9.3316 \\  
+      IP v4          &           1.3804 \\
+      IP v6          &           1.0012 \\
+      Social Sec no. &           0.8272 \\
+      ID no.         &           0.9645 \\
+      MAC            &           0.9579 \\
+      Domains        &           1.2489 \\
+      Emails         &           0.9824 \\
+      Passwords      &           1.3278 \\
+      Logins         &           1.5423 \\
+      Phone no.      &           1.0093 \\
+      Dictionary     &           1.2872 \\ 
    \bottomrule
    \end{tabular}
    \end{table}  
@@ -938,10 +1050,8 @@ tests should be conducted to check how different cases impact the usefulness of 
 
 The possibility of performing additional checks can greatly decrease the amount of false positives.
 Its main limitation is the need to identify a pattern or validation function specific to the data catogory.
-In the testing this is especially apparent in the search of logins and passwords. Searching for any string 
-of characters yields results practically imposible to analyse. However it can be assumed that a password policy
-requires it to consist of arbitrary minimum number of characters, contain capital and small letters and numericals.
-Applying these common practices used during their creation significantly improves the output of the program. 
+In the testing this is especially apparent in the search of logins and passwords. Applying the common practices 
+used during their creation significantly improves the output of the program. 
 A skilled user could analyse the enviroment of the data source to find additional patterns specific to each use.
 An example of such action could be identifing an internal company password policy and applying it in search.
 It is also possible to apply more and more precise constrains on the search patterns until reaching an amount of 
@@ -962,13 +1072,9 @@ It became apparent during testing that in some cases a single result can present
 A feature could be implemented to check for reoccuurrence of a found data to improve
 results presentation. The processing of the output could also be augmented with a classification
 option that would assign priority to some results based on set weights, results of the additional
-check function and other factors.
- 
-Usage of Python proved very useful in prototyping of the solution. It did however come with some difficulties.
-The code of the soultion is lacking some coding practices and became difficult to implement changes.
-The graphical user interface framework used, at times, was unable to provide the desired functionality. This led to some
-compromises in the development. In the future a refactoring of solution into a different programing language might 
-be necessary in order to continue development. 
+check function and other factors. For example a dictionary check for known usernames could be compared to
+the found passwords candidates and used to classify the probability of false positive occurance. 
+
 
 Currently the preview functionality used for displaying of found data and message context 
 does not allow to perform any changes on the results. A possibility of removing false positive 
@@ -988,12 +1094,11 @@ and writting them in the transformed form to the file.
 \section{Calibration}
 
 The process of calibration of the program may be complicated and dependent on many factors. It might be 
-useful to develop a calibration framework and create a manual for development of search constrains.
+useful to develop a calibration framework and create a manual for development of search constrains. 
 
-
-
- 
-
+It is also possible that distributing the project as an open source solution might encurage the community to
+contribute calibration rules and procedures for multiple unforeseen use contexts. Such approach might greatly 
+increase the usefulness of the product and its value.
  
 
 

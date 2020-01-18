@@ -1,6 +1,60 @@
 
 6. Wnioski: Escapowanie regexów może być trudne. Zasstanowić się nad inną formą przechowywania niż json, lub edytorem.
 7. Wyłączyć funkcje debugowania przed oddaniem programu
-12. Dodać skrypt przygotowywujący do listingów
-17. UML
-18. Dodać opis peselu do analizy tematu
+8. Dodać odpalanie z konsoli do future developmentu.
+9. Pomierzyć czasy.
+
+
+
+Pozostawiłem figure zamiast listing do kodu ponieważ automatycznie Latex pisze pod obrazkiem "Figure"
+
+Nie rozumiem 
+'tak mi się jeszcze skojarzyło
+
+nie napisał Pan czy program ten tekst skleja czy traktuje jak osobne teksty i szuka regexpów niezależnie?
+
+jeżeli ktoś napisze dość kontekstowego regexpa typu 
+"username.{0,9}PATTERNUSERNAME-a"'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Notatki dla promotora
+- Dictionary - wyszukiwanie słownikowe to tak na prawdę najpierw wyszukiwanie regexem, a później sprawdzanie czy odnalezione słowo znajduje się w słowniku. 
+Na przykład szykamy wszystkich ciągów znaków o długości od 5 do 15, a później sprawdzamy czy dany ciąg znajduje się w słowniku. Regexy do szukania słownikowego 
+znajdują się w sekcji dictionary pliku regexLib.json, a sam plik słownika z listą słów jest podawany w jednym inputów gui. Dlatego słownik jest dwa razy wymieniony w sekcji "User manual and usage examples".
+ Faktycznie w tekście jest to dosyć zagmatwane, spróbuję to uprościć. Może dodanie screen shotów GUI pomoże. Można jeszcze ewentualnie przenieść ścieżki do słownika/ów do pliku regexLib przy poszczególnych plikach.
+
+- Wyniki wyszukiwania słownikowego częściowo pokrywają się z wynikami odnalezionymi wyrażeniami regularnymi. O nadmienionej przez Pana funkcji porównywania wyników wyszukiwania słownikowego z regexowym i 
+przypisywania większej wartości pokrywającym się wystąpieniom starałem się napomnieć w sekcji "Future development". Postaram się bardziej rozpisać tą kwestię. Niestety zabrakło mi czasu na zaimplementowanie takiej funkcjonalności.
+
+- Gui w pythonie nie pozwalają (przynajmniej w tych frameworkach, o których czytałem) na bindowanie obiektów do widoku listy (tylko stringi), ciężko jest również zaimplementować eventy kliknięcia na dany element. Dodatkowo edytor
+gui, którego używałem generuje plik pythona i później trzeba doimplementowywać logikę programu. Możliwe, że da się to zrobić w lepiej lecz mi się nie udało. Odpowiednio zmienię to w pracy zgodnie z Pana zaleceniami.
+
+- To mierzenie czasu egzekucji faktycznie jest błędne. Nie dostrzegałem tego wcześniej. 

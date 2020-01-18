@@ -312,9 +312,9 @@ class Ui_window(object):
             toCheck = []
             additional = False
             if self.ip_v4CheckBox.isChecked():
-                toCheck.append("ip_v4")
+                toCheck.append("ipv4")
             if self.ip_v6CheckBox.isChecked():
-                toCheck.append("ip_v6")
+                toCheck.append("ipv6")
             if self.socialSecNoCheckBox.isChecked():
                 toCheck.append("socialsec")
             if self.idNoCheckBox.isChecked():
@@ -395,6 +395,7 @@ class Ui_window(object):
     def resultSelectionChanged(self, index):
         self.selectedResult = self.resultSelectionModel.selection().indexes()[0].data()
         self.occuranceModel = QtCore.QStringListModel(self.data[self.selectedType]['results'][self.selectedResult]['occurances'])
+        self.occuranceLabel.setText("Occurance: " + str(len(self.data[self.selectedType]['results'][self.selectedResult]['occurances'])))
         self.occuranceListView.setModel(self.occuranceModel)
         self.occuranceSelectionModel = self.occuranceListView.selectionModel()
         self.occuranceSelectionModel.selectionChanged.connect(self.occuranceSelectionChanged)

@@ -5,6 +5,7 @@ from threading import Thread
 import shutil
 import importlib
 from importlib import machinery
+import time
 
 class Parser:
     def __init__(self, inputPath):
@@ -162,7 +163,7 @@ class Core(Thread):
                     print("Regex empty, not compiling")
 
     def run(self):
-
+        begin = time.time()
         if self.dictionarySearch:
             for regex in self.compiledRegexes:
                 self.output[regex[2]] = {"no": 0, "results": {}}
@@ -217,6 +218,8 @@ class Core(Thread):
                                 self.addOutput(regex[2], result, content['id'])
                         else:
                             self.addOutput(regex[2], result, content['id'])
+
+        print("Finished in: ", time.time() - begin)
 
         self.finishedEvent()
         json.dump(self.output, self.outputFile)
