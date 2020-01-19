@@ -23,6 +23,8 @@
 \usepackage{geometry}
 \usepackage[page]{appendix} 
 \usepackage{float}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
 
 \usepackage{setspace}
 \onehalfspacing
@@ -322,8 +324,8 @@ This chapter presents the problem that the project tries to solve and describes 
 The invention and propagation of the Internet has boosted the ways in which technology impacts
 all of us. In this age an increasing amount of our everyday life is digitized and dependent 
 on cybernetic systems hosted and operated by independent corporations and institutions. Significant
-amount of our tasks has become automated through information technology solutions. The phisical world 
-surrounding us also becomes intertwined with technology. We are gradualy connecting things of everyday 
+amount of our tasks has become automated through information technology solutions. The physical world 
+surrounding us also becomes intertwined with technology. We are gradually connecting things of everyday 
 use like cars or house locks to the web through Internet of Things technologies. This process has 
 made our lives simpler and allowed us to achieve amazing things but it has also made us vulnerable to 
 cybernetic attacks. It is only natural that the rise of the impact of technology was followed 
@@ -337,11 +339,11 @@ gathering information \cite{bib:bookEthicalHacking}. The reason for that is beca
 the bigger the chance of finding vulnerable systems or flaws in them. One of the clusters of information 
 in companies is a communication channel like slack or discord. There are many situations where employees 
 share information connected to projects and their workplace enviroment. If an attacker was to access such a 
-platform he could potentially analyse the conversation history in search of sensitive information like ip addresses, 
+platform he could potentially analyse the conversation history in search of sensitive information like IP addresses, 
 logins, passwords, emails, phone numbers, etc.
 
 Such information is especially important from a legal point of view. Introduction of General Data Protection
-Regulation in 2016 has put a preassure on many legal bodies to responsibly handle people's personal data under
+Regulation in 2016 has put a pressure on many legal bodies to responsibly handle people's personal data under
 a threat of heavy financial penalties \cite{bib:bookRODO}. Monitoring of the data located in the private entity's internal communication
 channel might prove very useful in fulfilling the legislative requirements of private information processing.
 
@@ -362,8 +364,8 @@ The project will primarily focus on finding nine categories of information:
    \item IP v4 addresses - numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication \cite{bib:articleIP}.
    \item IP v6 addresses - 32 to 128 bits identifiers for interfaces and sets of interfaces implementing Internet Protocol version 6 \cite{bib:articleIPv6}\cite{bib:articleIPv6Address}. 
    \item National identification numbers - numbers issued by a Government Entity as a means of providing Identification of their citizens and/or foreigners \cite{bib:internetIdentityNumber}.
-   In this thesis it is frequently refered to as social security number.
-   \item ID card numbers - serial numbers of documents (such as a cards) bearing identifying information about and often a photograph of the individual whose 
+   In this thesis it is frequently referred to as social security number.
+   \item ID card numbers - serial numbers of documents (such as cards) bearing identifying information about and often a photograph of the individual whose 
    name appears on it \cite{bib:internetID}. 
    \item MAC addresses - unique identifier for an Ethernet or network adapter over a network. It distinguishes different network interfaces and is used for a number 
    of network technologies, particularly most IEEE 802 networks, including Ethernet \cite{bib:internetMAC}.
@@ -391,15 +393,15 @@ In this chapter an analysis of solutions tackling similar problems is performed.
 
 There are not many widely available solutions that are capable of performing the job presented in the thesis introduction. However the scope of the project shares
 similarities with Data Leakage Prevention Systems which focus on analysis of the content of confidential data and the surrounding context in order to
-prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitore the sensitive information - regular expressions (regex),
+prevent unwanted disclosures of information. Those programs usually use up to three techniques to monitor the sensitive information - regular expressions (regex),
 data fingerprinting and statistical analysis \cite{bib:articleDLPS}. An example of DLP software known to implement such features is MyDLP which has a open source
-community edition as well as closed source enterprise version \cite{bib:internetDLP}. There are also other solutions that probably use the aforementioned approach 
+community edition as well as closed source enterprise version \cite{bib:internetDLP}. There are also solutions that probably use the aforementioned approach 
 like Symantec Data Loss Prevention, Trustwave Data Loss Prevention, McAfee Total Protection for Data Loss Prevention and Check Point Data Loss Prevention.
 Similar techniques could be adapted for the purposes of this thesis. 
 
 Regular expressions are an abstraction of keyword search that enables the identification of text using a pattern instead of an exact string. They are a tool 
 frequently used for parsing users input and capturing parts of strings \cite{bib:conferenceRegex}. Regexes are used in Data Leakage Prevention Systems for detecting 
-data like credit card numbers and social security mumbers \cite{bib:articleDLPS} which belong to the scope of this thesis. It might be possible to extend this approach 
+data like credit card numbers and social security numbers \cite{bib:articleDLPS} which belong to the scope of this thesis. It might be possible to extend this approach 
 in to other categories of information covered by the designed program.
 
 Regular expressions are however known to have high false positives rates \cite{bib:articleDLPS}. It might be advantageous for the purposes of this project 
@@ -418,7 +420,7 @@ reliability of the solution.
 It is important to consider how to properly approach designing regualr expressions and additional checks for some data types. 
 For example it is relatively easy to implement search conditions for a social security number due to its specific structure.
 The scope can be additionally narrowed down if it implements some sort of check sum algorithm. Same can be said about 
-email addresses, ip addersses, MAC addresses, ID card numbers, domain names and phone numbers.
+email addresses, IP addersses, MAC addresses, ID card numbers, domain names and phone numbers.
 
 However some data types might prove more difficult. A password or login can take almost any form and be indistinguishable from regular words.
 Searching for any string of characters can yield results practically imposible to analyse due to the quantity of false positives. 
@@ -427,7 +429,7 @@ capital and small letters and numericals. Implementing a reugualr expression and
 could greatly decrease the percentage of false positive rasults, making it valuable for manual inspection and validation.
 
 The undesired consequence of setting such constrains can be omitting of the positive results in the search process. This could possibly be
-partialy mitigated by dictionary search for the same data type with proper keywords like "password", "pass" etc. 
+partially mitigated by dictionary search for the same data type with proper keywords like "password", "pass" etc. 
 
 
 \section{Modularity and Customisation}
@@ -483,7 +485,7 @@ Entire project is developed with use of following technologies:
    and a simple but effective approach to object-oriented programing. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it 
    an ideal language for scripting and rapid application development in many areas on most platforms \cite{bib:bookPython}. There are multiple arguments that support
    choosing it as primary development language for the project. It has implemented modules for regular expression search and graphical user interface.
-   The scriptive nature of it makes it easy to create programs that are capable of runing in any operating system that has Pyhton interpreter installed.
+   The scriptive nature of it makes it easy to create programs that are capable of running in any operating system that has Pyhton interpreter installed.
    It is also familiar to the developer of the program.
    \item JSON - a lightweight data-interchange format. It is easy for humans to read and write and straightforward for machines to parse and generate. Based on a
    subset of the JavaScript Programing Language Standard ECMA-262 3rd Edition - December 1999. JSON is a text format that is completely language independent but
@@ -504,7 +506,7 @@ The program designed in this thesis is supposed to perform following tasks:
    \item Save to and load results from an output file.
 \end{itemize}
 
-The program designed in this thesis is supposed to be capable of runing regardless of an operating system.
+The program designed in this thesis is supposed to be capable of running regardless of an operating system.
 
 % \section{Use cases}
 
@@ -532,15 +534,15 @@ Following chapter describes which requirements have to be satisfied for the prog
 
 \section{Requirements and installation}
 
-The project consists of files "program.py" contained in the main program directory and
-"codeLib.py", "core.py", "regexLib.json" stored in "src" subdirectory. All of them are 
+The project consists of files \lstinline|"program.py"| and \lstinline|"programcmd.py"| contained in the main program directory and
+\lstinline|"codeLib.py"|, \lstinline|"core.py"|, \lstinline|"regexLib.json"| stored in \lstinline|"src"| subdirectory. All of them are 
 required for the proper operation of the solution.
 
 For the program to work correctly, some software requirements have to be meet. It was developed with 
 Python and requires its interpreter in version at least 3.7.3 to be installed. Additionally a package called PyQt5 has 
 to be in the Python interpreter library. It can be obtained with package-management 
 system called pip. Example of installation script that fulfill the above requirements can be found
-in figure \ref{fig:windowsScript} for Windows and \ref{fig:linuxScript} for Linux.
+in listing \ref{fig:windowsScript} for Windows and \ref{fig:linuxScript} for Linux.
 The rest of the Python packages used in the project are usually contained within standard Python installation.
 In individual cases additional installation may be required.
 
@@ -549,7 +551,7 @@ In individual cases additional installation may be required.
    \begin{lstlisting}
    python -m pip install pyqt5
    \end{lstlisting}
-   \caption{Windows installation script}
+   \caption{Windows installation script.}
    \label{fig:windowsScript}
 \end{figure}
 
@@ -559,7 +561,7 @@ In individual cases additional installation may be required.
    #!/bin/bash
    sudo pip3 install PyQt5
    \end{lstlisting}
-   \caption{Linux installation script}
+   \caption{Linux installation script.}
    \label{fig:linuxScript}
 \end{figure}
 
@@ -572,13 +574,14 @@ during development it was deployed on a computer with following specifications:
    \item Samsung SSD 860 EVO M.2 500GB.
 \end{itemize}
 
-\section{User manual and usage examples}
 
-Program described in this section is designed to perform a regular expression search on a dataset of messages supplied form a input file. Found results can 
+\section{User manual}
+
+Program described in this chapter is designed to perform a regular expression search on a dataset of messages supplied form a input file. Found results can 
 be additionally checked with a functions implemented in Python language. A dictionary search which checks if a string matched with regular expression belongs to a provided wordlist
 can also be performed.
 
-The obtained results are saved to the output file and presented in the GUI.
+The obtained results can be saved to the output file and presented in the GUI.
 
 Following search types can be carried out:
 
@@ -608,13 +611,15 @@ The program requires following inputs:
    only in case of performing a dictionary search.
 \end{itemize}
 
-The configuration of the program is stored in files regexLib.json and codeLib.py.
+The configuration of the program is stored in files \lstinline|"regexLib.json"| and \lstinline|"codeLib.py"|.
+
+\subsection{Proprietary formats}
 
 The program requires preparation of the input data in a JSON file containing
 an array of objects composed of two key-value pairs. Key "id" needs to be 
-supplied with unique id value for each object. Key "content" is supposed to be 
+supplied with unique id value for each object. Key \lstinline|"content"| is supposed to be 
 paired with message text, this value will be processed in the search operation 
-of the program. Example proper input file is presented in figure \ref{fig:inputFormat}.
+of the program. Example proper input file is presented in listing \ref{fig:inputFormat}.
 
 \begin{figure}
    \centering
@@ -629,150 +634,15 @@ of the program. Example proper input file is presented in figure \ref{fig:inputF
       ]
    }
    \end{lstlisting}
-   \caption{Format of the input JSON file}
+   \caption{Format of the input JSON file.}
    \label{fig:inputFormat}
 \end{figure}
 
-Configuration of the program is done partialy with two files contained in its
-file structure. The "regexLib.json" contains the regular expression of a given
-data type and a optional name of the method used to perform additional 
-validation. This JSON file is structured in a following maner. It contains
-three objects marked with arbitrary keys: "main", "additional", "dictionary".
-These represent categories used for different types of search and contain
-objects consisting of two key-string pairs. The "regex" key represents regular
-expression utilised in the primary search and "code" contains name of the method 
-used for additional validity check. The "code" key can be paired with an empty string
-if no additional check is required.
-
-The "main" category contains data types marked by following keys:
-
-\begin{itemize}
-   \item "ipv4" - IP version 4.
-   \item "ipv6" - IP version 6.
-   \item "socialsec" - personal identity numbers.
-   \item "id\_number" - ID card numbers.
-   \item "mac" - MAC addresses.
-   \item "domain" - Domain names.
-   \item "email" - Email addresses.
-   \item "password" - Passwords.
-   \item "login" - Usernames.
-   \item "phone\_number" - Phone numbers.
-\end{itemize} 
-
-The "additional" object can be filled with any data type desired by the user as long 
-as it follows convention from the main category. The keys of each of those objects can have any value and represent the names of categories
-specified by the customers.
-
-Finally the "dictionary" object contains regular expressions of words that are supposed to be matched with dictionary search. Each object in this category 
-is composed of a single key-value pair. Its key is "regex" and value is the regular expression used in the program. 
-
-When creating regular expressions for the "regexLib.json" files it is important to remember the restrictions of the 
-JSON format. Some characters in it might require escaping or representing in UTF-8 notation.
-
-An abbreviation of a example "regexLib.json" file can be found in figure \ref{fig:regexLibSimple} and its full version is available the Listings part of the appendix.
-
-\begin{figure}
-\centering
-\begin{lstlisting}
-{
-   "main":{
-         "ip_v4": {
-            "regex":"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
-            "code":""
-         },
-         ...
-   },
-   "additional":{
-   },
-   "dictionary":{
-         "dictionary": {
-            "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
-         }
-   }
-}
-\end{lstlisting}
-\caption{}
-\label{fig:regexLibSimple}
-\end{figure}
-
-The "codeLib.py" file is intended to contain methods for additional validation. The methods are supposed
-to be written in Python 3, accepting two parameters and returning either "True" if the validation was succesfull
-or "False" if not. First parameter is a string containing the data discovered by the regular expression and
-the second is the full content of the message in which it was found.
-
-The example "codeLib.py" file can be found in the Listings part of the appendix.
-
-Starting of the program can be done by runing the "program.py" file with Python interpreter. The proper command
-might differ depending on the operating system. Example commands run on a Windows OS from the project directory
-can be found in figure \ref{fig:startCommand}.
-
-\begin{figure}
-\centering
-\begin{lstlisting}
-C:\Projects\Thesis\Code> python .\program.py
-\end{lstlisting}
-\caption{Command for starting the program}
-\label{fig:startCommand}
-\end{figure}
-
-The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
-the desired job. It features three text inputs that allow for specifing files used during program execution as well as 
-checkboxes for selecting the desired search types. Consequent to specifing the desired data types and required file paths the user can start and stop the search process
-with buttons labeled respectively "Start" and "Stop". This view can be found in figure \ref{fig:SettingsTab}.
-
-\begin{figure}
-\centering
-\includegraphics{SettingsTab}
-\caption{Settings view}
-\label{fig:SettingsTab}
-\end{figure}
-
-Upon completion of the program work results are presented in the "Results" tab. It consists of three columns used for
-navigation of the results: 
-\begin{itemize}
-   \item Category - allows for specification of the search category to browse. Clicking on a given category loads
-   the results column.
-   \item Results - allows to browse the found results in a given category. Clicking on a given result loads the 
-   occurance column.
-   \item Occurance - allows to browse the ids of messages in which the result was found. Clicking on a given id
-   opens the preview window with the content of the specified message.
-\end{itemize}
-
-An exemplary results view is presented in figure \ref{fig:ResultsTab}.
-
-\begin{figure}
-\centering
-\includegraphics{ResultsTab}
-\caption{Results view}
-\label{fig:ResultsTab}
-\end{figure}
-
-The goal of the preview window is to inspect the context of a found information. It consists of a central part 
-displaying the content of a message and "Previous" and "Next" buttons used for navigation of the messages stored
-in the input file, relative to the currently presented message. Preview window can be found in figure \ref{fig:MessagePrev}.
-
-\begin{figure}
-\centering
-\includegraphics{MessagePrev}
-\caption{Message preview}
-\label{fig:MessagePrev}
-\end{figure}
-
-It is also possible to load a previously generated output file with the "Open output" option from the
-"File" menu located in upper left corner of the main window as presented in figure \ref{fig:OpeningOutput}.
-
-\begin{figure}
-\centering
-\includegraphics{OpeningOutput}
-\caption{Loading output file}
-\label{fig:OpeningOutput}
-\end{figure}
-
-The output of the program is saved to a JSON formated file and takes a form presented in figure \ref{fig:outputFile}. 
+The output of the program is saved to a JSON formatted file and takes a form presented in listing \ref{fig:outputFile}. 
 It consists of three nestings of objects. First layer represents desired search categories. Each of objects in
-this layer contains number of found occurances marked with the "no" tag and the "results" contains each
+this layer contains number of found occurences marked with the \lstinline|"no"| tag and the \lstinline|"results"| contains each
 result. They are stored in separate tags and each additionally contains a list of unique ID's of messages 
-pointing to each occurance.  
+pointing to each occurence.  
 
 \begin{figure}
 \centering
@@ -802,6 +672,172 @@ pointing to each occurance.
 \label{fig:outputFile}
 \end{figure}
 
+\subsection{Graphical user interface}
+
+Starting of the program with a graphical user interface can be done by running the \lstinline|"program.py"| file with Python interpreter. The proper command
+might differ depending on the operating system. Example commands run on a Windows OS from the project directory
+can be found in listing \ref{fig:startCommand}.
+
+\begin{figure}
+\centering
+\begin{lstlisting}
+C:\Projects\Thesis\Code> python .\program.py
+\end{lstlisting}
+\caption{Command for starting the program.}
+\label{fig:startCommand}
+\end{figure}
+
+The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
+the desired job. It features three text inputs that allow for specifing files used during program execution as well as 
+check boxes for selecting the desired search types. Consequent to specifing the desired data types and required file paths the user can start and stop the search process
+with buttons labeled respectively "Start" and "Stop". This view can be found in figure \ref{fig:SettingsTab}.
+
+\begin{figure}
+\centering
+\includegraphics{Images/SettingsTab}
+\caption{Settings view. Source: own elaboration.}
+\label{fig:SettingsTab}
+\end{figure}
+
+Upon completion of the program work results are presented in the "Results" tab. It consists of three columns used for
+navigation of the results: 
+\begin{itemize}
+   \item Category - allows for specification of the search category to browse. Clicking on a given category loads
+   the results column.
+   \item Results - allows to browse the found results in a given category. Clicking on a given result loads the 
+   occurence column.
+   \item Occurence - allows to browse the ids of messages in which the result was found. Clicking on a given id
+   opens the preview window with the content of the specified message.
+\end{itemize}
+
+An exemplary results view is presented in figure \ref{fig:ResultsTab}.
+
+\begin{figure}
+\centering
+\includegraphics{Images/ResultsTab}
+\caption{Results view. Source: own elaboration.}
+\label{fig:ResultsTab}
+\end{figure}
+
+The goal of the preview window is to inspect the context of a found information. It consists of a central part 
+displaying the content of a message and "Previous" and "Next" buttons used for navigation of the messages stored
+in the input file, relative to the currently presented message. Preview window can be found in figure \ref{fig:MessagePrev}.
+
+\begin{figure}
+\centering
+\includegraphics{Images/MessagePrev}
+\caption{Message preview. Source: own elaboration.}
+\label{fig:MessagePrev}
+\end{figure}
+
+It is also possible to load a previously generated output file with the "Open output" option from the
+"File" menu located in upper left corner of the main window as presented in figure \ref{fig:OpeningOutput}.
+
+\begin{figure}
+\centering
+\includegraphics{Images/OpeningOutput}
+\caption{Loading output file. Source: own elaboration.}
+\label{fig:OpeningOutput}
+\end{figure}
+
+\subsection{Console}
+
+The program can be also used in a strictly console enviroment. This can be performed with the use of \lstinline|"programcmd.py"|
+file. The example command for this method can be found in listing \ref{fig:startCommandCMD}.
+
+\begin{figure}
+\centering
+\begin{lstlisting}
+C:\Projects\Thesis\Code> python .\programcmd.py -i C:\Path\To\Input -o C:\Path\To\Output -d C:\Path\To\Dictionary -a ipv4 email password
+\end{lstlisting}
+\caption{Command for starting the program in console enviroment}
+\label{fig:startCommandCMD}
+\end{figure}
+
+Expected parameters are:
+\begin{itemize}
+   \item \lstinline|-i| - Path of the input file.
+   \item \lstinline|-o| - Path of the output file. If empty the output is saved to the input path appended with "\_output" suffix.
+   \item \lstinline|-d| - Path of the dictionary file.
+   \item \lstinline|-a| - Enables additional searches.
+   \item \lstinline|-h| - Displays the program manual.
+\end{itemize}
+
+The command has to be appended with desired search categories separated with spaces. Following options are available: \lstinline|ipv4| - IPv4 address,
+\lstinline|ipv6| - IPv6 address, \lstinline|socialsec| - National identification number, \lstinline|id_number| - Serial number of the identification document, \lstinline|mac|- MAC address
+, \lstinline|domain| - Domain address, \lstinline|email| - Email address, \lstinline|password| - Potential passwords, \lstinline|login| - Potential logins, \lstinline|phone_number| - Phone numbers
+
+\subsection{Configuration}
+
+Configuration of the program is done partially with two files contained in its
+file structure. The \lstinline|"regexLib.json"| contains the regular expression of a given
+data type and a optional name of the method used to perform additional 
+validation. This JSON file is structured in a following manner. It contains
+three objects marked with arbitrary keys: \lstinline|"main"|, \lstinline|"additional"|, \lstinline|"dictionary"|.
+These represent categories used for different types of search and contain
+objects consisting of two key-string pairs. The \lstinline|"regex"| key represents regular
+expression utilised in the primary search and \lstinline|"code"| contains name of the method 
+used for additional validity check. The \lstinline|"code"| key can be paired with an empty string
+if no additional check is required.
+
+The "main" category contains data types marked by following keys:
+
+\begin{itemize}
+   \item \lstinline|"ipv4"| - IP version 4.
+   \item \lstinline|"ipv6"| - IP version 6.
+   \item \lstinline|"socialsec"| - personal identity numbers.
+   \item \lstinline|"id_number"| - ID card numbers.
+   \item \lstinline|"mac"| - MAC addresses.
+   \item \lstinline|"domain"| - Domain names.
+   \item \lstinline|"email"| - Email addresses.
+   \item \lstinline|"password"| - Passwords.
+   \item \lstinline|"login"| - Usernames.
+   \item \lstinline|"phone_number"| - Phone numbers.
+\end{itemize} 
+
+The \lstinline|"additional"| object can be filled with any data type desired by the user as long 
+as it follows convention from the main category. The keys of each of those objects can have any value and represent the names of categories
+specified by the customers.
+
+Finally the \lstinline|"dictionary"| object contains regular expressions of words that are supposed to be matched with dictionary search. Each object in this category 
+is composed of a single key-value pair. Its key is \lstinline|"regex"| and value is the regular expression used in the program. 
+
+When creating regular expressions for the \lstinline|"regexLib.json"| files it is important to remember the restrictions of the 
+JSON format. Some characters in it might require escaping or representing in UTF-8 notation.
+
+An abbreviation of a example \lstinline|"regexLib.json"| file can be found in listing \ref{fig:regexLibSimple} and its full version is available the Listings part of the appendix.
+
+\begin{figure}
+\centering
+\begin{lstlisting}
+{
+   "main":{
+         "ip_v4": {
+            "regex":"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+            "code":""
+         },
+         ...
+   },
+   "additional":{
+   },
+   "dictionary":{
+         "dictionary": {
+            "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
+         }
+   }
+}
+\end{lstlisting}
+\caption{Shortened "regexLib.json" file.}
+\label{fig:regexLibSimple}
+\end{figure}
+
+The \lstinline|"codeLib.py"| file is intended to contain methods for additional validation. The methods are supposed
+to be written in Python 3, accepting two parameters and returning either \lstinline|"True"| if the validation was succesful
+or \lstinline|"False"| if not. First parameter is a string containing the data discovered by the regular expression and
+the second is the full content of the message in which it was found.
+
+The example \lstinline|"codeLib.py"| file can be found in the Listings part of the appendix.
+
 \section{Security}
 
 While the focus of the program is providing additional cyber security and data safety, its 
@@ -810,7 +846,7 @@ dynamic importing of Python code which under some conditions could be used with 
 intent for purposes like privilege escalation. It is important to use the program 
 responsibly. Proper approach should contain at least restraining from executing
 the program as administrative users. It is additionally recomended to be aware of the 
-functions stored in src/codeLib.py and of the results of their execution. Alternatively the solution could be run in a sandboxed or containerised
+functions stored in \lstinline|"src/codeLib.py"| and of the results of their execution. Alternatively the solution could be run in a sandboxed or containerised
 enviroment without root privelages like a properly configured Docker virtual machine.
 
 \chapter{Internal specification}
@@ -838,10 +874,12 @@ individual classes and connections between them can be found in the figure \ref{
 
 \begin{figure}
    \centering
-   \includegraphics{DiagramUML}
-   \caption{UML class diagram}
+   \includegraphics{Images/DiagramUML}
+   \caption{UML class diagram. Source: own elaboration.}
    \label{fig:UMLdiagram}
 \end{figure}
+
+The console use of the program utilises a simple script to parse the input arguments and setup the "Core" class.
 
 Custom implemented classes utilise following Python packages to perform their tasks: 
 
@@ -853,7 +891,10 @@ Custom implemented classes utilise following Python packages to perform their ta
    \item importlib - allows for dynamic loading of the additional check functions.
    \item threading - implements Python multi-thread operations.
    \item re - package for working with Python regular expressions.
+   \item argparse - parsing the console input arguments.
 \end{itemize}
+
+
 
 \section{Algorithms}
 
@@ -875,7 +916,7 @@ redacted and is not a part of this thesis.
 
 \section{Testing methodology}
 
-The entirety of testing was done manualy on a single data set. The effectiveness was tested on a 50000 message set and
+The entirety of testing was done manually on a single data set. The effectiveness was tested on a 50000 message set and
 the efficiency tests were performed on a sample of 227360.
 
 While a context analysis was performed to check if found results are not false positives, it is uncertain if and how many
@@ -913,7 +954,7 @@ Additional check algorithms were implemented for following data types:
 The password and login searches are mutually exclusive based on the length of the found string but follow the same
 check rules.
 
-Dictionary used in search process consisted of eight keywords presented in figure \ref{fig:dictionary}. 
+Dictionary used in search process consisted of eight keywords presented in listing \ref{fig:dictionary}. 
 Some of the words used are translations of the ones originating in english to polish. Their focus was on discovering
 additional data in following categories: Emails, Logins, Passwords.
 
@@ -929,7 +970,7 @@ additional data in following categories: Emails, Logins, Passwords.
    email
    mail
    \end{lstlisting}
-   \caption{Testing dictionary}
+   \caption{Testing dictionary.}
    \label{fig:dictionary}
 \end{figure}
 
@@ -1066,14 +1107,14 @@ insufficient valuable results were discovered might be a proper approach.
 
 The search performed on a dataset of 227360 messages is done in a resonable time. In the future development
 splitting of the search to multiple threads, one for each category can be implemented in order to more efficiently
-hadle working on extremely large imputs. 
+handle working on extremely large inputs. 
 
 It became apparent during testing that in some cases a single result can present as multiple findings. 
-A feature could be implemented to check for reoccuurrence of a found data to improve
+A feature could be implemented to check for reocurrence of a found data to improve
 results presentation. The processing of the output could also be augmented with a classification
 option that would assign priority to some results based on set weights, results of the additional
 check function and other factors. For example a dictionary check for known usernames could be compared to
-the found passwords candidates and used to classify the probability of false positive occurance. 
+the found passwords candidates and used to classify the probability of false positive occurence. 
 
 
 Currently the preview functionality used for displaying of found data and message context 
@@ -1089,7 +1130,7 @@ used to archive emails or loading dumps of slack messages.
 
 The use of a JSON file to store the regular expressions might be uncomfortable for the users due to the need of escaping characters. 
 This problem could be amended by implementing a different storing mechanism or a tool to manipulate the regexes in their natural form 
-and writting them in the transformed form to the file. 
+and writing them in the transformed form to the file. 
 
 \section{Calibration}
 
@@ -1134,7 +1175,7 @@ increase the usefulness of the product and its value.
 \chapter*{Listings}
 
    
-Example of a "regexLib.json" file:
+Example of a \lstinline|"regexLib.json"| file:
 
 \begin{lstlisting}
 {
@@ -1198,7 +1239,7 @@ Example of a "regexLib.json" file:
 }
 \end{lstlisting}
 
-Example of a "codeLib.py" file:
+Example of a \lstinline|"codeLib.py"| file:
 
 \begin{lstlisting}
 def pesel(snip, content):
