@@ -542,28 +542,36 @@ For the program to work correctly, some software requirements have to be meet. I
 Python and requires its interpreter in version at least 3.7.3 to be installed. Additionally a package called PyQt5 has 
 to be in the Python interpreter library. It can be obtained with package-management 
 system called pip. Example of installation script that fulfill the above requirements can be found
-in listing \ref{fig:windowsScript} for Windows and \ref{fig:linuxScript} for Linux.
+in listing \ref{lst:windowsScript} for Windows and \ref{lst:linuxScript} for Linux.
 The rest of the Python packages used in the project are usually contained within standard Python installation.
 In individual cases additional installation may be required.
 
-\begin{figure}
-   \centering
-   \begin{lstlisting}
-   python -m pip install pyqt5
-   \end{lstlisting}
-   \caption{Windows installation script.}
-   \label{fig:windowsScript}
-\end{figure}
+\begin{lstlisting}[float=!ht,language=C++,label=lst:windowsScript,caption={Windows installation script.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
+python -m pip install pyqt5
+\end{lstlisting}
 
-\begin{figure}
-   \centering
-   \begin{lstlisting}
-   #!/bin/bash
-   sudo pip3 install PyQt5
-   \end{lstlisting}
-   \caption{Linux installation script.}
-   \label{fig:linuxScript}
-\end{figure}
+% \begin{figure}
+%    \centering
+%    \begin{lstlisting}
+%    python -m pip install pyqt5
+%    \end{lstlisting}
+%    \caption{Windows installation script.}
+%    \label{fig:windowsScript}
+% \end{figure}
+
+\begin{lstlisting}[float=!ht,language=C,label=lst:linuxScript,caption={Linux installation script.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
+sudo pip3 install PyQt5
+\end{lstlisting}
+
+% \begin{figure}
+%    \centering
+%    \begin{lstlisting}
+%    #!/bin/bash
+%    sudo pip3 install PyQt5
+%    \end{lstlisting}
+%    \caption{Linux installation script.}
+%    \label{fig:linuxScript}
+% \end{figure}
 
 The solution was not tested from the hardware requirements point of view however 
 during development it was deployed on a computer with following specifications:
@@ -619,34 +627,44 @@ The program requires preparation of the input data in a JSON file containing
 an array of objects composed of two key-value pairs. Key "id" needs to be 
 supplied with unique id value for each object. Key \lstinline|"content"| is supposed to be 
 paired with message text, this value will be processed in the search operation 
-of the program. Example proper input file is presented in listing \ref{fig:inputFormat}.
+of the program. Example proper input file is presented in listing \ref{lst:inputFormat}.
 
-\begin{figure}
-   \centering
-   \begin{lstlisting}
-   {
-      messages:
-      [
-         {
-            "id":"<unique_id>",
-            "content":"<message_content>"
-         },...
-      ]
-   }
-   \end{lstlisting}
-   \caption{Format of the input JSON file.}
-   \label{fig:inputFormat}
-\end{figure}
+\begin{lstlisting}[float=!ht,language=C,label=lst:inputFormat,caption={Format of the input JSON file.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
+{
+   messages:
+   [
+      {
+         "id":"<unique_id>",
+         "content":"<message_content>"
+      },...
+   ]
+}
+\end{lstlisting}
 
-The output of the program is saved to a JSON formatted file and takes a form presented in listing \ref{fig:outputFile}. 
+% \begin{figure}
+%    \centering
+%    \begin{lstlisting}
+%    {
+%       messages:
+%       [
+%          {
+%             "id":"<unique_id>",
+%             "content":"<message_content>"
+%          },...
+%       ]
+%    }
+%    \end{lstlisting}
+%    \caption{Format of the input JSON file.}
+%    \label{fig:inputFormat}
+% \end{figure}
+
+The output of the program is saved to a JSON formatted file and takes a form presented in listing \ref{lst:outputFile}. 
 It consists of three nestings of objects. First layer represents desired search categories. Each of objects in
 this layer contains number of found occurences marked with the \lstinline|"no"| tag and the \lstinline|"results"| contains each
 result. They are stored in separate tags and each additionally contains a list of unique ID's of messages 
 pointing to each occurence.  
 
-\begin{figure}
-\centering
-\begin{lstlisting}
+\begin{lstlisting}[float=!ht,language=C++,label=lst:outputFile,caption={Example output file.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
 {
    "example": {
          "no": 1, 
@@ -668,24 +686,53 @@ pointing to each occurence.
    }
 }
 \end{lstlisting}
-\caption{Example output file}
-\label{fig:outputFile}
-\end{figure}
+
+% \begin{figure}
+% \centering
+% \begin{lstlisting}
+% {
+%    "example": {
+%          "no": 1, 
+%          "results": {
+%             "example_finding": {
+%                "occurances": ["2628", "25920", "25944", "43187", "43187"]
+%             }
+%          }   
+%    }, "ipv4": {
+%          "no": 15, 
+%          "results": {
+%             "10.1.1.89": {
+%                "occurances": ["5566", "10568"]
+%             }, 
+%             "31.186.81.18": {
+%                "occurances": ["13582"]
+%             }
+%          }
+%    }
+% }
+% \end{lstlisting}
+% \caption{Example output file.}
+% \label{fig:outputFile}
+% \end{figure}
 
 \subsection{Graphical user interface}
 
 Starting of the program with a graphical user interface can be done by running the \lstinline|"program.py"| file with Python interpreter. The proper command
 might differ depending on the operating system. Example commands run on a Windows OS from the project directory
-can be found in listing \ref{fig:startCommand}.
+can be found in listing \ref{lst:startCommand}.
 
-\begin{figure}
-\centering
-\begin{lstlisting}
+\begin{lstlisting}[float=!ht,language=C++,label=lst:startCommand,caption={Command for starting the program.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
 C:\Projects\Thesis\Code> python .\program.py
 \end{lstlisting}
-\caption{Command for starting the program.}
-\label{fig:startCommand}
-\end{figure}
+
+% \begin{figure}
+% \centering
+% \begin{lstlisting}
+% C:\Projects\Thesis\Code> python .\program.py
+% \end{lstlisting}
+% \caption{Command for starting the program.}
+% \label{fig:startCommand}
+% \end{figure}
 
 The main window of the program consists of two tabs. The settings tab allows to setup the search criteria and perform
 the desired job. It features three text inputs that allow for specifing files used during program execution as well as 
@@ -744,6 +791,7 @@ It is also possible to load a previously generated output file with the "Open ou
 
 The program can be also used in a strictly console enviroment. This can be performed with the use of \lstinline|"programcmd.py"|
 file. The example command for this method can be found in listing \ref{fig:startCommandCMD}.
+
 
 \begin{figure}
 \centering
@@ -805,11 +853,9 @@ is composed of a single key-value pair. Its key is \lstinline|"regex"| and value
 When creating regular expressions for the \lstinline|"regexLib.json"| files it is important to remember the restrictions of the 
 JSON format. Some characters in it might require escaping or representing in UTF-8 notation.
 
-An abbreviation of a example \lstinline|"regexLib.json"| file can be found in listing \ref{fig:regexLibSimple} and its full version is available the Listings part of the appendix.
+An abbreviation of a example \lstinline|"regexLib.json"| file can be found in listing \ref{lst:regexLibSimple} and its full version is available the Listings part of the appendix.
 
-\begin{figure}
-\centering
-\begin{lstlisting}
+\begin{lstlisting}[float=!ht,language=C++,label=lst:regexLibSimple,caption={Shortened "regexLib.json" file.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
 {
    "main":{
          "ip_v4": {
@@ -827,9 +873,30 @@ An abbreviation of a example \lstinline|"regexLib.json"| file can be found in li
    }
 }
 \end{lstlisting}
-\caption{Shortened "regexLib.json" file.}
-\label{fig:regexLibSimple}
-\end{figure}
+
+% \begin{figure}
+% \centering
+% \begin{lstlisting}
+% {
+%    "main":{
+%          "ip_v4": {
+%             "regex":"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+%             "code":""
+%          },
+%          ...
+%    },
+%    "additional":{
+%    },
+%    "dictionary":{
+%          "dictionary": {
+%             "regex": "[0-9a-zA-Z\u0142\u0119]{3,8}"
+%          }
+%    }
+% }
+% \end{lstlisting}
+% \caption{Shortened "regexLib.json" file.}
+% \label{fig:regexLibSimple}
+% \end{figure}
 
 The \lstinline|"codeLib.py"| file is intended to contain methods for additional validation. The methods are supposed
 to be written in Python 3, accepting two parameters and returning either \lstinline|"True"| if the validation was succesful
@@ -954,25 +1021,37 @@ Additional check algorithms were implemented for following data types:
 The password and login searches are mutually exclusive based on the length of the found string but follow the same
 check rules.
 
-Dictionary used in search process consisted of eight keywords presented in listing \ref{fig:dictionary}. 
+Dictionary used in search process consisted of eight keywords presented in listing \ref{lst:dictionary}. 
 Some of the words used are translations of the ones originating in english to polish. Their focus was on discovering
 additional data in following categories: Emails, Logins, Passwords.
 
-\begin{figure}
-   \centering
-   \begin{lstlisting}
-   login
-   haslo
-   has\u0142o
-   password
-   pass
-   username
-   email
-   mail
-   \end{lstlisting}
-   \caption{Testing dictionary.}
-   \label{fig:dictionary}
-\end{figure}
+
+\begin{lstlisting}[float=!ht,language=C++,label=lst:dictionary,caption={Testing dictionary.},frame=lines,framexleftmargin=0.5em,captionpos=b,escapechar=^,texcl=true,breaklines=true]
+login
+haslo
+has\u0142o
+password
+pass
+username
+email
+mail
+\end{lstlisting}
+
+% \begin{figure}
+%    \centering
+%    \begin{lstlisting}
+%    login
+%    haslo
+%    has\u0142o
+%    password
+%    pass
+%    username
+%    email
+%    mail
+%    \end{lstlisting}
+%    \caption{Testing dictionary.}
+%    \label{fig:dictionary}
+% \end{figure}
 
 The additional search was not tested outside of a basic check of proper execution because its use is completely dependent on the user.
 
