@@ -450,7 +450,7 @@ if __name__ == "__main__":
     window = QtWidgets.QMainWindow()
     ui = Ui_window()
     ui.setupUi(window)
-    ui.setDebugValues()
+    # ui.setDebugValues()
     # ui.loadDebugOutput()
     window.show()
     sys.exit(app.exec_())
