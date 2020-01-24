@@ -13,5 +13,7 @@ python -m pip install pyqt5
 ```
 pip3 install pyqt5
 ```
+### User manual
+The isntructions for the program usage can be found in chapter 4.2 of the [Engineering Thesis](../Thesis/thesis.pdf)
 
 
